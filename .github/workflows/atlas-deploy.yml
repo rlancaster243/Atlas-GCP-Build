@@ -1,0 +1,105 @@
+name: atlas-deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy-atlas-dev" to confirm'
+        required: true
+      target_sha:
+        description: "Commit SHA reachable from main; empty uses main HEAD"
+        required: false
+        default: ""
+      create_composer:
+        description: "Create the ephemeral Composer environment if missing"
+        type: boolean
+        default: false
+      leave_paused:
+        description: "Leave the DAG paused after smoke validation"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: atlas-dev-deployment
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  atlas-deploy:
+    name: atlas-deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    environment: atlas-dev
+    steps:
+      - name: Verify typed confirmation
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "deploy-atlas-dev" ]; then
+            echo "Confirmation input does not match deploy-atlas-dev"
+            exit 1
+          fi
+      - name: Checkout main
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Resolve trusted target
+        id: target
+        run: |
+          target="${{ github.event.inputs.target_sha }}"
+          if [ -z "$target" ]; then
+            target="$(git rev-parse HEAD)"
+          fi
+          git cat-file -e "${target}^{commit}"
+          git merge-base --is-ancestor "$target" origin/main
+          git checkout "$target"
+          echo "sha=$target" >> "$GITHUB_OUTPUT"
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install and validate
+        run: |
+          pip install -r requirements.txt -r requirements-ci.txt
+          bash scripts/validate_ci.sh --mode static --group security-shell
+          bash scripts/validate_ci.sh --mode static --group python
+      - name: Require WIF repository variables
+        run: |
+          test -n "${{ vars.ATLAS_WIF_PROVIDER }}" || { echo "Set ATLAS_WIF_PROVIDER"; exit 1; }
+          test -n "${{ vars.ATLAS_DEPLOYER_SERVICE_ACCOUNT }}" || { echo "Set ATLAS_DEPLOYER_SERVICE_ACCOUNT"; exit 1; }
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
+        with:
+          workload_identity_provider: ${{ vars.ATLAS_WIF_PROVIDER }}
+          service_account: ${{ vars.ATLAS_DEPLOYER_SERVICE_ACCOUNT }}
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db
+      - name: Ensure Composer environment
+        if: ${{ github.event.inputs.create_composer == 'true' }}
+        run: ATLAS_APPROVE_COMPOSER_CREATE=true bash scripts/manage_atlas_composer.sh create
+      - name: Build and upload immutable release
+        run: bash scripts/build_deployment_bundle.sh --upload
+      - name: Deploy release
+        run: |
+          flags=""
+          if [ "${{ github.event.inputs.leave_paused }}" = "true" ]; then
+            flags="--leave-paused"
+          fi
+          ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas_release.sh \
+            --git-sha "${{ steps.target.outputs.sha }}" $flags
+      - name: Upload deployment evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: deployment-evidence
+          path: |
+            dist/release-manifest-*.json
+            /tmp/smoke-warehouse.json
+          if-no-files-found: warn
