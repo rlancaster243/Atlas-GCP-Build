@@ -1,0 +1,757 @@
+{
+  "generated_from": "example-gcp-project",
+  "tables": {
+    "atlas_core.dim_countries": {
+      "columns": {
+        "country_code": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "is_active": {
+          "data_type": "BOOL",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_core.dim_users": {
+      "columns": {
+        "event_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "first_event_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "last_event_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "user_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_core.fct_events": {
+      "columns": {
+        "app_version": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "country_code": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_date": {
+          "data_type": "DATE",
+          "is_nullable": "YES"
+        },
+        "event_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_name": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_timestamp": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "has_event_date_timestamp_mismatch": {
+          "data_type": "BOOL",
+          "is_nullable": "YES"
+        },
+        "ingested_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "is_backdated_event_date": {
+          "data_type": "BOOL",
+          "is_nullable": "YES"
+        },
+        "is_event_time_late_arriving": {
+          "data_type": "BOOL",
+          "is_nullable": "YES"
+        },
+        "loaded_to_core_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "platform": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "raw_record_hash": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "source_file": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "user_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": "event_date"
+    },
+    "atlas_marts.mart_daily_event_metrics": {
+      "columns": {
+        "backdated_event_date_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "country_code": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "distinct_user_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "event_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "event_date": {
+          "data_type": "DATE",
+          "is_nullable": "YES"
+        },
+        "event_date_timestamp_mismatch_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "event_name": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_time_late_arriving_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "platform": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.deployments": {
+      "columns": {
+        "actor": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "artifact_checksum": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "artifact_uri": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "completed_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "composer_environment": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "composer_region": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "deployment_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "deployment_type": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "environment": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "error_summary": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_type": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "failure_stage": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "git_ref": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "migration_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "previous_git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "release_tag": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "smoke_pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "started_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "workflow_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.monitor_evaluations": {
+      "columns": {
+        "check_name": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "details_json": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "environment": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "evaluated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "evaluation_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "incident_key": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "observed_value": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        },
+        "severity": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "source": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "threshold": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "window_end": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "window_start": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.pipeline_runs": {
+      "columns": {
+        "airflow_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "attempt_number": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "completed_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "dag_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "error_message": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_type": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "fact_rows": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "failed_task_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "gcs_uri": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "mart_event_count": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "processing_date": {
+          "data_type": "DATE",
+          "is_nullable": "NO"
+        },
+        "rows_accepted": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "rows_generated": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "rows_loaded": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "rows_rejected": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "started_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        }
+      },
+      "partition_column": "processing_date"
+    },
+    "atlas_ops.quality_results": {
+      "columns": {
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "check_category": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "check_name": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "details_json": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "evaluated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "expected_value": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        },
+        "git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "lower_bound": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        },
+        "model_name": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "observed_value": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "severity": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "upper_bound": {
+          "data_type": "FLOAT64",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.schema_migrations": {
+      "columns": {
+        "applied_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "applied_by": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_summary": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "migration_checksum": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "migration_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "workflow_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.task_events": {
+      "columns": {
+        "airflow_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "attempt_number": {
+          "data_type": "INT64",
+          "is_nullable": "NO"
+        },
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "completed_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "dag_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "duration_ms": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "environment": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_message": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_type": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_type": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "operator_type": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "rows_affected": {
+          "data_type": "INT64",
+          "is_nullable": "YES"
+        },
+        "started_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "task_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "timing_confidence": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "timing_source": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_ops.recovery_actions": {
+      "columns": {
+        "action_type": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "completed_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "created_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "deployment_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "environment": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_summary": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "error_type": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "git_sha": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "incident_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "operator": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "recovery_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "scenario_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "source_state": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "started_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "YES"
+        },
+        "status": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "target_state": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "updated_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "verification_status": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": null
+    },
+    "atlas_raw.events": {
+      "columns": {
+        "app_version": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "batch_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "country_code": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "event_date": {
+          "data_type": "DATE",
+          "is_nullable": "NO"
+        },
+        "event_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "event_name": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "event_timestamp": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "ingested_at": {
+          "data_type": "TIMESTAMP",
+          "is_nullable": "NO"
+        },
+        "pipeline_run_id": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "platform": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        },
+        "processing_date": {
+          "data_type": "DATE",
+          "is_nullable": "YES"
+        },
+        "source_file": {
+          "data_type": "STRING",
+          "is_nullable": "NO"
+        },
+        "user_id": {
+          "data_type": "STRING",
+          "is_nullable": "YES"
+        }
+      },
+      "partition_column": "event_date"
+    }
+  }
+}

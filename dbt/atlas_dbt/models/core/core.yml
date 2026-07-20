@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: dim_users
+    description: Accepted users at user_id grain with first/last event timestamps.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per user_id
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [core.fct_events, marts.mart_daily_event_metrics]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+      - name: first_event_at
+        tests:
+          - not_null
+      - name: last_event_at
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "first_event_at <= last_event_at"
+
+  - name: dim_countries
+    description: Country reference dimension sourced from the valid_country_codes seed.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per country_code
+        classification: PUBLIC
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [core.fct_events]
+        lifecycle_status: ACTIVE
+        freshness_expectation: on seed change
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: country_code
+        tests:
+          - not_null
+          - unique
+      - name: is_active
+        tests:
+          - not_null
+
+  - name: fct_events
+    description: >
+      Incremental accepted event fact keyed by event_id, partitioned by event_date
+      and clustered by event_name and country_code.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per event_id (global fact uniqueness — see ADR-017)
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [marts.mart_daily_event_metrics, warehouse_reconciliation, atlas_observability_monitor]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+      - name: event_name
+        tests:
+          - not_null
+      - name: event_date
+        tests:
+          - not_null
+      - name: country_code
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_countries')
+                field: country_code
+      - name: platform
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [ios, android, web]

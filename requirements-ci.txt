@@ -1,0 +1,9 @@
+# Pinned validation toolchain for the canonical CI gate (validate_ci.sh).
+# Versions verified locally on 2026-07-18 (Python 3.12.3).
+ruff==0.15.22
+mypy==2.3.0
+types-PyYAML==6.0.12.20260518
+yamllint==1.38.0
+shellcheck-py==0.11.0.1
+pytest==9.1.1
+pytest-mock==3.15.1

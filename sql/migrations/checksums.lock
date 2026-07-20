@@ -1,0 +1,23 @@
+{
+  "breaking": {
+    "001_create_pipeline_runs_table": false,
+    "002_sprint3_raw_batch_columns": false,
+    "003_create_deployments_table": false,
+    "004_create_task_events_table": false,
+    "005_create_quality_results_table": false,
+    "006_create_monitor_evaluations_table": false,
+    "007_create_recovery_actions_table": false,
+    "008_add_task_event_timing_columns": false
+  },
+  "checksums": {
+    "001_create_pipeline_runs_table": "5fb06a83e1b37918c638ec618ddd0be7e5bb57c939854d2701dd04fbeac93a1b",
+    "002_sprint3_raw_batch_columns": "db8b53e68ee6f5414f1b5980241e9b0c9622a1b93c6ad0f9b0fdc4453732442f",
+    "003_create_deployments_table": "d581c625ad1e74a54d283021c70fcf9cd4b95d13ea70958018145fb558590da5",
+    "004_create_task_events_table": "69cb66c50b6d2adea6aeb551eeebfa5aceec7be781f71f9b0390393560b295fe",
+    "005_create_quality_results_table": "09a3affd7ba91aa51ab5c2a06e97b1952a0a4ba25170584676135f4e0ad14769",
+    "006_create_monitor_evaluations_table": "7a964b19a87476b686c345bc577e5231330e566c3ee4ea343100488f568c2362",
+    "007_create_recovery_actions_table": "6cb878b1a436485a8121c7adc74b23707ee4c4b4342e3ae35123aa339606d703",
+    "008_add_task_event_timing_columns": "6b486af2c26e924711d6ac1f08f54e10b76ab147c5c1f7e10360cb1c1e066cec"
+  },
+  "version": 1
+}

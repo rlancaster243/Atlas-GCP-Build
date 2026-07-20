@@ -1,0 +1,35 @@
+# Public extraction manifest for the standalone Atlas template.
+version: 1
+repository_published: true
+last_verified_commit: "template-extraction"
+
+global_substitutions:
+  - identifier: gcp_project_id
+    example_value_class: source sandbox GCP project id
+    occurrences_scope: docs, configs, scripts
+    disposition: REPLACE_WITH_SAMPLE
+    replacement_strategy: configure ATLAS_GCP_PROJECT_ID
+  - identifier: github_repository
+    example_value_class: source private repository identity
+    occurrences_scope: WIF docs and scripts
+    disposition: REPLACE_WITH_SAMPLE
+    replacement_strategy: configure ATLAS_GITHUB_REPOSITORY
+  - identifier: operator_identity
+    example_value_class: personal notification identity
+    occurrences_scope: operational evidence and runbooks
+    disposition: REPLACE_WITH_SAMPLE
+    replacement_strategy: configure notification identity outside Git
+
+detector_allowlist:
+  - scripts/validate_ci.sh
+  - src/atlas/ops/audit.py
+  - tests/unit/test_audit.py
+  - tests/unit/test_security_policy.py
+files: []
+cleared_categories:
+  - committed credentials / service-account keys / tokens: none
+  - authorization headers in evidence: none
+  - private webhook URLs: none
+  - real user data: none (synthetic only)
+  - personal notification addresses: replaced with placeholders
+  - source sandbox project identifiers: replaced with examples

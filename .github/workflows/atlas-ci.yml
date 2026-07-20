@@ -1,0 +1,170 @@
+name: atlas-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atlas-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  atlas-security-shell:
+    name: atlas-security-shell
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - name: Install validation toolchain
+        run: pip install -r requirements-ci.txt
+      - name: Dependency-file sanity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          for name in (
+              "requirements.txt",
+              "requirements-ci.txt",
+              "airflow/requirements-airflow.txt",
+              "dbt/requirements-dbt.txt",
+          ):
+              content = Path(name).read_text(encoding="utf-8")
+              assert content.strip(), f"{name} is empty"
+          print("dependency manifests present and non-empty")
+          PY
+      - name: Security and shell gates
+        run: bash scripts/validate_ci.sh --mode static --group security-shell
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: security-shell-gate-results
+          path: logs/ci/validate-ci-results.json
+
+  atlas-python:
+    name: atlas-python
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-ci.txt
+      - name: Install locked dependencies
+        run: pip install -r requirements.txt -r requirements-ci.txt
+      - name: Python gates
+        run: bash scripts/validate_ci.sh --mode static --group python
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: python-gate-results
+          path: logs/ci/validate-ci-results.json
+
+  atlas-dbt:
+    name: atlas-dbt
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: dbt/requirements-dbt.txt
+      - name: Install pinned dbt environment
+        run: pip install -r dbt/requirements-dbt.txt
+      - name: dbt static gates
+        run: bash scripts/validate_ci.sh --mode static --group dbt
+      - name: Upload dbt manifest
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dbt-manifest
+          path: dbt/atlas_dbt/target/manifest.json
+          if-no-files-found: warn
+
+  atlas-airflow:
+    name: atlas-airflow
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: |
+            airflow/requirements-airflow.txt
+            requirements.txt
+            requirements-ci.txt
+      - name: Install pinned Airflow with official constraints
+        run: |
+          pip install "apache-airflow==3.1.7" \
+            --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.1.7/constraints-3.12.txt"
+          pip install -r airflow/requirements-airflow.txt -r requirements.txt -r requirements-ci.txt
+      - name: pip check
+        run: pip check
+      - name: Airflow gates
+        run: bash scripts/validate_ci.sh --mode static --group airflow
+      - name: DAG tests
+        run: PYTHONPATH=src:dags python -m pytest tests/airflow -q
+      - name: Upload gate results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: airflow-gate-results
+          path: logs/ci/validate-ci-results.json
+
+  atlas-ci-gate:
+    name: atlas-ci-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - atlas-security-shell
+      - atlas-python
+      - atlas-dbt
+      - atlas-airflow
+    if: always()
+    steps:
+      - name: Require every job to succeed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+
+          needs = json.loads(os.environ["NEEDS_JSON"])
+          failed = [name for name, value in needs.items() if value["result"] != "success"]
+          if failed:
+              print("Failed or skipped required jobs:", ", ".join(failed))
+              sys.exit(1)
+          print("All required Atlas CI jobs succeeded")
+          PY

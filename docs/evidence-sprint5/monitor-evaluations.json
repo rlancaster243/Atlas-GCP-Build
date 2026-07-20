@@ -1,0 +1,912 @@
+[
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "cost_anomaly-b569fa7d4de3", 
+    "observed_value": "3.7748736E8", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "reconciliation-be3cfc6146a6", 
+    "observed_value": null, 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "freshness-484bd1d9cecf", 
+    "observed_value": "7592.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "missing_scheduled_run-6c0ed389d77a", 
+    "observed_value": "7875.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "volume_deviation-c2c60e9d81bc", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "latest_run_state-b89a1e8c75ed", 
+    "observed_value": "279.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "rejection_rate-d95da1085a8f", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "telemetry_completeness-ef04a1291575", 
+    "observed_value": "13.0", 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "FAIL", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "rollback_failure-a099abcf7496", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "deployment_failure-25eb29c2d98d", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 03:28:25", 
+    "evaluation_id": "schema_drift-2411b2cf49eb", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "freshness-5994d9c0110d", 
+    "observed_value": "3877.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "schema_drift-77c559c4777a", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "rollback_failure-6059f8daf2f9", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "rejection_rate-2280661c9a80", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "deployment_failure-225afd1b5527", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "volume_deviation-235087c3dc46", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "reconciliation-1c019f38a331", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "latest_run_state-476818afb0d7", 
+    "observed_value": "126.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "WARN", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "missing_scheduled_run-fdde3c331cc2", 
+    "observed_value": "137.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "cost_anomaly-f698a26e268d", 
+    "observed_value": null, 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 06:02:45", 
+    "evaluation_id": "telemetry_completeness-78aefe0404fd", 
+    "observed_value": "5.0", 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "FAIL", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "telemetry_completeness-0ea758fbfa35", 
+    "observed_value": "5.0", 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "FAIL", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "cost_anomaly-c6ced62ce1e1", 
+    "observed_value": null, 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "missing_scheduled_run-4bf57f9d3982", 
+    "observed_value": "198.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "rejection_rate-276a993f1baf", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "schema_drift-26cccaa98559", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "rollback_failure-ecacb53e5458", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "deployment_failure-0a48281861f2", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "volume_deviation-24d495249bac", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "reconciliation-921b01213f71", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "latest_run_state-30093a329ba3", 
+    "observed_value": "191.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "WARN", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 06:03:50", 
+    "evaluation_id": "freshness-c0fd03af156a", 
+    "observed_value": "3939.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "reconciliation-6eff48a75567", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "freshness-b2606a592b09", 
+    "observed_value": "12.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "cost_anomaly-225364eaca13", 
+    "observed_value": null, 
+    "severity": "WARNING", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "rollback_failure-89fde792afe3", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "deployment_failure-b90aee18ee5e", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "telemetry_completeness-fad33c26b147", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "schema_drift-67e1e1c3cc03", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "rejection_rate-9cf2639c6833", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "volume_deviation-999841f3545d", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "missing_scheduled_run-92ac80090484", 
+    "observed_value": "606.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 06:30:07", 
+    "evaluation_id": "latest_run_state-8362e27219e5", 
+    "observed_value": "598.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "WARN", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "deployment_failure-041540baba22", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "cost_anomaly-692f17c0fb3c", 
+    "observed_value": "1.7697865728E10", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "volume_deviation-3e9e199cc9e9", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "rollback_failure-f19a18f9834b", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "telemetry_completeness-93527dbdf287", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "latest_run_state-f87f42760007", 
+    "observed_value": "472.0", 
+    "severity": "CRITICAL", 
+    "source": "atlas_observability_monitor", 
+    "status": "FAIL", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "freshness-5b36a9aa386e", 
+    "observed_value": "849.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "missing_scheduled_run-9aa5490f810b", 
+    "observed_value": "618.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "reconciliation-264c4f9fc656", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "schema_drift-91236cd3c9bc", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 06:44:05", 
+    "evaluation_id": "rejection_rate-9db60ab2735c", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "deployment_failure-2356e3877017", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "rollback_failure-0a04ee1735eb", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "missing_scheduled_run-e1c8f92538cb", 
+    "observed_value": "650.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "freshness-b06ef2beb63d", 
+    "observed_value": "127.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "volume_deviation-0326a461c26e", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "rejection_rate-9b02f2dae5e2", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "telemetry_completeness-512cc23f482a", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "latest_run_state-0bdcf5e01534", 
+    "observed_value": "518.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "cost_anomaly-633492ee6351", 
+    "observed_value": "2.0724056064E10", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "reconciliation-bd2d29d81634", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 07:00:03", 
+    "evaluation_id": "schema_drift-495a69297b8c", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "schema_drift-b6bdf6f7a1c6", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "latest_run_state-9f70138a3e7f", 
+    "observed_value": "518.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "missing_scheduled_run-8ac402d64cc1", 
+    "observed_value": "705.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "reconciliation-25310f0d89f1", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "freshness-9510cac78f49", 
+    "observed_value": "182.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "cost_anomaly-855604cb3d98", 
+    "observed_value": "2.1133000704E10", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "volume_deviation-d84949cc9a47", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "deployment_failure-4a3f7c11eafb", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "rejection_rate-08ad2a5afda2", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "rollback_failure-d96c75f3af0b", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 07:00:59", 
+    "evaluation_id": "telemetry_completeness-03946d7a56c8", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rejection_rate", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "rejection_rate-0c20dce3442a", 
+    "observed_value": "0.0179", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.2"
+  }, 
+  {
+    "check_name": "deployment_failure", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "deployment_failure-3b964868dfd3", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "telemetry_completeness-3220bc7f218f", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "volume_deviation-722afaa1e62d", 
+    "observed_value": "1.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.5"
+  }, 
+  {
+    "check_name": "latest_run_state", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "latest_run_state-b760ce112788", 
+    "observed_value": "518.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "freshness", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "freshness-7d192a170043", 
+    "observed_value": "196.0", 
+    "severity": "CRITICAL", 
+    "source": "atlas_observability_monitor", 
+    "status": "FAIL", 
+    "threshold": "2.0"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "schema_drift-6cc5ca3ad325", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "reconciliation", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "reconciliation-35cf29bd44c2", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "rollback_failure", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "rollback_failure-cdf33dd446ba", 
+    "observed_value": "0.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "cost_anomaly", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "cost_anomaly-0f534408fe05", 
+    "observed_value": "2.1290287104E10", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "NO_DATA", 
+    "threshold": null
+  }, 
+  {
+    "check_name": "missing_scheduled_run", 
+    "evaluated_at": "2026-07-19 07:01:12", 
+    "evaluation_id": "missing_scheduled_run-005d1b2fa9ea", 
+    "observed_value": "718.0", 
+    "severity": "INFO", 
+    "source": "atlas_observability_monitor", 
+    "status": "PASS", 
+    "threshold": "93600.0"
+  }, 
+  {
+    "check_name": "volume_deviation", 
+    "evaluated_at": "2026-07-19 07:02:29", 
+    "evaluation_id": "drill-d-09023a9a9463", 
+    "observed_value": "0.2", 
+    "severity": "CRITICAL", 
+    "source": "atlas_drill_fixture", 
+    "status": "FAIL", 
+    "threshold": "0.8"
+  }, 
+  {
+    "check_name": "schema_drift", 
+    "evaluated_at": "2026-07-19 07:03:24", 
+    "evaluation_id": "drill-e-bc8914b28afa", 
+    "observed_value": "2.0", 
+    "severity": "CRITICAL", 
+    "source": "atlas_drill_fixture", 
+    "status": "FAIL", 
+    "threshold": "0.0"
+  }, 
+  {
+    "check_name": "telemetry_completeness", 
+    "evaluated_at": "2026-07-19 07:04:47", 
+    "evaluation_id": "drill-g-ed5d4f7a31b1", 
+    "observed_value": "4.0", 
+    "severity": "WARNING", 
+    "source": "atlas_drill_fixture", 
+    "status": "FAIL", 
+    "threshold": "0.0"
+  }
+]

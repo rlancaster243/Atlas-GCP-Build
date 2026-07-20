@@ -1,0 +1,18 @@
+# Ruff configuration for the Atlas core pipeline (Sprint 4 CI gate).
+# Scope: src/atlas, scripts, dags, tests. The artifact platform keeps its own tooling.
+
+line-length = 110
+target-version = "py311"
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = [
+  # Loader/step-runner keep long BigQuery SQL fragments inline for auditability.
+  "E501",
+]
+
+[lint.per-file-ignores]
+# Tests and DAG-adjacent modules adjust sys.path before importing atlas.
+"tests/**" = ["E402"]
+"dags/**" = ["E402"]
+"scripts/**" = ["E402"]

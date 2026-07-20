@@ -1,0 +1,162 @@
+[
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "accepted_equals_fact", 
+    "expected_value": "49105.0", 
+    "observed_value": "49105.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "accepted_plus_rejected_equals_raw", 
+    "expected_value": "50000.0", 
+    "observed_value": null, 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "batch_lineage_semantics", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "batch_nonempty", 
+    "expected_value": null, 
+    "observed_value": "50000.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "REFERENTIAL_INTEGRITY", 
+    "check_name": "fact_country_fk_resolves", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "UNIQUENESS", 
+    "check_name": "fact_event_ids_unique", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "REFERENTIAL_INTEGRITY", 
+    "check_name": "fact_user_fk_resolves", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "mart_totals_reconcile", 
+    "expected_value": "343738.0", 
+    "observed_value": "343738.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "processing_date_semantics", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "raw_equals_classification", 
+    "expected_value": "50000.0", 
+    "observed_value": "50000.0", 
+    "pipeline_run_id": "atlas-drillb-20260719-recovery-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "accepted_equals_fact", 
+    "expected_value": "49105.0", 
+    "observed_value": "49105.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "accepted_plus_rejected_equals_raw", 
+    "expected_value": "50000.0", 
+    "observed_value": null, 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "batch_lineage_semantics", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "batch_nonempty", 
+    "expected_value": null, 
+    "observed_value": "50000.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "REFERENTIAL_INTEGRITY", 
+    "check_name": "fact_country_fk_resolves", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "UNIQUENESS", 
+    "check_name": "fact_event_ids_unique", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "REFERENTIAL_INTEGRITY", 
+    "check_name": "fact_user_fk_resolves", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "mart_totals_reconcile", 
+    "expected_value": "343738.0", 
+    "observed_value": "343738.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "COMPLETENESS", 
+    "check_name": "processing_date_semantics", 
+    "expected_value": "0.0", 
+    "observed_value": "0.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }, 
+  {
+    "check_category": "RECONCILIATION", 
+    "check_name": "raw_equals_classification", 
+    "expected_value": "50000.0", 
+    "observed_value": "50000.0", 
+    "pipeline_run_id": "atlas-smoke-2109310b-local1784441882-run", 
+    "status": "PASS"
+  }
+]

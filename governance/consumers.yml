@@ -1,0 +1,71 @@
+# Atlas consumer registry (Sprint 7).
+# Declares known consumers of governed assets, used by consumer-impact
+# analysis (Phase 5) and deprecation checks (Phase 6). Consumers are internal
+# to the Atlas repository — full external consumer discovery is out of scope
+# (honest limitation).
+
+version: 1
+
+consumers:
+  atlas_operations_dashboard:
+    type: dashboard
+    owner: atlas-observability
+    reads:
+      - atlas_ops.pipeline_runs
+      - atlas_ops.task_events
+      - atlas_ops.quality_results
+      - atlas_ops.monitor_evaluations
+      - atlas_ops.deployments
+
+  atlas_observability_monitor:
+    type: dag
+    owner: atlas-observability
+    reads:
+      - atlas_ops.pipeline_runs
+      - atlas_ops.quality_results
+      - marts.mart_daily_event_metrics
+      - core.fct_events
+
+  warehouse_reconciliation:
+    type: validation
+    owner: atlas-data-eng
+    reads:
+      - atlas_raw.events
+      - intermediate.int_event_classification
+      - core.fct_events
+      - marts.mart_daily_event_metrics
+
+  alerting:
+    type: alert_policies
+    owner: atlas-observability
+    reads:
+      - atlas_ops.pipeline_runs
+      - atlas_ops.monitor_evaluations
+
+  analytics_mart_readers:
+    type: downstream_analytics
+    owner: atlas-analytics
+    reads:
+      - marts.mart_daily_event_metrics
+    note: >
+      Representative downstream analytics consumer of the daily metrics mart;
+      any breaking change to the mart grain requires migrating this consumer.
+
+  atlas_dbt_staging:
+    type: dbt_layer
+    owner: atlas-data-eng
+    reads:
+      - atlas_raw.events
+
+  atlas_github_deployer:
+    type: service_account
+    owner: atlas-cicd
+    reads:
+      - gcs://atlas-deployments-example-gcp-project
+
+  atlas_platform_operators:
+    type: human_operators
+    owner: atlas-platform
+    reads:
+      - dashboard.atlas_operations
+      - logging.atlas_observability_bucket

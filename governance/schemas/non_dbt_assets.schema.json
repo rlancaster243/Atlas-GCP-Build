@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Atlas non-dbt asset registry",
+  "type": "object",
+  "required": ["version", "assets"],
+  "properties": {
+    "version": { "type": "integer" },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_id",
+          "asset_type",
+          "purpose",
+          "technical_owner",
+          "business_owner_or_role",
+          "grain",
+          "source",
+          "consumers",
+          "classification",
+          "retention_class",
+          "freshness_expectation",
+          "contract_version",
+          "lifecycle_status",
+          "repository_path",
+          "runbook",
+          "last_reviewed"
+        ],
+        "properties": {
+          "asset_id": { "type": "string", "minLength": 1 },
+          "asset_type": {
+            "enum": [
+              "raw_table",
+              "operational_table",
+              "bucket",
+              "dag",
+              "dashboard",
+              "log_resource"
+            ]
+          },
+          "purpose": { "type": "string", "minLength": 1 },
+          "technical_owner": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[a-z0-9-]+)?$" },
+          "business_owner_or_role": { "type": "string", "minLength": 1 },
+          "grain": { "type": "string", "minLength": 1 },
+          "source": { "type": "string", "minLength": 1 },
+          "consumers": { "type": "array", "items": { "type": "string" } },
+          "classification": { "enum": ["PUBLIC", "INTERNAL", "CONFIDENTIAL", "RESTRICTED"] },
+          "retention_class": {
+            "enum": [
+              "canonical_warehouse",
+              "raw_landing",
+              "operational_audit",
+              "observability_logs",
+              "release_evidence",
+              "temporary_integration",
+              "test_fixture"
+            ]
+          },
+          "freshness_expectation": { "type": "string", "minLength": 1 },
+          "contract_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+$" },
+          "lifecycle_status": {
+            "enum": ["ACTIVE", "DEPRECATED", "REMOVAL_SCHEDULED", "REMOVED"]
+          },
+          "repository_path": { "type": "string", "minLength": 1 },
+          "runbook": { "type": "string", "minLength": 1 },
+          "last_reviewed": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "deprecation": {
+            "type": "object",
+            "properties": {
+              "replacement": { "type": "string" },
+              "owner": { "type": "string" },
+              "announcement_date": { "type": "string" },
+              "deprecation_start": { "type": "string" },
+              "earliest_removal_date": { "type": "string" },
+              "migration_instructions": { "type": "string" },
+              "validation_period": { "type": "string" },
+              "removal_approval": { "type": "string" },
+              "rollback_limitations": { "type": "string" },
+              "change_record": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

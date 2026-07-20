@@ -1,0 +1,250 @@
+{
+  "edge_count": 29,
+  "nodes": [
+    {
+      "downstream": [],
+      "id": "alerting",
+      "type": "consumer:alert_policies",
+      "upstream": [
+        "atlas_ops.monitor_evaluations",
+        "atlas_ops.pipeline_runs"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "analytics_mart_readers",
+      "type": "consumer:downstream_analytics",
+      "upstream": [
+        "mart_daily_event_metrics"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "atlas_dbt_staging",
+      "type": "consumer:dbt_layer",
+      "upstream": [
+        "atlas_raw.events"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "atlas_github_deployer",
+      "type": "consumer:service_account",
+      "upstream": [
+        "gcs://atlas-deployments-example-gcp-project"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "atlas_observability_monitor",
+      "type": "consumer:dag",
+      "upstream": [
+        "atlas_ops.pipeline_runs",
+        "atlas_ops.quality_results",
+        "fct_events",
+        "mart_daily_event_metrics"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "atlas_operations_dashboard",
+      "type": "consumer:dashboard",
+      "upstream": [
+        "atlas_ops.deployments",
+        "atlas_ops.monitor_evaluations",
+        "atlas_ops.pipeline_runs",
+        "atlas_ops.quality_results",
+        "atlas_ops.task_events"
+      ]
+    },
+    {
+      "downstream": [
+        "atlas_operations_dashboard"
+      ],
+      "id": "atlas_ops.deployments",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "alerting",
+        "atlas_operations_dashboard"
+      ],
+      "id": "atlas_ops.monitor_evaluations",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "alerting",
+        "atlas_observability_monitor",
+        "atlas_operations_dashboard"
+      ],
+      "id": "atlas_ops.pipeline_runs",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "atlas_observability_monitor",
+        "atlas_operations_dashboard"
+      ],
+      "id": "atlas_ops.quality_results",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "atlas_operations_dashboard"
+      ],
+      "id": "atlas_ops.task_events",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [],
+      "id": "atlas_platform_operators",
+      "type": "consumer:human_operators",
+      "upstream": [
+        "dashboard.atlas_operations",
+        "logging.atlas_observability_bucket"
+      ]
+    },
+    {
+      "downstream": [
+        "atlas_dbt_staging",
+        "stg_events",
+        "warehouse_reconciliation"
+      ],
+      "id": "atlas_raw.events",
+      "type": "source",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "atlas_platform_operators"
+      ],
+      "id": "dashboard.atlas_operations",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [],
+      "id": "dim_countries",
+      "type": "core_model",
+      "upstream": [
+        "valid_country_codes"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "dim_users",
+      "type": "core_model",
+      "upstream": [
+        "int_accepted_events"
+      ]
+    },
+    {
+      "downstream": [
+        "atlas_observability_monitor",
+        "mart_daily_event_metrics",
+        "warehouse_reconciliation"
+      ],
+      "id": "fct_events",
+      "type": "core_model",
+      "upstream": [
+        "int_accepted_events"
+      ]
+    },
+    {
+      "downstream": [
+        "atlas_github_deployer"
+      ],
+      "id": "gcs://atlas-deployments-example-gcp-project",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "dim_users",
+        "fct_events"
+      ],
+      "id": "int_accepted_events",
+      "type": "model_or_seed",
+      "upstream": [
+        "int_event_classification"
+      ]
+    },
+    {
+      "downstream": [
+        "int_accepted_events",
+        "int_rejected_events",
+        "warehouse_reconciliation"
+      ],
+      "id": "int_event_classification",
+      "type": "model_or_seed",
+      "upstream": [
+        "stg_events",
+        "valid_country_codes"
+      ]
+    },
+    {
+      "downstream": [],
+      "id": "int_rejected_events",
+      "type": "intermediate_model",
+      "upstream": [
+        "int_event_classification"
+      ]
+    },
+    {
+      "downstream": [
+        "atlas_platform_operators"
+      ],
+      "id": "logging.atlas_observability_bucket",
+      "type": "asset",
+      "upstream": []
+    },
+    {
+      "downstream": [
+        "analytics_mart_readers",
+        "atlas_observability_monitor",
+        "warehouse_reconciliation"
+      ],
+      "id": "mart_daily_event_metrics",
+      "type": "marts_model",
+      "upstream": [
+        "fct_events"
+      ]
+    },
+    {
+      "downstream": [
+        "int_event_classification"
+      ],
+      "id": "stg_events",
+      "type": "model_or_seed",
+      "upstream": [
+        "atlas_raw.events"
+      ]
+    },
+    {
+      "downstream": [
+        "dim_countries",
+        "int_event_classification"
+      ],
+      "id": "valid_country_codes",
+      "type": "model_or_seed",
+      "upstream": []
+    },
+    {
+      "downstream": [],
+      "id": "warehouse_reconciliation",
+      "type": "consumer:validation",
+      "upstream": [
+        "atlas_raw.events",
+        "fct_events",
+        "int_event_classification",
+        "mart_daily_event_metrics"
+      ]
+    }
+  ]
+}

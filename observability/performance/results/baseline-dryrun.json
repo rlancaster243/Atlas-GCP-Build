@@ -1,0 +1,55 @@
+{
+  "project": "example-gcp-project",
+  "location": "US",
+  "executed": false,
+  "per_query_ceiling_bytes": 1073741824,
+  "suite_ceiling_bytes": 5368709120,
+  "cumulative_bytes_billed": 0,
+  "queries": [
+    {
+      "query": "01_raw_batch_lookup",
+      "estimated_bytes": 2315824,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "02_batch_classification",
+      "estimated_bytes": 745937,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "03_reconciliation",
+      "estimated_bytes": 795136,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "04_fact_build_scan",
+      "estimated_bytes": 2255810,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "05_mart_aggregation",
+      "estimated_bytes": 44864,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "06_freshness",
+      "estimated_bytes": 4700784,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "07_operational_audit",
+      "estimated_bytes": 216,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "08_cost_monitor",
+      "estimated_bytes": 34428633,
+      "within_per_query_ceiling": true
+    },
+    {
+      "query": "09_metadata",
+      "estimated_bytes": 10485760,
+      "within_per_query_ceiling": true
+    }
+  ]
+}

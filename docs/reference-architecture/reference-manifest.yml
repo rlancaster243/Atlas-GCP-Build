@@ -1,0 +1,209 @@
+# Atlas reference-architecture manifest (Sprint 8, Phase 2).
+# Validated by: python -m atlas.reference.validate --only manifest
+# Paths are relative to . Status: CURRENT|HISTORICAL|SUPERSEDED|PLANNED|BLOCKED
+version: 1
+last_verified_commit: "3f986aa"
+owner: data-architect
+documents:
+  - document_id: start-here
+    title: START HERE — canonical entry point
+    purpose: Route every audience to authoritative sources
+    audience: all
+    status: CURRENT
+    source_of_truth: START_HERE.md
+    related_runbooks:
+      - docs/ci-cd-runbook-sprint4.md
+      - docs/observability-runbook-sprint5.md
+      - docs/recovery-runbook-sprint6.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: system-context
+    title: System Context
+    purpose: Problem, actors, boundaries, context diagram
+    audience: all
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/system-context.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: architecture-overview
+    title: Architecture Overview
+    purpose: Data / control / operational / governance flows
+    audience: engineer, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/architecture-overview.md
+    related_adrs:
+      - docs/adr/ADR-006-batch-identity.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: architecture-invariants
+    title: Architecture Invariants
+    purpose: Properties that must remain true and how they are enforced
+    audience: engineer, agent, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/architecture-invariants.md
+    related_adrs:
+      - docs/adr/ADR-006-batch-identity.md
+      - docs/adr/ADR-017-schema-compatibility-and-deprecation.md
+    related_tests:
+      - tests/unit/test_schema_check.py
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: component-catalog-reusable
+    title: Component Catalog — Reusable
+    purpose: Reusable-candidate components and extraction actions
+    audience: engineer, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/component-catalog-reusable.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: component-catalog-atlas-specific
+    title: Component Catalog — Atlas-Specific
+    purpose: Project-specific components and their stable interfaces
+    audience: engineer, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/component-catalog-atlas-specific.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: interfaces-and-contracts
+    title: Interfaces and Contracts
+    purpose: Stable boundaries and their enforcement
+    audience: engineer, agent
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/interfaces-and-contracts.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: extension-points
+    title: Extension Points
+    purpose: How to extend Atlas safely
+    audience: engineer, agent
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/extension-points.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: operating-model
+    title: Operating Model
+    purpose: Ownership, authority, cadence
+    audience: operator, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/operating-model.md
+    related_runbooks:
+      - docs/ci-cd-runbook-sprint4.md
+      - docs/recovery-runbook-sprint6.md
+    last_verified_commit: "3f986aa"
+    owner: platform-operator
+  - document_id: security-and-identity-model
+    title: Security and Identity Model
+    purpose: Identities, WIF boundary, least-privilege status
+    audience: operator, reviewer, agent
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/security-and-identity-model.md
+    related_adrs:
+      - docs/adr/ADR-009-workload-identity-federation.md
+      - docs/adr/ADR-018-identity-and-access-boundaries.md
+    last_verified_commit: "3f986aa"
+    owner: security-reviewer
+  - document_id: reliability-and-recovery-model
+    title: Reliability and Recovery Model
+    purpose: Detection through prevention, replay, rollback
+    audience: operator, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/reliability-and-recovery-model.md
+    related_adrs:
+      - docs/adr/ADR-013-controlled-fault-injection.md
+      - docs/adr/ADR-014-recovery-action-model.md
+    related_runbooks:
+      - docs/recovery-runbook-sprint6.md
+    last_verified_commit: "3f986aa"
+    owner: platform-operator
+  - document_id: observability-model
+    title: Observability Model
+    purpose: Audit, logs, metrics, alerts, limitations
+    audience: operator, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/observability-model.md
+    related_adrs:
+      - docs/adr/ADR-011-atlas-observability-model.md
+    related_runbooks:
+      - docs/observability-runbook-sprint5.md
+    last_verified_commit: "3f986aa"
+    owner: platform-operator
+  - document_id: cost-and-lifecycle-model
+    title: Cost and Lifecycle Model
+    purpose: Cost controls, retention, proven vs not proven
+    audience: operator, reviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/cost-and-lifecycle-model.md
+    related_adrs:
+      - docs/adr/ADR-020-bigquery-performance-and-cost-controls.md
+    last_verified_commit: "3f986aa"
+    owner: platform-operator
+  - document_id: evidence-index
+    title: Evidence Index
+    purpose: Human view of the claim-to-evidence ledger
+    audience: reviewer, agent
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/evidence-index.md
+    related_evidence:
+      - governance/generated/evidence-index.json
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: capability-evidence-map
+    title: Capability and Evidence Map
+    purpose: Competency domains with honest framing
+    audience: reviewer, interviewer
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/capability-evidence-map.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: unresolved-risks
+    title: Unresolved Risks
+    purpose: Risk register and Sprint 7 blocked-gate disposition
+    audience: all
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/unresolved-risks.md
+    related_evidence:
+      - governance/unresolved_risks.yml
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: public-extraction-review
+    title: Public-Repository Extraction Review
+    purpose: Public-template extraction review and current dispositions
+    audience: security-reviewer, release-owner
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/public-extraction-review.md
+    related_evidence:
+      - config/public_extraction_manifest.yml
+    last_verified_commit: "3f986aa"
+    owner: security-reviewer
+  - document_id: template-extraction-plan
+    title: Template Extraction Record
+    purpose: Record of the completed standalone-template extraction
+    audience: data-architect, template-author
+    status: CURRENT
+    source_of_truth: docs/reference-architecture/template-extraction-plan.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: operator-onboarding
+    title: Operator Onboarding
+    purpose: Three-mode operator onboarding
+    audience: operator
+    status: CURRENT
+    source_of_truth: docs/handoff/operator-onboarding.md
+    last_verified_commit: "3f986aa"
+    owner: platform-operator
+  - document_id: agent-onboarding
+    title: Agent Onboarding
+    purpose: Coding-agent onboarding and conventions
+    audience: agent
+    status: CURRENT
+    source_of_truth: docs/handoff/agent-onboarding.md
+    last_verified_commit: "3f986aa"
+    owner: data-architect
+  - document_id: clean-clone-reproduction
+    title: Clean-Clone Reproduction
+    purpose: From-scratch reproduction procedure
+    audience: engineer, agent
+    status: CURRENT
+    source_of_truth: docs/handoff/clean-clone-reproduction.md
+    last_verified_commit: "3f986aa"
+    owner: data-engineer

@@ -1,0 +1,96 @@
+=== Atlas deploy: 1af166ea5111529c154db15057e5c85472f0ecf1 → atlas-dev (us-central1) ===
+deployment_id: atlas-dev-20260719T010538Z-1af166ea
+smoke batch:   atlas-smoke-1af166ea-local1784423138
+Fetching release gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/1af166ea5111529c154db15057e5c85472f0ecf1
+Copying gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/1af166ea5111529c154db15057e5c85472f0ecf1/atlas-bundle.tar.gz to file:///tmp/tmp.NLmcNE3DIA/atlas-bundle.tar.gz
+  
+.
+Copying gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/1af166ea5111529c154db15057e5c85472f0ecf1/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.NLmcNE3DIA/atlas-bundle.tar.gz.sha256
+  
+.
+archive checksum verified: 02b6d6a1d915d7701941843fcdbb3f2aea0ade54e56468cd5a6ab19c2e994d31
+verified 314 file checksums for 1af166ea5111
+audit: atlas-dev-20260719T010538Z-1af166ea -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations applied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + data/project-atlas/current)
+At file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/**, worker process 95726 thread 139878035486528 listed 316...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/**, worker process 95726 thread 139878035486528 listed 320...
+  
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/data/runs/atlas-smoke-640cd786-local1784422388/events.jsonl#1784422465870174...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/data/runs/atlas-smoke-640cd786-local1784422388/manifest.json#1784422466775214...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/data/runs/atlas-smoke-640cd786-local1784422388/success.marker#1784422694937179...
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dbt/atlas_dbt/dbt_project.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/dbt/atlas_dbt/dbt_project.yml
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dbt/profiles/.user.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/dbt/profiles/.user.yml
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/deployment-info.json to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/deployment-info.json
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/release-manifest.json to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/release-manifest.json
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/__pycache__/__init__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/config/__pycache__/__init__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/config/__pycache__/settings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/__init__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/audit.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/migrations.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/resources.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/logs/airflow/atlas-smoke-640cd786-local1784422388-run/run-summary.json#1784422705287753...
+...
+
+Average throughput: 331.2kiB/s
+At file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dags/**, worker process 95930 thread 140206083966784 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker process 95930 thread 140206083966784 listed 7...
+  
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T010538Z-1af166ea
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smoke__atlas-dev-20260719T010538Z-1af166ea --conf {"batch_id": "atlas-smoke-1af166ea-local1784423138", "pipeline_run_id": "atlas-smoke-1af166ea-local1784423138-run", "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=2a71b2fe-1e78-4db9-b124-e5c30be8194a
+Use ctrl-c to interrupt the command
+[2026-07-19T01:06:30.191349Z] {{default_celery.py:196}} WARNING - You have configured a result_backend using the protocol `redis`, it is highly recommended to use an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |                   |          | last_scheduling_d |              |          |            |        | triggering_user_nam
+conf               | dag_id            | dag_run_id        | t                  | data_interval_end | end_date | ecision           | logical_date | run_type | start_date | state  | e
+===================+===================+===================+====================+===================+==========+===================+==============+==========+============+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None               | None              | None     | None              | None         | manual   | None       | queued | airflow
+'atlas-smoke-1af16 | ine               | 20260719T010538Z- |                    |                   |          |                   |              |          |            |        |
+6ea-local178442313 |                   | 1af166ea          |                    |                   |          |                   |              |          |            |        |
+8',                |                   |                   |                    |                   |          |                   |              |          |            |        |
+'pipeline_run_id': |                   |                   |                    |                   |          |                   |              |          |            |        |
+'atlas-smoke-1af16 |                   |                   |                    |                   |          |                   |              |          |            |        |
+6ea-local178442313 |                   |                   |                    |                   |          |                   |              |          |            |        |
+8-run',            |                   |                   |                    |                   |          |                   |              |          |            |        |
+'processing_date': |                   |                   |                    |                   |          |                   |              |          |            |        |
+'2026-07-19'}      |                   |                   |                    |                   |          |                   |              |          |            |        |
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (65s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (106s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (148s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (189s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (229s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (272s elapsed)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=failed (313s elapsed)
+Smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: FAILED
+Executing the command: [ airflow tasks states-for-dag-run atlas_batch_pipeline smoke__atlas-dev-20260719T010538Z-1af166ea ]...
+Command has been started. execution_id=cff1ba65-63a7-4c19-9695-1973514fbdac
+Use ctrl-c to interrupt the command
+[2026-07-19T01:10:58.878633Z] {{default_celery.py:196}} WARNING - You have configured a result_backend using the protocol `redis`, it is highly recommended to use an alternative result_backend (i.e. a database).
+dag_id               | logical_date | task_id                | state           | start_date                       | end_date
+=====================+==============+========================+=================+==================================+=================================
+atlas_batch_pipeline |              | publish_success_marker | upstream_failed | 2026-07-19T01:10:38.130233+00:00 | 2026-07-19T01:10:38.130233+00:00
+atlas_batch_pipeline |              | dbt_seed               | success         | 2026-07-19T01:07:27.799989+00:00 | 2026-07-19T01:07:49.171495+00:00
+atlas_batch_pipeline |              | dbt_source_freshness   | success         | 2026-07-19T01:07:50.469746+00:00 | 2026-07-19T01:08:28.129518+00:00
+atlas_batch_pipeline |              | dbt_build              | failed          | 2026-07-19T01:08:30.214555+00:00 | 2026-07-19T01:10:36.416826+00:00
+atlas_batch_pipeline |              | validate_warehouse     | upstream_failed | 2026-07-19T01:10:37.588312+00:00 | 2026-07-19T01:10:37.588312+00:00
+atlas_batch_pipeline |              | start_run_audit        | success         | 2026-07-19T01:06:38.132673+00:00 | 2026-07-19T01:06:43.544435+00:00
+atlas_batch_pipeline |              | generate_events        | success         | 2026-07-19T01:06:51.020568+00:00 | 2026-07-19T01:06:56.948948+00:00
+atlas_batch_pipeline |              | load_bigquery_raw      | success         | 2026-07-19T01:07:02.293732+00:00 | 2026-07-19T01:07:14.083256+00:00
+atlas_batch_pipeline |              | validate_raw_load      | success         | 2026-07-19T01:07:14.325401+00:00 | 2026-07-19T01:07:27.061595+00:00
+atlas_batch_pipeline |              | resolve_run_context    | success         | 2026-07-19T01:06:31.351457+00:00 | 2026-07-19T01:06:32.134522+00:00
+atlas_batch_pipeline |              | ensure_audit_resources | success         | 2026-07-19T01:06:32.795892+00:00 | 2026-07-19T01:06:37.716325+00:00
+atlas_batch_pipeline |              | write_run_summary      | failed          | 2026-07-19T01:10:39.417879+00:00 | 2026-07-19T01:10:47.178737+00:00
+atlas_batch_pipeline |              | preflight_environment  | success         | 2026-07-19T01:06:44.560709+00:00 | 2026-07-19T01:06:49.790375+00:00
+atlas_batch_pipeline |              | upload_events          | success         | 2026-07-19T01:06:57.246043+00:00 | 2026-07-19T01:07:01.576806+00:00
+STAGE FAILED: smoke_batch — smoke run did not reach terminal SUCCESS
+audit: atlas-dev-20260719T010538Z-1af166ea -> FAILED (stage smoke_batch)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 1af166ea5111529c154db15057e5c85472f0ecf1 (deployment records are idempotent per deployment_id)

@@ -1,0 +1,634 @@
+[
+  {
+    "insertId": "aes3sf2y67kw",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 150026,
+      "error_message": "command exited 1",
+      "error_type": "CalledProcessError",
+      "event_type": "task_failed",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "ERROR",
+      "task_id": "dbt_build",
+      "timestamp": "2026-07-19T06:41:32.717240+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:41:32.735181040Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-07-19T06:41:32.735181040Z"
+  },
+  {
+    "insertId": "r7cr6bf35lpne",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "dbt_build",
+      "timestamp": "2026-07-19T06:39:10.655729+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:39:11.892974205Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:39:11.892974205Z"
+  },
+  {
+    "insertId": "ilejuaf23ikuk",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 54976,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "dbt_source_freshness",
+      "timestamp": "2026-07-19T06:38:56.774361+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:38:56.796931708Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:38:56.796931708Z"
+  },
+  {
+    "insertId": "18oaz2vf6xjxi6",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "dbt_source_freshness",
+      "timestamp": "2026-07-19T06:38:09.492402+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:38:10.901745123Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:38:10.901745123Z"
+  },
+  {
+    "insertId": "rrabvlf11t5on",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 76736,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "dbt_seed",
+      "timestamp": "2026-07-19T06:37:53.816226+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:37:53.854257926Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:37:53.854257926Z"
+  },
+  {
+    "insertId": "1ulkhs2f2z28y0",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "dbt_seed",
+      "timestamp": "2026-07-19T06:36:43.604308+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:36:45.844326230Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:36:45.844326230Z"
+  },
+  {
+    "insertId": "1m1ams4f7ejn8s",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 30929,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "validate_raw_load",
+      "timestamp": "2026-07-19T06:36:30.038457+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:36:30.062467334Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:36:30.062467334Z"
+  },
+  {
+    "insertId": "6zeuateo8njn",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "validate_raw_load",
+      "timestamp": "2026-07-19T06:36:08.519070+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:36:10.106687673Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:36:10.106687673Z"
+  },
+  {
+    "insertId": "e6goqbf22fxq9",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 31945,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "load_bigquery_raw",
+      "timestamp": "2026-07-19T06:35:53.054949+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:35:53.071631448Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:35:53.071631448Z"
+  },
+  {
+    "insertId": "1tixb3mf4k7jn6",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "load_bigquery_raw",
+      "timestamp": "2026-07-19T06:35:29.487226+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:35:31.124811332Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:35:31.124811332Z"
+  },
+  {
+    "insertId": "12bm1mkf7834ho",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 21744,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "upload_events",
+      "timestamp": "2026-07-19T06:35:14.741166+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:35:14.763282598Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:35:14.763282598Z"
+  },
+  {
+    "insertId": "1o8yhz8f13dck7",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "upload_events",
+      "timestamp": "2026-07-19T06:35:00.368234+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:35:01.836079292Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:35:01.836079292Z"
+  },
+  {
+    "insertId": "96qwy9f15hmt2",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 30769,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "generate_events",
+      "timestamp": "2026-07-19T06:34:45.284663+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:34:45.313173618Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:34:45.313173618Z"
+  },
+  {
+    "insertId": "5auvx8f7gei3u",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "generate_events",
+      "timestamp": "2026-07-19T06:34:20.522072+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:34:22.074540624Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:34:22.074540624Z"
+  },
+  {
+    "insertId": "1uvat7uf7jp2pj",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 7565,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "preflight_environment",
+      "timestamp": "2026-07-19T06:34:10.602897+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:34:10.627082794Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:34:10.627082794Z"
+  },
+  {
+    "insertId": "1s4sy7if4fh40o",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "preflight_environment",
+      "timestamp": "2026-07-19T06:34:05.838571+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:34:06.440739008Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:34:06.440739008Z"
+  },
+  {
+    "insertId": "flnxlsf33v462",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 7340,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "start_run_audit",
+      "timestamp": "2026-07-19T06:33:58.529205+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:33:58.547407204Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:33:58.547407204Z"
+  },
+  {
+    "insertId": "hroq3of24zbo0",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "start_run_audit",
+      "timestamp": "2026-07-19T06:33:54.102177+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:33:54.648338018Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:33:54.648338018Z"
+  },
+  {
+    "insertId": "1yt5aaqf3lih46",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "duration_ms": 9148,
+      "event_type": "task_success",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "ensure_audit_resources",
+      "timestamp": "2026-07-19T06:33:47.012853+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:33:47.033404862Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:33:47.033404862Z"
+  },
+  {
+    "insertId": "dc6gk2f7s5pid",
+    "jsonPayload": {
+      "airflow_run_id": "drillb__pipeline-failure-20260719",
+      "atlas_event": true,
+      "attempt_number": 1,
+      "batch_id": "atlas-drillb-20260719",
+      "component": "step_runner",
+      "dag_id": "atlas_batch_pipeline",
+      "event_type": "task_started",
+      "pipeline_run_id": "atlas-drillb-20260719-run",
+      "severity": "INFO",
+      "task_id": "ensure_audit_resources",
+      "timestamp": "2026-07-19T06:33:43.149515+00:00"
+    },
+    "logName": "projects/example-gcp-project/logs/atlas-events",
+    "receiveTimestamp": "2026-07-19T06:33:43.851985070Z",
+    "resource": {
+      "labels": {
+        "cluster_name": "us-central1-atlas-dev-72339da4-gke",
+        "container_name": "",
+        "location": "us-central1",
+        "namespace_name": "",
+        "pod_name": "",
+        "project_id": "od2986b2a125c4b19p-tp"
+      },
+      "type": "k8s_container"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-07-19T06:33:43.851985070Z"
+  }
+]

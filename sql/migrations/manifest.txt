@@ -1,0 +1,12 @@
+# Atlas schema migration manifest (Sprint 4, Phase 9).
+# Format: <migration_id>|<sql path relative to this manifest file>
+# Applied strictly top-to-bottom. Append only — never reorder, rename, or edit
+# a shipped migration; the ledger refuses to re-apply a changed file.
+001_create_pipeline_runs_table|../create_pipeline_runs_table.sql
+002_sprint3_raw_batch_columns|../migrate_sprint3.sql
+003_create_deployments_table|../create_deployments_table.sql
+004_create_task_events_table|004_create_task_events_table.sql
+005_create_quality_results_table|005_create_quality_results_table.sql
+006_create_monitor_evaluations_table|006_create_monitor_evaluations_table.sql
+007_create_recovery_actions_table|007_create_recovery_actions_table.sql
+008_add_task_event_timing_columns|008_add_task_event_timing_columns.sql

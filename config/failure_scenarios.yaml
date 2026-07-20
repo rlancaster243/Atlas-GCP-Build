@@ -1,0 +1,1107 @@
+# Atlas Sprint 6 controlled failure-scenario catalog (ADR-013).
+#
+# Consumed by src/atlas/failure_injection/registry.py, which validates every
+# scenario against the required schema in CI. Scenarios NEVER run implicitly:
+# scripts/run_failure_scenario.sh requires an explicit scenario id, explicit
+# environment, and ATLAS_APPROVE_FAILURE_INJECTION=true, and refuses
+# canonical batch ids (only the atlas-s6- prefix is injectable).
+#
+# execution_mode:
+#   unit  — behavior proven by repository tests (path given in evidence_hint)
+#   live  — requires the ephemeral Composer/GCP game-day window
+#   both  — unit-tested logic plus a live game-day execution
+
+version: 1
+
+defaults:
+  environment: atlas-dev
+  batch_prefix: atlas-s6-
+  approval_required: [ATLAS_APPROVE_FAILURE_INJECTION]
+  maximum_duration_minutes: 30
+  maximum_cost_usd: 0.50
+
+scenarios:
+  # ---------------------------------------------------------------- INGESTION
+  S6-ING-001:
+    category: INGESTION
+    description: Missing source artifact — expected JSONL absent at load time
+    risk_level: LOW
+    target_component: upload_events / load_events boundary
+    preconditions: [isolated batch id, no canonical writes]
+    injection_method: point load_events at a GCS URI that was never uploaded
+    expected_detection: load step fails; task_events FAILED; pipeline_runs FAILED
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no raw mutation, no success marker, downstream blocked
+    allowed_data_impact: none (isolated batch only)
+    recovery_action: RERUN_BATCH
+    verification_queries:
+      - raw count for batch equals 50000 after recovery rerun
+      - no duplicate event_ids in raw for batch
+    cleanup: delete isolated batch rows and GCS prefix
+    recurrence_prevention: covered by existing exact-count load validation
+    execution_mode: live
+    maximum_duration_minutes: 30
+    maximum_cost_usd: 0.10
+
+  S6-ING-002:
+    category: INGESTION
+    description: Corrupt JSONL artifact fails parsing/loading without publication
+    risk_level: MEDIUM
+    target_component: BigQuery raw load
+    preconditions: [isolated batch id, isolated GCS prefix]
+    injection_method: upload a deliberately truncated/garbled JSONL to the isolated prefix
+    expected_detection: load job error; sanitized error in task_events; FAILED audit
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: invalid artifact preserved for forensics; no curated publication; no raw payload in logs
+    allowed_data_impact: none (isolated batch only)
+    recovery_action: QUARANTINE_BATCH then RERUN_BATCH
+    verification_queries:
+      - regenerated artifact checksum matches deterministic expectation
+      - raw count equals 50000 after rerun; zero rows from corrupt object
+    cleanup: quarantined object moved/labeled; isolated rows deleted
+    recurrence_prevention: checksum verification before load (existing) + regression test
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-ING-003:
+    category: INGESTION
+    description: Checksum conflict on immutable GCS path is rejected
+    risk_level: LOW
+    target_component: upload_events create-only GCS semantics
+    preconditions: [isolated batch id with existing object]
+    injection_method: attempt second upload with different content for the same batch path
+    expected_detection: upload rejected (precondition failure); original generation unchanged
+    expected_alert: none required (blocked before any pipeline impact)
+    expected_containment: original object generation preserved; batch history intact
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries:
+      - GCS object generation unchanged after conflict attempt
+    cleanup: none (nothing was mutated)
+    recurrence_prevention: create-only upload contract regression test
+    execution_mode: both
+    evidence_hint: tests/unit test for upload precondition + live generation check
+    maximum_cost_usd: 0.01
+
+  S6-ING-004:
+    category: INGESTION
+    description: Partial raw load detected and repaired without duplication
+    risk_level: HIGH
+    target_component: raw load validation
+    preconditions: [isolated batch id, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    injection_method: delete a slice of the isolated batch's raw rows after load
+    expected_detection: exact-count validation fails; run FAILED; partial state visible
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no warehouse publication for the partial batch
+    allowed_data_impact: isolated batch rows only
+    recovery_action: REPAIR_PARTIAL_LOAD
+    verification_queries:
+      - raw count equals 50000 exactly after repair
+      - zero duplicate event_ids for batch
+      - accepted + rejected equals raw after rerun
+    cleanup: delete isolated batch data
+    recurrence_prevention: exact-count gate (existing) + partial-repair runbook
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    maximum_cost_usd: 0.20
+
+  S6-ING-005:
+    category: INGESTION
+    description: Duplicate execution of the same batch does not duplicate data
+    risk_level: MEDIUM
+    target_component: batch idempotency (GCS reuse + raw load skip + dbt incremental)
+    preconditions: [isolated batch id already loaded]
+    injection_method: trigger a second pipeline run with the identical batch id/seed
+    expected_detection: second run reuses immutable object; load skipped/reconciled
+    expected_alert: none (idempotency is expected behavior)
+    expected_containment: facts unique; marts stable; two distinct pipeline_run_id rows
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries:
+      - raw count unchanged after duplicate execution
+      - fact event_ids unique for batch
+      - two pipeline_runs rows exist for the batch
+    cleanup: none
+    recurrence_prevention: idempotency regression suite (existing Sprint 3/4 tests)
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-ING-006:
+    category: INGESTION
+    description: Transient GCS failure retries and reconciles
+    risk_level: LOW
+    target_component: upload step retry policy
+    preconditions: [isolated batch id]
+    injection_method: upload_once context flag (existing controlled --fail-once path)
+    expected_detection: attempt 1 fails, RETRY task event, attempt 2 succeeds
+    expected_alert: none (recovered within retry policy)
+    expected_containment: single final object; no partial artifacts
+    allowed_data_impact: none
+    recovery_action: RETRY_TASK
+    verification_queries:
+      - task_events has attempt 1 FAILED/RETRY and attempt 2 SUCCESS for upload task
+    cleanup: none
+    recurrence_prevention: retry-policy tests (existing)
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-ING-007:
+    category: INGESTION
+    description: Transient BigQuery failure retries without duplicate load
+    risk_level: MEDIUM
+    target_component: raw load retry policy
+    preconditions: [isolated batch id]
+    injection_method: fail first load attempt via injection hook (test-only parameter)
+    expected_detection: RETRY recorded; eventual success or controlled failure
+    expected_alert: none when recovered
+    expected_containment: no duplicate rows after retry success
+    allowed_data_impact: none
+    recovery_action: RETRY_TASK
+    verification_queries:
+      - raw count equals 50000 exactly; zero duplicate event_ids
+    cleanup: none
+    recurrence_prevention: load idempotency test (existing WRITE_TRUNCATE-per-batch semantics)
+    execution_mode: unit
+    evidence_hint: tests/unit/test_failure_injection.py transient-retry coverage
+    maximum_cost_usd: 0.05
+
+  S6-ING-008:
+    category: INGESTION
+    description: Retry exhaustion reaches terminal FAILED and blocks downstream
+    risk_level: MEDIUM
+    target_component: task retry policy + failure propagation
+    preconditions: [isolated batch id]
+    injection_method: persistent failure injection (all attempts fail)
+    expected_detection: attempts exhausted; task FAILED; downstream UPSTREAM_FAILED; run FAILED
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no publication; terminal audit rows recorded
+    allowed_data_impact: none
+    recovery_action: RERUN_BATCH
+    verification_queries:
+      - pipeline_runs FAILED for injected run; SUCCESS for recovery run
+    cleanup: remove injection flag
+    recurrence_prevention: failure-propagation tests (existing Sprint 3)
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  # ------------------------------------------------------------- ORCHESTRATION
+  S6-AIR-001:
+    category: ORCHESTRATION
+    description: Worker interruption mid-task is retryable without duplication
+    risk_level: MEDIUM
+    target_component: Airflow task execution
+    preconditions: [isolated batch id, safe task]
+    injection_method: kill the task process mid-execution (isolated batch only)
+    expected_detection: attempt marked failed/retry; no silent RUNNING state
+    expected_alert: none when retry recovers
+    expected_containment: rerun does not duplicate data
+    allowed_data_impact: none
+    recovery_action: RETRY_TASK
+    verification_queries:
+      - task_events shows interrupted attempt + successful retry
+      - raw/fact counts exact after recovery
+    cleanup: none
+    recurrence_prevention: idempotent step design (existing)
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-AIR-002:
+    category: ORCHESTRATION
+    description: Task timeout is classified and blocks downstream publication
+    risk_level: LOW
+    target_component: execution_timeout policy
+    preconditions: [isolated batch id]
+    injection_method: injected sleep beyond a drill-scoped execution_timeout
+    expected_detection: timeout failure recorded with correct classification
+    expected_alert: 'Atlas: pipeline failed when run terminal-fails'
+    expected_containment: downstream tasks do not publish
+    allowed_data_impact: none
+    recovery_action: RERUN_BATCH
+    verification_queries:
+      - task_events FAILED with timeout error_type for injected task
+    cleanup: remove drill timeout override
+    recurrence_prevention: timeout policy documented per task
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-AIR-003:
+    category: ORCHESTRATION
+    description: Finalizer failure leaves reconstructable operational truth
+    risk_level: HIGH
+    target_component: write_run_summary finalizer
+    preconditions: [isolated batch id]
+    injection_method: fail the finalizer write path via injection hook
+    expected_detection: missing/incomplete finalization detected; no false SUCCESS
+    expected_alert: "Atlas: telemetry incomplete"
+    expected_containment: pipeline data state remains truthful
+    allowed_data_impact: none
+    recovery_action: RECONSTRUCT_AUDIT
+    verification_queries:
+      - reconstructed pipeline_runs row matches Airflow + GCS + BigQuery evidence
+      - recovery_actions row RECONSTRUCT_AUDIT SUCCESS VERIFIED
+    cleanup: remove injection hook
+    recurrence_prevention: finalizer reconciliation tests (existing) + reconstruction runbook
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-AIR-004:
+    category: ORCHESTRATION
+    description: Overlapping runs are controlled; same batch stays idempotent
+    risk_level: MEDIUM
+    target_component: DAG max_active_runs / batch identity
+    preconditions: [isolated batch ids]
+    injection_method: trigger concurrent runs (distinct batches, then same batch)
+    expected_detection: concurrency settings serialize unsafe overlap
+    expected_alert: none
+    expected_containment: no cross-batch interference; same-batch rerun idempotent
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries:
+      - per-batch counts exact; fact uniqueness holds across both batches
+    cleanup: delete isolated batches
+    recurrence_prevention: DAG concurrency configuration tests
+    execution_mode: live
+    maximum_cost_usd: 0.20
+
+  S6-AIR-005:
+    category: ORCHESTRATION
+    description: Invalid run context fails before any mutation
+    risk_level: LOW
+    target_component: resolve_run_context validation
+    preconditions: []
+    injection_method: supply invalid batch id / date / seed via dagrun conf
+    expected_detection: resolve_run_context raises before any cloud mutation
+    expected_alert: none required
+    expected_containment: zero writes to GCS/BigQuery/audit beyond the failed context task
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries:
+      - no pipeline_runs/raw rows exist for the invalid identifiers
+    cleanup: none
+    recurrence_prevention: context validation unit tests
+    execution_mode: both
+    evidence_hint: tests/unit/test_run_context.py + live invalid-conf trigger
+    maximum_cost_usd: 0.01
+
+  S6-AIR-006:
+    category: ORCHESTRATION
+    description: Scheduler interruption / missed run is visible and recoverable
+    risk_level: MEDIUM
+    target_component: schedule + freshness monitor
+    preconditions: [monitoring_enabled true, drill threshold override]
+    injection_method: paused schedule window with drill-scoped freshness threshold
+    expected_detection: monitor missing-run/stale check FAIL
+    expected_alert: "Atlas: data stale"
+    expected_containment: bounded backfill only; no unbounded catch-up
+    allowed_data_impact: none
+    recovery_action: BACKFILL
+    verification_queries:
+      - monitor_evaluations FAIL then PASS after bounded backfill
+    cleanup: restore threshold; resume schedule
+    recurrence_prevention: freshness monitor (existing Sprint 5)
+    execution_mode: live
+    maximum_cost_usd: 0.20
+
+  # ----------------------------------------------------------------- WAREHOUSE
+  S6-DBT-001:
+    category: WAREHOUSE
+    description: Source freshness failure blocks scheduled run, not backfills
+    risk_level: LOW
+    target_component: dbt source freshness gate
+    preconditions: [isolated batch id]
+    injection_method: stale source window against drill filter (no canonical mutation)
+    expected_detection: dbt source freshness error blocks the scheduled path
+    expected_alert: 'Atlas: pipeline failed when run terminal-fails'
+    expected_containment: no build executes after failed freshness
+    allowed_data_impact: none
+    recovery_action: BACKFILL
+    verification_queries:
+      - backfill_mode run skips freshness by documented policy and reconciles
+    cleanup: restore freshness config
+    recurrence_prevention: freshness policy documented (Sprint 3 backfill semantics)
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-DBT-002:
+    category: WAREHOUSE
+    description: dbt test failure blocks publication and recovers on clean rerun
+    risk_level: LOW
+    target_component: dbt build gate
+    preconditions: [isolated batch id]
+    injection_method: existing controlled inject_failure dbt var
+    expected_detection: dbt build fails; run FAILED; incident opens
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no success marker; marts unchanged
+    allowed_data_impact: none
+    recovery_action: RERUN_BATCH
+    verification_queries:
+      - recovery run SUCCESS with 10/10 quality checks PASS
+    cleanup: rerun without injection var
+    recurrence_prevention: proven in Sprint 5 Drill B; regression retained
+    execution_mode: live
+    maximum_cost_usd: 0.10
+
+  S6-DBT-003:
+    category: WAREHOUSE
+    description: Referential-integrity failure is traceable, publication blocked
+    risk_level: MEDIUM
+    target_component: dbt relationship tests
+    preconditions: [isolated fixture dataset]
+    injection_method: fixture rows with dangling foreign keys in isolated schema
+    expected_detection: relationship test fails against fixture target
+    expected_alert: 'Atlas: reconciliation failed (when routed through monitor)'
+    expected_containment: invalid rows traceable; no incorrect mart publication
+    allowed_data_impact: fixture dataset only
+    recovery_action: QUARANTINE_BATCH
+    verification_queries:
+      - failing rows enumerated by stored test query; canonical marts untouched
+    cleanup: drop fixture dataset
+    recurrence_prevention: relationship tests (existing) + fixture regression
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    maximum_cost_usd: 0.10
+
+  S6-DBT-004:
+    category: WAREHOUSE
+    description: Duplicate fact event is blocked by uniqueness protection
+    risk_level: MEDIUM
+    target_component: fct_events uniqueness grain
+    preconditions: [isolated fixture dataset]
+    injection_method: duplicate event_id rows in isolated fixture target
+    expected_detection: uniqueness test fails
+    expected_alert: 'Atlas: reconciliation failed (fixture-scoped)'
+    expected_containment: fact grain protected; canonical facts unchanged
+    allowed_data_impact: fixture dataset only
+    recovery_action: REPAIR_PARTIAL_LOAD
+    verification_queries:
+      - fixture duplicate removed; uniqueness test passes; canonical counts unchanged
+    cleanup: drop fixture dataset
+    recurrence_prevention: uniqueness tests (existing)
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    maximum_cost_usd: 0.10
+
+  S6-DBT-005:
+    category: WAREHOUSE
+    description: Late-arriving events included by bounded backfill without duplication
+    risk_level: MEDIUM
+    target_component: incremental models + backfill path
+    preconditions: [two isolated batches]
+    injection_method: initial batch, then delayed additional batch for a prior date
+    expected_detection: n/a (planned flow); freshness policy honored
+    expected_alert: none
+    expected_containment: unaffected history byte-identical; no duplicate facts
+    allowed_data_impact: isolated batches only
+    recovery_action: BACKFILL
+    verification_queries:
+      - late events present; prior batches unchanged; fact uniqueness; mart reconciliation
+    cleanup: delete isolated batches
+    recurrence_prevention: backfill regression (existing Sprint 3) + late-data evidence
+    execution_mode: live
+    maximum_cost_usd: 0.20
+
+  S6-DBT-006:
+    category: WAREHOUSE
+    description: Incremental target corruption detected and repaired, not full-refreshed
+    risk_level: HIGH
+    target_component: incremental model targets
+    preconditions: [isolated schema copy, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    injection_method: mutate rows in an isolated copy of an incremental target
+    expected_detection: batch-scoped reconciliation FAIL against the isolated target
+    expected_alert: 'Atlas: reconciliation failed (fixture-scoped)'
+    expected_containment: corruption bounded to isolated schema
+    allowed_data_impact: isolated schema only
+    recovery_action: REBUILD_PARTITION
+    verification_queries:
+      - repaired target matches source-of-truth rebuild for affected batch only
+    cleanup: drop isolated schema
+    recurrence_prevention: reconciliation checks (existing) + targeted-repair runbook
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    maximum_cost_usd: 0.20
+
+  S6-DBT-007:
+    category: WAREHOUSE
+    description: Partition rebuild touches only the intended partition
+    risk_level: MEDIUM
+    target_component: partitioned raw/fact tables (isolated copies)
+    preconditions: [isolated fixture partitioned table]
+    injection_method: rebuild one partition of the isolated table
+    expected_detection: n/a (controlled maintenance flow)
+    expected_alert: none
+    expected_containment: other partitions byte-identical (count + checksum)
+    allowed_data_impact: isolated fixture only
+    recovery_action: REBUILD_PARTITION
+    verification_queries:
+      - non-target partition row counts/checksums unchanged; downstream reconciles
+    cleanup: drop fixture table
+    recurrence_prevention: bounded-rebuild runbook + recovery audit
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_DESTRUCTIVE_FIXTURE]
+    maximum_cost_usd: 0.20
+
+  # -------------------------------------------------------------------- SCHEMA
+  S6-SCH-001:
+    category: SCHEMA
+    description: Approved nullable field classifies ALLOWED
+    risk_level: LOW
+    target_component: schema-drift classifier + migration path
+    preconditions: [fixture table or manifest override]
+    injection_method: add configured nullable field to fixture; allowed_new_fields entry
+    expected_detection: drift finding ALLOWED approved_new_field
+    expected_alert: none
+    expected_containment: older consumers keep working
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output ALLOWED for the configured field]
+    cleanup: drop fixture
+    recurrence_prevention: classifier unit tests
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-002:
+    category: SCHEMA
+    description: Unapproved additive field classifies WARNING
+    risk_level: LOW
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: add nullable field NOT in allowed_new_fields
+    expected_detection: WARNING unapproved_new_field
+    expected_alert: none (warning tier)
+    expected_containment: contract update required before approval
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output WARNING]
+    cleanup: drop fixture
+    recurrence_prevention: classifier unit tests
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-003:
+    category: SCHEMA
+    description: Renamed field classifies BREAKING with bridge requirement
+    risk_level: MEDIUM
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: rename column in fixture (appears as removed + new)
+    expected_detection: BREAKING removed_field (+ WARNING/BREAKING for new name)
+    expected_alert: 'Atlas: breaking schema drift (fixture-scoped)'
+    expected_containment: compatibility bridge + deprecation period documented before adoption
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output BREAKING removed_field]
+    cleanup: drop fixture
+    recurrence_prevention: rename policy in ADR-015
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-004:
+    category: SCHEMA
+    description: Removed field is blocked with consumer impact reported
+    risk_level: MEDIUM
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: drop expected column in fixture
+    expected_detection: BREAKING removed_field
+    expected_alert: 'Atlas: breaking schema drift (fixture-scoped)'
+    expected_containment: consumers enumerated in finding detail; adoption blocked
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output BREAKING removed_field]
+    cleanup: drop fixture
+    recurrence_prevention: classifier + governed contract
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-005:
+    category: SCHEMA
+    description: Incompatible type change is blocked pending forward migration
+    risk_level: MEDIUM
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: change column type in fixture
+    expected_detection: BREAKING type_change
+    expected_alert: 'Atlas: breaking schema drift (fixture-scoped)'
+    expected_containment: forward migration plan required before adoption
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output BREAKING type_change]
+    cleanup: drop fixture
+    recurrence_prevention: classifier + ADR-015 policy
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-006:
+    category: SCHEMA
+    description: Required-field change blocked without backfill + consumer proof
+    risk_level: HIGH
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: REQUIRED column made nullable / new REQUIRED column in fixture
+    expected_detection: BREAKING required_made_nullable / unapproved_required_field
+    expected_alert: 'Atlas: breaking schema drift (fixture-scoped)'
+    expected_containment: blocked unless backfill and consumer compatibility proven
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output BREAKING for both variants]
+    cleanup: drop fixture
+    recurrence_prevention: classifier unit tests
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-007:
+    category: SCHEMA
+    description: Partition-field change is high-risk and never auto-applied
+    risk_level: HIGH
+    target_component: schema-drift classifier
+    preconditions: [fixture table]
+    injection_method: fixture table without the expected partition column
+    expected_detection: BREAKING partition_change
+    expected_alert: 'Atlas: breaking schema drift (fixture-scoped)'
+    expected_containment: manual review required; no automatic application
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [classifier output BREAKING partition_change]
+    cleanup: drop fixture
+    recurrence_prevention: classifier unit tests + ADR-015
+    execution_mode: both
+    evidence_hint: tests/unit/test_schema_drift.py
+    maximum_cost_usd: 0.05
+
+  S6-SCH-008:
+    category: SCHEMA
+    description: Multiple schema versions normalize without silent coercion
+    risk_level: MEDIUM
+    target_component: event schema versioning strategy
+    preconditions: [fixture inputs at two schema versions]
+    injection_method: fixture payloads with and without an approved additive field
+    expected_detection: version discriminator distinguishes inputs; unknown versions rejected
+    expected_alert: none
+    expected_containment: no silent coercion of unknown fields/versions
+    allowed_data_impact: fixture only
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [compatibility tests pass for both versions; unknown version rejected]
+    cleanup: none
+    recurrence_prevention: schema-version compatibility tests
+    execution_mode: unit
+    evidence_hint: tests/unit/test_schema_versions.py
+    maximum_cost_usd: 0.01
+
+  # ----------------------------------------------------------------------- IAM
+  S6-IAM-001:
+    category: IAM
+    description: BigQuery job permission removal identifies exact missing permission
+    risk_level: HIGH
+    target_component: atlas-composer-runtime bigquery.jobUser
+    preconditions: [before/after IAM capture, ATLAS_APPROVE_IAM]
+    injection_method: remove roles/bigquery.jobUser from runtime SA (bounded window)
+    expected_detection: 403 with bigquery.jobs.create identified; run FAILED
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no broad role granted; failure classified IAM not code
+    allowed_data_impact: none
+    recovery_action: RESTORE_IAM
+    verification_queries:
+      - post-restore policy identical to captured baseline; probe query succeeds
+    cleanup: verify IAM matches baseline exactly
+    recurrence_prevention: IAM evidence table + role rationale docs
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_IAM]
+    maximum_duration_minutes: 20
+    maximum_cost_usd: 0.05
+
+  S6-IAM-002:
+    category: IAM
+    description: BigQuery data access removal fails clearly without partial publication
+    risk_level: HIGH
+    target_component: atlas-composer-runtime bigquery.dataEditor
+    preconditions: [before/after IAM capture, ATLAS_APPROVE_IAM]
+    injection_method: remove roles/bigquery.dataEditor from runtime SA (bounded window)
+    expected_detection: read/write boundary 403; run FAILED at first data touch
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no partial publication; sanitized error
+    allowed_data_impact: none
+    recovery_action: RESTORE_IAM
+    verification_queries: [post-restore probe write to isolated table succeeds]
+    cleanup: verify IAM matches baseline
+    recurrence_prevention: role rationale docs
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_IAM]
+    maximum_duration_minutes: 20
+    maximum_cost_usd: 0.05
+
+  S6-IAM-003:
+    category: IAM
+    description: GCS object permission removal fails without unsafe fallback destination
+    risk_level: MEDIUM
+    target_component: runtime SA GCS access on raw bucket
+    preconditions: [before/after IAM capture, ATLAS_APPROVE_IAM]
+    injection_method: remove bucket-level binding for runtime SA (bounded window)
+    expected_detection: upload/read 403; run FAILED
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: no alternate destination attempted
+    allowed_data_impact: none
+    recovery_action: RESTORE_IAM
+    verification_queries: [post-restore probe upload to isolated prefix succeeds]
+    cleanup: verify bucket policy matches baseline
+    recurrence_prevention: single-destination contract (no fallback code paths)
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_IAM]
+    maximum_duration_minutes: 20
+    maximum_cost_usd: 0.05
+
+  S6-IAM-004:
+    category: IAM
+    description: Composer runtime permission failure distinguishable from code failure
+    risk_level: MEDIUM
+    target_component: task error classification
+    preconditions: [any S6-IAM scenario active]
+    injection_method: observed during S6-IAM-001/002/003 execution
+    expected_detection: task_events error_type reflects permission denial, not code error
+    expected_alert: "Atlas: pipeline failed"
+    expected_containment: sanitized evidence; classification IAM
+    allowed_data_impact: none
+    recovery_action: RESTORE_IAM
+    verification_queries: [task_events error_type/message shows 403/permission classification]
+    cleanup: covered by parent scenario
+    recurrence_prevention: error-classification unit tests
+    execution_mode: both
+    evidence_hint: tests/unit/test_failure_injection.py IAM classification
+    maximum_cost_usd: 0.01
+
+  S6-IAM-005:
+    category: IAM
+    description: WIF authentication failure stops deployment before mutation
+    risk_level: MEDIUM
+    target_component: GitHub OIDC -> WIF -> deployer impersonation
+    preconditions: [deployment workflow]
+    injection_method: run deploy workflow from a ref/condition WIF rejects (or with provider briefly constrained)
+    expected_detection: auth step fails; workflow stops pre-mutation
+    expected_alert: 'Atlas: deployment failed when a deployment record was opened; otherwise workflow evidence'
+    expected_containment: no SA key fallback; prior release remains active
+    allowed_data_impact: none
+    recovery_action: RESTORE_IAM
+    verification_queries: [no deployments row mutated; current release unchanged]
+    cleanup: restore provider condition if changed
+    recurrence_prevention: WIF condition tests (Sprint 4) retained
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_IAM]
+    maximum_cost_usd: 0.05
+
+  # ---------------------------------------------------------------- DEPLOYMENT
+  S6-DEP-001:
+    category: DEPLOYMENT
+    description: Broken DAG import blocks before smoke; no SUCCESS record
+    risk_level: LOW
+    target_component: CI DAG gate + deployment import verification
+    preconditions: [temporary defect branch]
+    injection_method: deliberate import error on a temp branch (proven in Sprint 4; re-verify path)
+    expected_detection: atlas-airflow CI job fails / deployment import check fails
+    expected_alert: 'Atlas: deployment failed when reached in deploy stage'
+    expected_containment: no smoke run; no SUCCESS deployment record
+    allowed_data_impact: none
+    recovery_action: RESTORE_RELEASE
+    verification_queries: [deployments has no SUCCESS row for defective sha]
+    cleanup: delete temp branch
+    recurrence_prevention: CI gate (existing, demonstrated Sprint 4)
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-DEP-002:
+    category: DEPLOYMENT
+    description: Incompatible dependency fails environment validation
+    risk_level: MEDIUM
+    target_component: deployment environment validation (pip check / constraints)
+    preconditions: [temporary defect branch]
+    injection_method: pin an incompatible provider version on temp branch
+    expected_detection: pip check / constraint validation fails in CI or deploy validation
+    expected_alert: none required (blocked pre-deployment)
+    expected_containment: previous release remains active
+    allowed_data_impact: none
+    recovery_action: RESTORE_RELEASE
+    verification_queries: [current deployed sha unchanged]
+    cleanup: delete temp branch
+    recurrence_prevention: pinned constraints + pip check gate (existing)
+    execution_mode: unit
+    evidence_hint: CI pip-check gate; static demonstration acceptable
+    maximum_cost_usd: 0.01
+
+  S6-DEP-003:
+    category: DEPLOYMENT
+    description: Failed migration blocks DAG promotion; changed migration cannot masquerade
+    risk_level: MEDIUM
+    target_component: migration ledger + deploy ordering
+    preconditions: [isolated invalid migration fixture]
+    injection_method: invalid SQL migration in drill manifest (never merged)
+    expected_detection: ledger records FAILED; deploy stops before DAG promotion
+    expected_alert: "Atlas: deployment failed"
+    expected_containment: FAILED migration blocks promotion; checksum change of APPLIED refused
+    allowed_data_impact: none
+    recovery_action: FORWARD_MIGRATION
+    verification_queries:
+      - schema_migrations FAILED row for drill id; APPLIED rows unchanged
+    cleanup: remove drill migration; ledger row retained as evidence
+    recurrence_prevention: ledger checksum protection (existing + Sprint 5 retry fix)
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-DEP-004:
+    category: DEPLOYMENT
+    description: Bundle checksum mismatch rejects release; immutable bundle preserved
+    risk_level: LOW
+    target_component: build_deployment_bundle create-only semantics
+    preconditions: [existing release path]
+    injection_method: attempt re-upload of altered bundle for an existing sha
+    expected_detection: checksum mismatch fails the upload step
+    expected_alert: none required (blocked)
+    expected_containment: existing bundle bytes unchanged
+    allowed_data_impact: none
+    recovery_action: RESTORE_RELEASE
+    verification_queries: [release object generation and checksum unchanged]
+    cleanup: none
+    recurrence_prevention: create-only contract tests (existing Sprint 4)
+    execution_mode: both
+    evidence_hint: Sprint 4 evidence + live generation check
+    maximum_cost_usd: 0.01
+
+  S6-DEP-005:
+    category: DEPLOYMENT
+    description: Failed smoke run records FAILED and does not promote
+    risk_level: MEDIUM
+    target_component: deployment smoke gate
+    preconditions: [controlled defective release]
+    injection_method: deploy release with controlled smoke-breaking defect
+    expected_detection: smoke validation fails; deployments FAILED with failure_stage
+    expected_alert: "Atlas: deployment failed"
+    expected_containment: no success metadata; recovery command documented
+    allowed_data_impact: none
+    recovery_action: RESTORE_RELEASE
+    verification_queries: [deployments FAILED row; subsequent restore SUCCESS]
+    cleanup: rollback to validated release
+    recurrence_prevention: smoke gate (existing, demonstrated Sprint 4/5)
+    execution_mode: live
+    maximum_cost_usd: 0.20
+
+  S6-DEP-006:
+    category: DEPLOYMENT
+    description: Schema/runtime incompatibility fails rollback eligibility with forward guidance
+    risk_level: MEDIUM
+    target_component: rollback schema-compatibility check
+    preconditions: [release manifests with schema version declarations]
+    injection_method: candidate manifest declaring incompatible min schema version
+    expected_detection: eligibility check fails before any mutation
+    expected_alert: none required (blocked)
+    expected_containment: operator receives forward-recovery guidance
+    allowed_data_impact: none
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [rollback script exits nonzero with compatibility reason]
+    cleanup: none
+    recurrence_prevention: compatibility-check unit tests
+    execution_mode: unit
+    evidence_hint: tests for rollback_atlas.sh compatibility gate
+    maximum_cost_usd: 0.01
+
+  # ------------------------------------------------------------------ ROLLBACK
+  S6-RBK-001:
+    category: ROLLBACK
+    description: Missing rollback bundle fails before mutation
+    risk_level: LOW
+    target_component: rollback bundle verification
+    preconditions: []
+    injection_method: request rollback to a sha with no stored bundle
+    expected_detection: bundle/manifest verification fails first
+    expected_alert: none required (blocked pre-mutation)
+    expected_containment: current runtime unchanged
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [current deployed sha unchanged; no deployments mutation]
+    cleanup: none
+    recurrence_prevention: bundle-verification unit tests
+    execution_mode: both
+    evidence_hint: rollback script pre-checks + live nonexistent-sha attempt
+    maximum_cost_usd: 0.01
+
+  S6-RBK-002:
+    category: ROLLBACK
+    description: Rollback smoke failure records ROLLBACK_FAILED and escalates
+    risk_level: HIGH
+    target_component: rollback smoke gate
+    preconditions: [controlled rollback target with drill defect]
+    injection_method: force rollback smoke to fail via controlled defect
+    expected_detection: ROLLBACK_FAILED recorded; incident opens
+    expected_alert: "Atlas: rollback failed"
+    expected_containment: evidence preserved; secondary recovery executed
+    allowed_data_impact: none
+    recovery_action: RESTORE_RELEASE
+    verification_queries: [deployments ROLLBACK_FAILED row; secondary recovery SUCCESS]
+    cleanup: restore validated release
+    recurrence_prevention: rollback-failure runbook
+    execution_mode: live
+    approval_required: [ATLAS_APPROVE_FAILURE_INJECTION, ATLAS_APPROVE_ROLLBACK_TEST]
+    maximum_cost_usd: 0.20
+
+  S6-RBK-003:
+    category: ROLLBACK
+    description: Irreversible migration blocks runtime rollback; forward fix required
+    risk_level: MEDIUM
+    target_component: rollback schema rule (ADR-010)
+    preconditions: [manifest with min_compatible_schema_version ahead of target]
+    injection_method: attempt rollback across a declared-incompatible schema boundary
+    expected_detection: compatibility rule blocks before mutation
+    expected_alert: none required (blocked)
+    expected_containment: no automatic destructive reversal; forward fix documented
+    allowed_data_impact: none
+    recovery_action: FORWARD_MIGRATION
+    verification_queries: [rollback refused with schema-compatibility reason]
+    cleanup: none
+    recurrence_prevention: ADR-010/ADR-015 schema rule + tests
+    execution_mode: unit
+    evidence_hint: rollback compatibility tests
+    maximum_cost_usd: 0.01
+
+  # ------------------------------------------------------------- OBSERVABILITY
+  S6-OBS-001:
+    category: OBSERVABILITY
+    description: Cloud Logging write failure degrades visibly without breaking data path
+    risk_level: LOW
+    target_component: atlas.observability.logging cloud fan-out
+    preconditions: []
+    injection_method: force _emit_to_cloud failure (test hook)
+    expected_detection: stdout contract line still emitted; degradation visible
+    expected_alert: none required
+    expected_containment: pipeline data operation unaffected
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [stdout event present; caller exit code unchanged]
+    cleanup: none
+    recurrence_prevention: never-fail emission tests (existing Sprint 5)
+    execution_mode: unit
+    evidence_hint: tests/unit/test_observability_logging.py
+    maximum_cost_usd: 0.0
+
+  S6-OBS-002:
+    category: OBSERVABILITY
+    description: task_event write failure detected by completeness; history reconstructable
+    risk_level: MEDIUM
+    target_component: task_events write path + telemetry completeness
+    preconditions: [isolated batch id]
+    injection_method: break audit write (test hook) during isolated run
+    expected_detection: task_telemetry_write_failed event; completeness check FAIL
+    expected_alert: "Atlas: telemetry incomplete"
+    expected_containment: terminal run status governed by data operation, not telemetry
+    allowed_data_impact: none
+    recovery_action: RECONSTRUCT_AUDIT
+    verification_queries: [reconstructed task history matches logs + Airflow evidence]
+    cleanup: remove hook
+    recurrence_prevention: telemetry-safety tests (existing) + reconstruction procedure
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-OBS-003:
+    category: OBSERVABILITY
+    description: Metric publication failure persists evaluation without false status
+    risk_level: LOW
+    target_component: monitor metric publication
+    preconditions: []
+    injection_method: force publish failure (test hook)
+    expected_detection: monitor_evaluations row persisted; publication error logged
+    expected_alert: none required
+    expected_containment: no false pipeline success/failure introduced
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [evaluation row exists despite metric failure]
+    cleanup: none
+    recurrence_prevention: monitor error-isolation tests
+    execution_mode: unit
+    evidence_hint: tests/unit/test_observability_monitor.py
+    maximum_cost_usd: 0.0
+
+  S6-OBS-004:
+    category: OBSERVABILITY
+    description: Monitor DAG failure is itself detected; pipeline audit unaffected
+    risk_level: MEDIUM
+    target_component: atlas_observability_monitor DAG
+    preconditions: [Composer live]
+    injection_method: drill config making monitor evaluation raise
+    expected_detection: monitor task fails; check_status absence / monitor-health signal
+    expected_alert: 'Atlas: telemetry incomplete or absence-based policy'
+    expected_containment: atlas_ops business audit remains available
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [pipeline audit queryable during monitor outage]
+    cleanup: restore monitor config
+    recurrence_prevention: monitor-health alerting review
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-OBS-005:
+    category: OBSERVABILITY
+    description: Unexpected alert-policy disablement is caught by governance check
+    risk_level: LOW
+    target_component: manage_atlas_alerts.sh status governance
+    preconditions: []
+    injection_method: disable one policy outside the documented teardown set
+    expected_detection: alerts status/governance check reports drift from repo definitions
+    expected_alert: n/a (governance check output)
+    expected_containment: re-enable via manage_atlas_alerts.sh apply
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [governance check FAIL then PASS after re-enable]
+    cleanup: policy re-enabled
+    recurrence_prevention: governance check in operator runbook
+    execution_mode: live
+    maximum_cost_usd: 0.0
+
+  S6-OBS-006:
+    category: OBSERVABILITY
+    description: Notification channel failure leaves incident truth intact
+    risk_level: LOW
+    target_component: notification routing
+    preconditions: [drill policy with unreachable channel copy]
+    injection_method: drill-only policy routed to no channel / disabled channel
+    expected_detection: incident opens in Cloud Monitoring regardless of delivery
+    expected_alert: incident without notification
+    expected_containment: operator query documented as alternate path; no invented delivery success
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [incident timeline exists; delivery evidence honestly absent]
+    cleanup: delete drill policy
+    recurrence_prevention: runbook alternate-query section
+    execution_mode: live
+    maximum_cost_usd: 0.0
+
+  S6-OBS-007:
+    category: OBSERVABILITY
+    description: Linked log dataset unavailability falls back to Cloud Logging
+    risk_level: LOW
+    target_component: atlas_logs linked dataset
+    preconditions: []
+    injection_method: none (procedural — use documented fallback filter while treating dataset as unavailable)
+    expected_detection: n/a
+    expected_alert: none
+    expected_containment: Cloud Logging remains source of truth; fallback query returns same events
+    allowed_data_impact: none
+    recovery_action: RESET_MONITOR
+    verification_queries: [same event set retrieved via logging read as via linked dataset]
+    cleanup: none
+    recurrence_prevention: runbook fallback section
+    execution_mode: live
+    maximum_cost_usd: 0.0
+
+  S6-OBS-008:
+    category: OBSERVABILITY
+    description: Terminal run with missing telemetry triggers reconstruction
+    risk_level: MEDIUM
+    target_component: telemetry completeness + reconstruction procedure
+    preconditions: [isolated terminal run with suppressed task events]
+    injection_method: suppress task-event emission for selected tasks (test hook)
+    expected_detection: telemetry_incomplete monitor FAIL
+    expected_alert: "Atlas: telemetry incomplete"
+    expected_containment: reconstruction rebuilds task history; RECONSTRUCT_AUDIT recorded
+    allowed_data_impact: none
+    recovery_action: RECONSTRUCT_AUDIT
+    verification_queries: [completeness PASS after reconstruction]
+    cleanup: remove hook
+    recurrence_prevention: proven in Sprint 5 Drill G; extended with reconstruction
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  # ---------------------------------------------------------------------- COST
+  S6-COST-001:
+    category: COST
+    description: Removed partition filter blocked by dry-run byte ceiling
+    risk_level: LOW
+    target_component: cost guard (dry-run estimate)
+    preconditions: []
+    injection_method: unpartitioned-scan query submitted through guarded path
+    expected_detection: dry-run estimate exceeds ceiling; execution refused
+    expected_alert: none (blocked pre-spend)
+    expected_containment: zero bytes billed; estimate recorded
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [guard raises with estimated bytes; INFORMATION_SCHEMA shows no run]
+    cleanup: none
+    recurrence_prevention: guard unit tests + CI rule
+    execution_mode: both
+    evidence_hint: tests/unit/test_cost_guards.py
+    maximum_cost_usd: 0.0
+
+  S6-COST-002:
+    category: COST
+    description: Unbounded backfill window rejected without explicit override
+    risk_level: LOW
+    target_component: backfill window guard
+    preconditions: []
+    injection_method: request backfill window beyond policy maximum
+    expected_detection: guard rejects; explicit override variable required
+    expected_alert: none
+    expected_containment: no jobs submitted
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [guard rejects oversized window; accepts bounded window]
+    cleanup: none
+    recurrence_prevention: guard unit tests
+    execution_mode: unit
+    evidence_hint: tests/unit/test_cost_guards.py
+    maximum_cost_usd: 0.0
+
+  S6-COST-003:
+    category: COST
+    description: Full refresh outside policy requires approval
+    risk_level: LOW
+    target_component: full-refresh guard
+    preconditions: []
+    injection_method: request full refresh without ATLAS_APPROVE_FULL_REFRESH
+    expected_detection: guard blocks; approval boundary documented
+    expected_alert: none
+    expected_containment: incremental path remains default
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [guard blocks without approval; permits with approval]
+    cleanup: none
+    recurrence_prevention: guard unit tests
+    execution_mode: unit
+    evidence_hint: tests/unit/test_cost_guards.py
+    maximum_cost_usd: 0.0
+
+  S6-COST-004:
+    category: COST
+    description: Duplicate job submission limited by idempotent design
+    risk_level: LOW
+    target_component: batch idempotency (same as S6-ING-005 cost lens)
+    preconditions: [S6-ING-005 executed]
+    injection_method: duplicate execution evidence reused
+    expected_detection: second run's BigQuery work bounded (skip/reconcile path)
+    expected_alert: none
+    expected_containment: no duplicate load bytes at meaningful scale
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [INFORMATION_SCHEMA bytes for duplicate run << initial run]
+    cleanup: none
+    recurrence_prevention: idempotency suite
+    execution_mode: live
+    maximum_cost_usd: 0.05
+
+  S6-COST-005:
+    category: COST
+    description: Query exceeding byte limit fails before material spend
+    risk_level: LOW
+    target_component: maximum_bytes_billed enforcement
+    preconditions: []
+    injection_method: guarded query with tiny maximum_bytes_billed against larger table
+    expected_detection: BigQuery rejects with bytesBilledLimitExceeded
+    expected_alert: none
+    expected_containment: responsible component identifiable via job labels
+    allowed_data_impact: none
+    recovery_action: MANUAL_CONTAINMENT
+    verification_queries: [job error bytesBilledLimitExceeded; labels identify component]
+    cleanup: none
+    recurrence_prevention: guard applied to monitoring/analysis query paths
+    execution_mode: both
+    evidence_hint: tests/unit/test_cost_guards.py + one live guarded query
+    maximum_cost_usd: 0.01

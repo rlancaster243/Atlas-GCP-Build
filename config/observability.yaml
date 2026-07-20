@@ -1,0 +1,69 @@
+# Atlas observability configuration (Sprint 5, Phase 8).
+# Thresholds are INITIAL OPERATIONAL THRESHOLDS derived from the Sprint 1-4
+# synthetic workload baselines recorded in docs/preflight-sprint5.md; they are
+# not production SLOs. Adjust with measured evidence, never to silence alerts.
+
+monitoring_enabled: true
+environment: atlas-dev
+# normal | drill — drill routes all published metrics to mode=drill series so
+# controlled exercises never pollute normal history (ADR-011).
+runtime_mode: normal
+
+expected_schedule:
+  dag_id: atlas_batch_pipeline
+  cron: "0 6 * * *"          # daily 06:00 UTC (paused unless acceptance window)
+  # A scheduled run is "missing" when now - last run start exceeds
+  # 24h + grace. While the DAG is deliberately paused (default state between
+  # acceptance windows), missing-run findings downgrade to NO_DATA.
+  grace_seconds: 7200
+
+freshness:
+  # Baseline: one successful batch per day when the environment is active.
+  warn_seconds: 93600         # 26 h
+  fail_seconds: 180000        # 50 h (two missed daily batches)
+
+volume:
+  baseline_window_runs: 7     # median raw rows over the last N successful runs
+  warn_deviation: 0.50        # |1 - latest/baseline| >= 50 % -> WARN
+  fail_deviation: 0.80        # >= 80 % -> FAIL
+  min_baseline_rows: 1000     # below this the baseline is meaningless -> NO_DATA
+
+rejection_rate:
+  # Baseline: generator injects ~10-12 % invalid events by design.
+  warn: 0.20
+  fail: 0.35
+
+reconciliation:
+  # Any FAIL row in atlas_ops.quality_results for the latest run -> FAIL.
+  window_hours: 48
+
+telemetry:
+  # Expected terminal task events per run (see atlas.ops.task_events).
+  window_hours: 48
+
+deployment:
+  # Latest terminal deployments row within window; FAILED/ROLLBACK_FAILED -> FAIL.
+  window_hours: 168
+
+cost:
+  window_hours: 24
+  baseline_window_days: 7
+  warn_ratio: 3.0             # window bytes billed >= 3x daily baseline -> WARN
+  fail_ratio: 10.0
+  min_bytes_billed: 1073741824  # ignore anomalies below 1 GiB absolute
+
+schema:
+  manifest: observability/schema/expected-schemas.json
+  # Additive nullable fields not in the manifest are WARNING by default;
+  # list explicitly approved additions here to classify them ALLOWED.
+  allowed_new_fields: []
+
+alerting:
+  cooldown_seconds: 1800
+  # Notification channel resource id is intentionally NOT stored in Git; the
+  # alert manage script reads ATLAS_NOTIFICATION_CHANNEL_ID at apply time.
+
+# Drill-only overrides (Phase 16). Empty in normal operation; a drill sets
+# e.g. {freshness: {fail_seconds: 60}} on a temporary branch or via the
+# ATLAS_OBSERVABILITY_OVERRIDES_JSON environment variable, never merged.
+drill_overrides: {}

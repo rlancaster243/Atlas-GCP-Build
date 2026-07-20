@@ -1,0 +1,52 @@
+# Atlas data classification definitions (Sprint 7, ADR-019).
+# Referenced by asset `classification` fields. This file defines what each
+# level means; assets declare which level applies.
+
+version: 1
+
+levels:
+  PUBLIC:
+    description: >
+      Non-sensitive information that could be shared publicly without harm.
+      Atlas uses this for synthetic reference data and documentation-grade
+      metadata only.
+    access_expectation: readable by any project member
+    logging_restrictions: none
+    examples:
+      - dim_countries (synthetic reference dimension)
+
+  INTERNAL:
+    description: >
+      Operational data with no personal or secret content, but not intended for
+      public release. The default for Atlas synthetic event data and warehouse
+      models.
+    access_expectation: project service accounts and operators
+    logging_restrictions: no full row payloads in logs; counts and ids only
+    examples:
+      - raw events (synthetic)
+      - staging/intermediate/core/mart models
+      - operational audit tables
+
+  CONFIDENTIAL:
+    description: >
+      Data whose exposure would cause operational or reputational harm.
+      Includes anything that could carry credentials, tokens, or private
+      infrastructure detail. Atlas keeps such values OUT of committed artifacts.
+    access_expectation: least-privilege service accounts only; never committed
+    logging_restrictions: sanitized + truncated; never logged verbatim
+    examples:
+      - notification recipient addresses (never committed)
+      - error strings that may embed tokens (sanitized before audit)
+
+  RESTRICTED:
+    description: >
+      Highest sensitivity — real personal data or regulated content. Atlas does
+      NOT process real personal data; this level exists so the policy is
+      complete and so any future real-data source is forced to declare it.
+    access_expectation: explicit grant + audit; not present in Atlas today
+    logging_restrictions: never logged; access audited
+    examples: []
+
+# Atlas fact: the platform processes only synthetic, generator-produced data.
+# No RESTRICTED assets exist. This is asserted by governance CI.
+no_restricted_assets_present: true

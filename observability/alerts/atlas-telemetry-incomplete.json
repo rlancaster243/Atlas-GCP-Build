@@ -1,0 +1,42 @@
+{
+  "displayName": "Atlas: telemetry incomplete",
+  "documentation": {
+    "mimeType": "text/markdown",
+    "content": "**Signal**: `custom.googleapis.com/atlas/monitor/check_status` for `check_name=telemetry_completeness` (2 = FAIL, published by atlas_observability_monitor every 30 min).\n\n**Meaning**: Expected tasks are missing terminal task_events rows for the latest run \u2014 observability is degraded even if data may be correct.\n\n**Runbook**: docs/observability-runbook-sprint5.md#alert-atlas-telemetry-incomplete\n\n**Owner**: the primary operator (primary operator).\n\n**Test method**: `scripts/manage_atlas_alerts.sh test telemetry_completeness` publishes a synthetic FAIL point (mode=drill). Known false-positive risks: runs that predate task telemetry (Sprint 4 and earlier).\n\n**Auto-close**: incident closes ~30 min after the check returns PASS (gauge stops satisfying the condition; autoClose 1800s after cessation)."
+  },
+  "userLabels": {
+    "application": "atlas",
+    "environment": "atlas-dev",
+    "severity": "warning",
+    "incident_key": "atlas-telemetry_completeness",
+    "managed_by": "atlas-sprint5"
+  },
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "telemetry_completeness check_status is FAIL",
+      "conditionThreshold": {
+        "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"telemetry_completeness\" AND resource.type=\"global\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 1.5,
+        "duration": "0s",
+        "trigger": {
+          "count": 1
+        },
+        "aggregations": [
+          {
+            "alignmentPeriod": "600s",
+            "perSeriesAligner": "ALIGN_MAX"
+          }
+        ]
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "1800s"
+  },
+  "notificationChannels": [
+    "${NOTIFICATION_CHANNEL}"
+  ],
+  "enabled": true
+}

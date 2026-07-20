@@ -1,0 +1,42 @@
+{
+  "displayName": "Atlas: reconciliation failed",
+  "documentation": {
+    "mimeType": "text/markdown",
+    "content": "**Signal**: `custom.googleapis.com/atlas/monitor/check_status` for `check_name=reconciliation` (2 = FAIL, published by atlas_observability_monitor every 30 min).\n\n**Meaning**: atlas_ops.quality_results contains FAIL rows for the latest pipeline run.\n\n**Runbook**: docs/observability-runbook-sprint5.md#alert-atlas-reconciliation-failed\n\n**Owner**: the primary operator (primary operator).\n\n**Test method**: `scripts/manage_atlas_alerts.sh test reconciliation` publishes a synthetic FAIL point (mode=drill).\n\n**Auto-close**: incident closes ~30 min after the check returns PASS (gauge stops satisfying the condition; autoClose 1800s after cessation)."
+  },
+  "userLabels": {
+    "application": "atlas",
+    "environment": "atlas-dev",
+    "severity": "critical",
+    "incident_key": "atlas-reconciliation",
+    "managed_by": "atlas-sprint5"
+  },
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "reconciliation check_status is FAIL",
+      "conditionThreshold": {
+        "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"reconciliation\" AND resource.type=\"global\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 1.5,
+        "duration": "0s",
+        "trigger": {
+          "count": 1
+        },
+        "aggregations": [
+          {
+            "alignmentPeriod": "600s",
+            "perSeriesAligner": "ALIGN_MAX"
+          }
+        ]
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "1800s"
+  },
+  "notificationChannels": [
+    "${NOTIFICATION_CHANNEL}"
+  ],
+  "enabled": true
+}

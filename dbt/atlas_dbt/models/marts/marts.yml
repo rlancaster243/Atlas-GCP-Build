@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: mart_daily_event_metrics
+    description: >
+      Daily event metrics at event_date, event_name, country_code, and platform grain.
+    meta:
+      governance:
+        technical_owner: atlas-analytics
+        business_owner_or_role: atlas-platform
+        grain: one row per (event_date, event_name, country_code, platform)
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [analytics_mart_readers, atlas_observability_monitor, warehouse_reconciliation]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - event_date
+              - event_name
+              - country_code
+              - platform
+    columns:
+      - name: event_date
+        tests:
+          - not_null
+      - name: event_name
+        tests:
+          - not_null
+      - name: country_code
+        tests:
+          - not_null
+      - name: platform
+        tests:
+          - not_null
+      - name: event_count
+        tests:
+          - not_null

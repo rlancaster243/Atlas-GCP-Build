@@ -1,0 +1,39 @@
+# Atlas BigQuery cost controls (Sprint 7, ADR-020).
+# Consumed by atlas.observability.cost_guard. Extends the Sprint 6 cost guards.
+
+version: 1
+
+environments:
+  atlas-dev:
+    # Hard ceiling for a single ad-hoc/governed query (dry-run estimate).
+    max_query_bytes: 1073741824            # 1 GiB
+    # Hard ceiling for the whole bounded performance suite (sum of billed bytes).
+    max_performance_suite_bytes: 5368709120  # 5 GiB
+    max_backfill_days: 7
+    full_refresh_requires_approval: true
+    # Assets whose queries must include a partition filter.
+    require_partition_filter_assets:
+      - atlas_raw.events
+      - atlas_core.fct_events
+    temporary_dataset_ttl_hours: 24
+    temporary_object_ttl_days: 7
+    composer_max_lifecycle_hours: 12
+    log_retention_days: 30
+    release_retention_policy: keep_validated_releases
+
+  atlas-ci:
+    max_query_bytes: 536870912             # 512 MiB
+    max_performance_suite_bytes: 1073741824  # 1 GiB
+    max_backfill_days: 3
+    full_refresh_requires_approval: true
+    require_partition_filter_assets:
+      - atlas_raw.events
+      - atlas_core.fct_events
+    temporary_dataset_ttl_hours: 1
+    temporary_object_ttl_days: 1
+    composer_max_lifecycle_hours: 6
+    log_retention_days: 7
+    release_retention_policy: keep_validated_releases
+
+# Override precedence: ATLAS_MAX_PERFORMANCE_TEST_BYTES (env) overrides
+# max_performance_suite_bytes for the current run when set.

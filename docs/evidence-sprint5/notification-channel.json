@@ -1,0 +1,11 @@
+[
+  {
+    "name": "projects/example-gcp-project/notificationChannels/6567861337166986657",
+    "type": "email",
+    "display_name": "Atlas Primary Operator (email)",
+    "recipient_category": "project-owner email (approved by owner in-session)",
+    "email_domain": "gmail.com",
+    "verification_status": "0",
+    "enabled": true
+  }
+]

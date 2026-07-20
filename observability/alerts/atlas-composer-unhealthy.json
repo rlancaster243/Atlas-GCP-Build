@@ -1,0 +1,42 @@
+{
+  "displayName": "Atlas: Composer environment unhealthy",
+  "documentation": {
+    "mimeType": "text/markdown",
+    "content": "**Signal**: native `composer.googleapis.com/environment/healthy` (fraction true < 0.5 for 15 min). Native platform metric \u2014 deliberately not re-created under an Atlas name (ADR-011).\n\n**Meaning**: the atlas-dev Composer environment is failing its own health checks.\n\n**Runbook**: docs/observability-runbook-sprint5.md#alert-atlas-composer-unhealthy\n\n**Owner**: the primary operator (primary operator).\n\n**Test method**: not drill-injectable without harming the environment; validated by observing the metric during environment creation/deletion windows.\n\n**Teardown**: DISABLE this policy before intentional Composer deletion (scripts/manage_atlas_alerts.sh disable atlas-composer-unhealthy); metric absence after deletion does not fire, but disabling removes ambiguity."
+  },
+  "userLabels": {
+    "application": "atlas",
+    "environment": "atlas-dev",
+    "severity": "critical",
+    "incident_key": "atlas-composer-unhealthy",
+    "managed_by": "atlas-sprint5"
+  },
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "environment healthy fraction < 0.5",
+      "conditionThreshold": {
+        "filter": "metric.type=\"composer.googleapis.com/environment/healthy\" AND resource.type=\"cloud_composer_environment\"",
+        "comparison": "COMPARISON_LT",
+        "thresholdValue": 0.5,
+        "duration": "900s",
+        "trigger": {
+          "count": 1
+        },
+        "aggregations": [
+          {
+            "alignmentPeriod": "300s",
+            "perSeriesAligner": "ALIGN_FRACTION_TRUE"
+          }
+        ]
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "1800s"
+  },
+  "notificationChannels": [
+    "${NOTIFICATION_CHANNEL}"
+  ],
+  "enabled": true
+}

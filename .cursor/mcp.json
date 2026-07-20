@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "bigquery": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-bigquery"
+      ],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "${env:ATLAS_GCP_PROJECT_ID}"
+      }
+    },
+    "dbt-atlas": {
+      "command": "${workspaceFolder}/.venv-dbt/bin/dbt",
+      "args": [
+        "--version"
+      ],
+      "env": {
+        "DBT_PROJECT_DIR": "${workspaceFolder}/dbt/atlas_dbt",
+        "DBT_PATH": "${workspaceFolder}/.venv-dbt/bin/dbt",
+        "DBT_TARGET": "bigquery"
+      }
+    }
+  }
+}
