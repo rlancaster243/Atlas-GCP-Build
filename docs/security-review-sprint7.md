@@ -37,23 +37,18 @@ Governed Atlas artifacts: `config/`, `governance/`, `observability/`, `scripts/`
   addresses in governed artifacts, while explicitly allowing variable
   references. Regression tests in `tests/unit/test_security_policy.py`.
 
-## Public-repository extraction risks (cataloged for Sprint 8)
+## Public-repository extraction risks (resolved in the template extraction)
 
-The repository is **not** published during Sprint 7. Extraction risks to resolve
-before any public release:
-
-   `russell.lancaster243@gmail.com` as fixture actor/owner data. This is in an
-   out-of-scope tree (not modified in Sprint 7). It must be scrubbed or
-   parameterized before public extraction.
-2. **Project id and pool ids** (`example-gcp-project`, `atlas-github-pool`,
-   numeric project number) appear throughout scripts/docs. Acceptable
-   internally; parameterize for a reusable template (Sprint 8).
-3. **Notification recipient address** is stored only in live GCP notification
-   channels, never committed — confirmed clean.
+1. **Operator identity:** fixture actor/owner data was replaced with
+   `<operator-email>` before public extraction.
+2. **Project and pool identifiers:** source sandbox values were replaced with
+   documented examples or runtime configuration.
+3. **Notification recipient address:** remains external to Git and is configured
+   through the target environment.
 
 ## Honest limitations
 
 - The scanners are pattern-based; they catch the known credential and
   exposure shapes, not every conceivable secret format.
-- Public-repository readiness is explicitly deferred to Sprint 8's extraction
-  review.
+- Each adopter must rerun the security and public-extraction gates against its
+  own configuration and deployment evidence.
