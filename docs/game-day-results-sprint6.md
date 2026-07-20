@@ -19,7 +19,7 @@ ephemeral, cost-bounded window short — ADR-010, ADR-013).
 | Migrations 007 (recovery_actions) + 008 (task_event timing) applied | `bq show atlas_ops.recovery_actions` (20 cols); `task_events` has `timing_source`,`timing_confidence` |
 | Baseline healthy batch reconciled 10/10 | batch `atlas-20260717`, run `atlas-airflow-20260717-baseline-s6-clean-20260717` SUCCESS; `quality_results` = 10/10 PASS |
 | Alert policies restored | all 10 Atlas policies ENABLED (re-enabled `Atlas: data stale`, `Atlas: Composer environment unhealthy`) |
-| Notification channel verified recipient | `the primary operator.lancaster243@gmail.com`, enabled |
+| Notification channel verified recipient | `<operator-email>`, enabled |
 | Fault injection disabled by default | `cli run` REFUSED without `ATLAS_APPROVE_FAILURE_INJECTION=true`; catalog `validate` = VALID |
 
 ## Live evidence captured
