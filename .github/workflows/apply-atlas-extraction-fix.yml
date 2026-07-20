@@ -1,0 +1,53 @@
+name: Apply Atlas extraction fix
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/apply-atlas-extraction-fix.yml"
+      - ".template-fix/**"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SOURCE_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-2f8c-81fd-bf59-3b7db34780e2/raw?se=2026-07-20T05:01:28Z&sp=r&sv=2026-02-06&sr=b&scid=e83f87b4-e326-51dc-b552-5342c91892fa&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T13:50:33Z&ske=2026-07-21T13:50:33Z&sks=b&skv=2026-02-06&sig=xc5HGfnkavSxhEyHfRBu2CRsu0aHrpI6HVgl6vBygpg%3D'
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          show-progress: false
+      - name: Download source snapshot
+        run: |
+          curl --fail --location --silent --show-error "$SOURCE_URL" -o "$RUNNER_TEMP/source.zip"
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/source"
+          test -d "$RUNNER_TEMP/source/atlas-template"
+      - name: Apply repair
+        run: python .template-fix/fix.py
+      - name: Validate repair
+        run: |
+          export PYTHONPATH=src:dags
+          python -m atlas.reference.validate
+          python scripts/validate_public_extraction.py
+          python -m pytest tests/airflow/test_sprint4_hygiene.py -q
+          python -m pytest tests/unit tests/airflow -q
+          ! grep -RIlE 'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
+            --exclude-dir=.git \
+            --exclude='apply-atlas-extraction-fix.yml' \
+            --exclude='fix-atlas-extraction.yml' \
+            --exclude='fix-atlas-extraction-v2.yml' \
+            --exclude='atlas-diagnostics.yml' .
+          git diff --check
+      - name: Commit repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix: complete standalone reference and extraction contracts'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
