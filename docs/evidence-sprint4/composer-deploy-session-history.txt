@@ -1,0 +1,2433 @@
+export PATH="$HOME/google-cloud-sdk/bin:$PATH" && source /tmp/atlas-venv/bin/act
+ivate && export GOOGLE_APPLICATION_CREDENTIALS=/tmp/atlas-adc.json && ATLAS_APPR
+OVE_DEPLOY=true bash scripts/deploy_atlas_release.sh --git-sha dd7dd5d42f5b8cbfe
+e625e6fdae0edb8d9e8663a --leave-paused 2>&1 | tee /tmp/atlas-deploy.log; echo "D
+EPLOY_EXIT=$?"
+project-atlas $ export PATH="$HOME/google-cloud-sdk/bin:$PATH" && source /tmp/at
+las-venv/bin/activate && export GOOGLE_APPLICATION_CREDENTIALS=/tmp/atlas-adc.js
+on && ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas_release.sh --git-sha d
+d7dd5d42f5b8cbfee625e6fdae0edb8d9e8663a --leave-paused 2>&1 | tee /tmp/atlas-dep
+loy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: dd7dd5d42f5b8cbfee625e6fdae0edb8d9e8663a → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260718T225900Z-dd7dd5d4
+smoke batch:   atlas-smoke-dd7dd5d4-local1784415540
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/dd7
+dd5d42f5b8cbfee625e6fdae0edb8d9e8663a
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/dd7dd5d42f5b
+8cbfee625e6fdae0edb8d9e8663a/atlas-bundle.tar.gz to file:///tmp/tmp.Xt2KXKx5pU/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/dd7dd5d42f5b
+8cbfee625e6fdae0edb8d9e8663a/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.Xt2KX
+Kx5pU/atlas-bundle.tar.gz.sha256
+
+.
+sha256sum: atlas-bundle-dd7dd5d42f5b8cbfee625e6fdae0edb8d9e8663a.tar.gz: No such
+ file or directory
+atlas-bundle-dd7dd5d42f5b8cbfee625e6fdae0edb8d9e8663a.tar.gz: FAILED open or rea
+d
+sha256sum: WARNING: 1 listed file could not be read
+FATAL: archive checksum mismatch for release dd7dd5d42f5b8cbfee625e6fdae0edb8d9e
+8663a
+audit: atlas-dev-20260718T225900Z-dd7dd5d4 -> RUNNING
+STAGE FAILED: fetch_release — release bundle missing or checksum-invalid for dd7
+dd5d42f5b8cbfee625e6fdae0edb8d9e8663a
+audit: atlas-dev-20260718T225900Z-dd7dd5d4 -> FAILED (stage fetch_release)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha dd7dd5d42f5b8cbfee625e6fdae0edb8d9e8663a (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 2aeff26ea9371e9dd130a81db81cc78f6639cf67 --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 2aeff26ea9371e9dd130a81db81cc78f6639cf67 → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260718T230144Z-2aeff26e
+smoke batch:   atlas-smoke-2aeff26e-local1784415704
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/2ae
+ff26ea9371e9dd130a81db81cc78f6639cf67
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/2aeff26ea937
+1e9dd130a81db81cc78f6639cf67/atlas-bundle.tar.gz to file:///tmp/tmp.9KfGZDSMO7/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/2aeff26ea937
+1e9dd130a81db81cc78f6639cf67/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.9KfGZ
+DSMO7/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: 887caabe801bf5003505be14ce0502c72f07db0aed0672615a2b6
+2dacba40fca
+verified 77 file checksums for 2aeff26ea937
+audit: atlas-dev-20260718T230144Z-2aeff26e -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/**, worker process 62994 thread 14008
+2717857600 listed 80...
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/airflow/requirements-airflow.txt
+ to gs://us-central1-atlas-dev-74134e98-bucket/data/current/airflo
+w/requirements-airflow.txt
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/config/anomaly_profile.yaml to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/config/anom
+aly_profile.yaml
+
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/config/atlas.yaml to gs://us-cen
+tral1-atlas-dev-74134e98-bucket/data/current/config/atlas.yaml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/dbt_project.yml to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas
+_dbt/dbt_project.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/core/core.y
+ml to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/
+atlas_dbt/models/core/core.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/core/dim_co
+untries.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/cur
+rent/dbt/atlas_dbt/models/core/dim_countries.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/core/dim_us
+ers.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/current
+/dbt/atlas_dbt/models/core/dim_users.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/core/fct_ev
+ents.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/curren
+t/dbt/atlas_dbt/models/core/fct_events.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/intermediat
+e/int_accepted_events.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/models/intermediate/int_accepted_events.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/intermediat
+e/int_event_classification.sql to gs://us-central1-atlas-dev-74134e98-bucket/dat
+a/current/dbt/atlas_dbt/models/intermediate/int_event_classificati
+on.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/intermediat
+e/int_rejected_events.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/models/intermediate/int_rejected_events.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/intermediat
+e/intermediate.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/dbt/atlas_dbt/models/intermediate/intermediate.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/marts/mart_
+daily_event_metrics.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/proje
+ct-atlas/current/dbt/atlas_dbt/models/marts/mart_daily_event_metrics.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/marts/marts
+.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/current/db
+t/atlas_dbt/models/marts/marts.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/sources/sou
+rces.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/curren
+t/dbt/atlas_dbt/models/sources/sources.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/staging/sta
+ging.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/curren
+t/dbt/atlas_dbt/models/staging/staging.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/models/staging/stg
+_events.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/cur
+rent/dbt/atlas_dbt/models/staging/stg_events.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/package-lock.yml t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atla
+s_dbt/package-lock.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/packages.yml to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_db
+t/packages.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/profiles.yml.examp
+le to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/
+atlas_dbt/profiles.yml.example
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/seeds/seeds.yml to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas
+_dbt/seeds/seeds.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/seeds/valid_countr
+y_codes.csv to gs://us-central1-atlas-dev-74134e98-bucket/data/cur
+rent/dbt/atlas_dbt/seeds/valid_country_codes.csv
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_batch
+_fact_reconciliation.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/proj
+ect-atlas/current/dbt/atlas_dbt/tests/assert_batch_fact_reconciliation.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_fact_
+rejected_reconciliation.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/p
+roject-atlas/current/dbt/atlas_dbt/tests/assert_fact_rejected_reconciliation.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_injec
+t_failure.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/c
+urrent/dbt/atlas_dbt/tests/assert_inject_failure.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_mart_
+fact_reconciliation.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/proje
+ct-atlas/current/dbt/atlas_dbt/tests/assert_mart_fact_reconciliation.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_raw_c
+lassification_reconciliation.sql to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/tests/assert_raw_classification_reconcil
+iation.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/atlas_dbt/tests/assert_sourc
+e_anomaly_profile.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/dbt/atlas_dbt/tests/assert_source_anomaly_profile.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/profiles/profiles.yml to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/dbt/profiles/
+profiles.yml
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dbt/requirements-dbt.txt to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/requiremen
+ts-dbt.txt
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/requirements.txt to gs://us-cent
+ral1-atlas-dev-74134e98-bucket/data/current/requirements.txt
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/apply_atlas_migrations.s
+h to gs://us-central1-atlas-dev-74134e98-bucket/data/current/scrip
+ts/apply_atlas_migrations.sh
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/atlas_step_runner.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/scripts/at
+las_step_runner.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/generate_events.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/scripts/gene
+rate_events.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/load_events.py to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/scripts/load_eve
+nts.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/run_atlas_step.sh to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/scripts/run_a
+tlas_step.sh
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/upload_events.py to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/scripts/upload
+_events.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/scripts/validate_events.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/scripts/vali
+date_events.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/create_deployments_table.sql
+ to gs://us-central1-atlas-dev-74134e98-bucket/data/current/sql/cr
+eate_deployments_table.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/create_events_table.sql to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/sql/create_
+events_table.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/create_ops_schema.sql to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/sql/create_op
+s_schema.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/create_pipeline_runs_table.s
+ql to gs://us-central1-atlas-dev-74134e98-bucket/data/current/sql/
+create_pipeline_runs_table.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/create_schema_migrations_tab
+le.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/current/
+sql/create_schema_migrations_table.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/migrate_sprint3.sql to gs://
+us-central1-atlas-dev-74134e98-bucket/data/current/sql/migrate_spr
+int3.sql
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/sql/migrations/manifest.txt to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/sql/migrati
+ons/manifest.txt
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/__init__.py to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/__init_
+_.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/batch/__init__.py to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/b
+atch/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/batch/context.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/ba
+tch/context.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/batch/manifest.py to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/b
+atch/manifest.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/config/__init__.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/
+config/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/config/settings.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/
+config/settings.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/generator/__init__.py
+to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atl
+as/generator/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/generator/events.py to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas
+/generator/events.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ingestion/__init__.py
+to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atl
+as/ingestion/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ingestion/upload.py to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas
+/ingestion/upload.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/loader/__init__.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/
+loader/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/loader/bigquery.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/
+loader/bigquery.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/logging/__init__.py to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas
+/logging/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/logging/structured.py
+to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atl
+as/logging/structured.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/__init__.py to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/ops
+/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/audit.py to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/ops/au
+dit.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/deployments.py to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/
+ops/deployments.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/finalizer.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/op
+s/finalizer.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/migrations.py to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/o
+ps/migrations.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/preflight.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/op
+s/preflight.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/ops/resources.py to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/src/atlas/op
+s/resources.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/pipeline/__init__.py t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atla
+s/pipeline/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/pipeline/orchestrator.
+py to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/
+atlas/pipeline/orchestrator.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/validation/__init__.py
+ to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/at
+las/validation/__init__.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/validation/checks.py t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/atla
+s/validation/checks.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/src/atlas/validation/warehouse.p
+y to gs://us-central1-atlas-dev-74134e98-bucket/data/current/src/a
+tlas/validation/warehouse.py
+.....
+
+Average throughput: 344.8kiB/s
+At file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/**, worker process 63220 thread
+140431192999744 listed 6...
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_batch_pipeline.py to
+gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_batch_pipeli
+ne.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_orchestration/__init_
+_.py to gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_orch
+estration/__init__.py
+
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_orchestration/callbac
+ks.py to gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_orc
+hestration/callbacks.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_orchestration/command
+s.py to gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_orch
+estration/commands.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_orchestration/context
+.py to gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_orche
+stration/context.py
+Copying file:///tmp/tmp.9KfGZDSMO7/atlas-bundle/dags/atlas_orchestration/validat
+ion.py to gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_or
+chestration/validation.py
+...
+
+Average throughput: 38.8kiB/s
+Timed out after 600s waiting for atlas_batch_pipeline to parse
+Last dags list output:
+Executing the command: [ airflow dags list -o plain ]...
+Command has been started. execution_id=a0bfb4ef-8255-4d13-b235-c6bcd725385d
+Use ctrl-c to interrupt the command
+[2026-07-18T23:11:56.162054Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+dag_id              fileloc                                       owners       i
+s_paused    bundle_name    bundle_version
+airflow_monitoring  /home/airflow/gcs/dags/airflow_monitoring.py  ['airflow']  F
+alse        dags-folder
+STAGE FAILED: dag_parse — DAG failed to parse after promotion
+audit: atlas-dev-20260718T230144Z-2aeff26e -> FAILED (stage dag_parse)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 2aeff26ea9371e9dd130a81db81cc78f6639cf67 (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 83c0d137c3d523c5f97a8f1142f86c0e506d9478 --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 83c0d137c3d523c5f97a8f1142f86c0e506d9478 → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260718T231842Z-83c0d137
+smoke batch:   atlas-smoke-83c0d137-local1784416722
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/83c
+0d137c3d523c5f97a8f1142f86c0e506d9478
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/83c0d137c3d5
+23c5f97a8f1142f86c0e506d9478/atlas-bundle.tar.gz to file:///tmp/tmp.bvggjP0Feb/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/83c0d137c3d5
+23c5f97a8f1142f86c0e506d9478/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.bvggj
+P0Feb/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: 1fa6f040ab236ec9a872a4f73b8c05eb868ad164a79ac766a4ba0
+ab528061378
+verified 78 file checksums for 83c0d137c3d5
+audit: atlas-dev-20260718T231842Z-83c0d137 -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.bvggjP0Feb/atlas-bundle/**, worker process 67614 thread 14055
+0925756224 listed 80...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 67614 thread 140550925756224 listed 80...
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+..
+
+Average throughput: 219.1kiB/s
+At file:///tmp/tmp.bvggjP0Feb/atlas-bundle/dags/**, worker process 67814 thread
+140685084133184 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 67814 thread 140685084133184 listed 6...
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/dags/.airflowignore to gs://us-c
+entral1-atlas-dev-74134e98-bucket/dags/project_atlas/.airflowignore
+Copying file:///tmp/tmp.bvggjP0Feb/atlas-bundle/dags/atlas_batch_pipeline.py to
+gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/atlas_batch_pipeli
+ne.py
+
+.
+
+Average throughput: 367.8kiB/s
+DAG import errors detected:
+Executing the command: [ airflow dags list-import-errors -o plain ]...
+Command has been started. execution_id=3cb33af8-2c3b-45e5-9b7f-685eb27862b3
+Use ctrl-c to interrupt the command
+ERROR: Error message: /opt/python3.11/lib/python3.11/site-packages/airflow/cli/c
+ommands/dag_command.py:49 UserWarning: Could not import graphviz. Rendering grap
+h to the graphical format will not be possible.
+You might need to install the graphviz package and necessary system packages.
+Run `pip install graphviz` to attempt to install it.
+ERROR: Command exit code: 1
+[2026-07-18T23:22:16.958744Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+bundle_name    filepath                                      error
+dags-folder    project_atlas/atlas_orchestration/context.py  Traceback (most rec
+ent call last):
+File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+File "/home/airflow/gcs/dags/project_atlas/atlas_orchestration/context.py", line
+ 8, in <module>
+from atlas.batch.context import resolve_batch_context
+ModuleNotFoundError: No module named 'atlas'
+STAGE FAILED: dag_parse — DAG failed to parse after promotion
+audit: atlas-dev-20260718T231842Z-83c0d137 -> FAILED (stage dag_parse)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 83c0d137c3d523c5f97a8f1142f86c0e506d9478 (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 74732eeeb746a9fb1461c4ad35ff01bb912ff454 --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 74732eeeb746a9fb1461c4ad35ff01bb912ff454 → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260718T233128Z-74732eee
+smoke batch:   atlas-smoke-74732eee-local1784417488
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/747
+32eeeb746a9fb1461c4ad35ff01bb912ff454
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/74732eeeb746
+a9fb1461c4ad35ff01bb912ff454/atlas-bundle.tar.gz to file:///tmp/tmp.QHlm4Bas5k/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/74732eeeb746
+a9fb1461c4ad35ff01bb912ff454/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.QHlm4
+Bas5k/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: bc76f1c777f8508c28ec258bde617f92130e5189932eda754ca99
+c46e38cd755
+verified 78 file checksums for 74732eeeb746
+audit: atlas-dev-20260718T233128Z-74732eee -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/**, worker process 70930 thread 14043
+9276128064 listed 80...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 70930 thread 140439276128064 listed 80...
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+...
+
+Average throughput: 151.5kiB/s
+At file:///tmp/tmp.QHlm4Bas5k/atlas-bundle/dags/**, worker process 71131 thread
+140312244664128 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 71131 thread 140312244664128 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260718T233128Z-74732eee
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260718T233128Z-74732eee --conf {"batch_id": "atlas-smoke-74732eee
+-local1784417488", "pipeline_run_id": "atlas-smoke-74732eee-local1784417488-run"
+, "processing_date": "2026-07-18"} ]...
+Command has been started. execution_id=810f3486-d017-4874-9167-d55685585007
+Use ctrl-c to interrupt the command
+[2026-07-18T23:32:21.946161Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-74732 | ine               | 20260718T233128Z- |
+|                   |          |                   |              |          |
+          |        |
+eee-local178441748 |                   | 74732eee          |
+|                   |          |                   |              |          |
+          |        |
+8',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-74732 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+eee-local178441748 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+8-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-18'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas_release.sh --git-sha f9959cb
+66729442a06501c372cfb39e5024f4d9f --leave-paused 2>&1 | tee /tmp/atlas-deploy.lo
+g; echo "DEPLOY_EXIT=$?"
+Smoke run smoke__atlas-dev-20260718T233128Z-74732eee: timed out after 2400s (las
+t state: unknown)
+STAGE FAILED: smoke_batch — smoke run did not reach terminal SUCCESS
+audit: atlas-dev-20260718T233128Z-74732eee -> FAILED (stage smoke_batch)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 74732eeeb746a9fb1461c4ad35ff01bb912ff454 (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha f9959cb66729442a06501c372cfb39e5024f4d9f --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: f9959cb66729442a06501c372cfb39e5024f4d9f → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260719T001246Z-f9959cb6
+smoke batch:   atlas-smoke-f9959cb6-local1784419966
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/f99
+59cb66729442a06501c372cfb39e5024f4d9f
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/f9959cb66729
+442a06501c372cfb39e5024f4d9f/atlas-bundle.tar.gz to file:///tmp/tmp.p0nHlZU13J/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/f9959cb66729
+442a06501c372cfb39e5024f4d9f/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.p0nHl
+ZU13J/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: 10e3650a7a9f4f14d5bdeca70677bd5a40a4cd11fcb2433618b36
+9b93e595f76
+verified 314 file checksums for f9959cb66729
+audit: atlas-dev-20260719T001246Z-f9959cb6 -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.p0nHlZU13J/atlas-bundle/**, worker process 84602 thread 13967
+7369792320 listed 316...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 84602 thread 139677369792320 listed 87...
+
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.circleci/config.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.circleci/config.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/CODEOWNERS to gs://us-central1-atlas-dev-74134e98-bucket/data/proje
+ct-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/CODEOWNERS
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/ISSUE_TEMPLATE/bug_report.md to gs://us-central1-atlas-dev-74134e98
+-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/
+ISSUE_TEMPLATE/bug_report.md
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-20260718/events.jsonl#1784417574812811...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-74732eee-local1784417488/events.jsonl#1784417666462878...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-74732eee-local1784417488/manifest.json#1784417667283831...
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/ISSUE_TEMPLATE/dbt_minor_release.md to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.
+github/ISSUE_TEMPLATE/dbt_minor_release.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/ISSUE_TEMPLATE/feature_request.md to gs://us-central1-atlas-dev-741
+34e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.gi
+thub/ISSUE_TEMPLATE/feature_request.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/ISSUE_TEMPLATE/utils_minor_release.md to gs://us-central1-atlas-dev
+-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils
+/.github/ISSUE_TEMPLATE/utils_minor_release.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/pull_request_template.md to gs://us-central1-atlas-dev-74134e98-buc
+ket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/pull
+_request_template.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/workflows/ci.yml to gs://us-central1-atlas-dev-74134e98-bucket/data
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/workflows/ci
+.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/workflows/create-table-of-contents.yml to gs://us-central1-atlas-de
+v-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_util
+s/.github/workflows/create-table-of-contents.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/workflows/stale.yml to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/workflows
+/stale.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.github/workflows/triage-labels.yml to gs://us-central1-atlas-dev-74134e98-
+bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.github/w
+orkflows/triage-labels.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/.gitignore to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/.gitignore
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/CHANGELOG.md to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atl
+as/current/dbt/atlas_dbt/dbt_packages/dbt_utils/CHANGELOG.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/CONTRIBUTING.md to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/CONTRIBUTING.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/LICENSE to gs://us-central1-atlas-dev-74134e98-bucket/data/cu
+rrent/dbt/atlas_dbt/dbt_packages/dbt_utils/LICENSE
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/Makefile to gs://us-central1-atlas-dev-74134e98-bucket/data/c
+urrent/dbt/atlas_dbt/dbt_packages/dbt_utils/Makefile
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/README.md to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/dbt/atlas_dbt/dbt_packages/dbt_utils/README.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/RELEASE.md to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/RELEASE.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/dbt_project.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/dbt_project.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/dev-requirements.txt to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/dev-requirements.txt
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docker-compose.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/proje
+ct-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/docker-compose.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docs/decisions/README.md to gs://us-central1-atlas-dev-74134e98-bucket/data
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/docs/decisions/READM
+E.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docs/decisions/adr-0000-documenting-architecture-decisions.md to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/docs/decisions/adr-0000-documenting-architecture-decisions.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docs/decisions/adr-0001-decision-record-format.md to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docs/decisions/adr-0001-decision-record-format.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/docs/decisions/adr-0002-cross-database-utils.md to gs://us-central1-atlas-d
+ev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_uti
+ls/docs/decisions/adr-0002-cross-database-utils.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/.env/bigquery.env to gs://us-central1-atlas-dev-74134e98-
+bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integrati
+on_tests/.env/bigquery.env
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/.env/postgres.env to gs://us-central1-atlas-dev-74134e98-
+bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integrati
+on_tests/.env/postgres.env
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/.env/redshift.env to gs://us-central1-atlas-dev-74134e98-
+bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integrati
+on_tests/.env/redshift.env
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-20260718/manifest.json#1784417575692420...
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/.env/snowflake.env to gs://us-central1-atlas-dev-74134e98
+-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integrat
+ion_tests/.env/snowflake.env
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/.gitignore to gs://us-central1-atlas-dev-74134e98-bucket/
+data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_test
+s/.gitignore
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/README.md to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_tests
+/README.md
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/.gitkeep to gs://us-central1-atlas-dev-74134e98-buck
+et/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_t
+ests/data/.gitkeep
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/datetime/data_date_spine.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/datetime/data_date_spine.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/etc/data_people.csv to gs://us-central1-atlas-dev-74
+134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/in
+tegration_tests/data/etc/data_people.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/geo/data_haversine_km.csv to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/data/geo/data_haversine_km.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/geo/data_haversine_mi.csv to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/data/geo/data_haversine_mi.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_cardinality_equality_a.csv to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_cardinality_equa
+lity_a.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_cardinality_equality_b.csv to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_cardinality_equa
+lity_b.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_not_null_proportion.csv to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/data/schema_tests/data_not_null_proportion
+.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_accepted_range.csv to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/data/schema_tests/data_test_accepted_range
+.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_at_least_one.csv to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/data/schema_tests/data_test_at_least_one.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equal_rowcount.csv to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/data/schema_tests/data_test_equal_rowcount
+.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_a.csv to gs://us-cen
+tral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pac
+kages/dbt_utils/integration_tests/data/schema_tests/data_test_equality_a.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_b.csv to gs://us-cen
+tral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pac
+kages/dbt_utils/integration_tests/data/schema_tests/data_test_equality_b.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_floats_a.csv to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_equality_fl
+oats_a.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_floats_b.csv to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_equality_fl
+oats_b.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_floats_columns_a.csv
+ to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/at
+las_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_equ
+ality_floats_columns_a.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_equality_floats_columns_b.csv
+ to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/at
+las_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_equ
+ality_floats_columns_b.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_expression_is_true.csv to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt
+/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_expression
+_is_true.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_fewer_rows_than_table_1.csv t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atla
+s_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_fewer
+_rows_than_table_1.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_fewer_rows_than_table_2.csv t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atla
+s_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_fewer
+_rows_than_table_2.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_mutually_exclusive_ranges_no_
+gaps.csv to gs://us-central1-atlas-dev-74134e98-bucket/data/curren
+t/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_
+test_mutually_exclusive_ranges_no_gaps.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_mutually_exclusive_ranges_wit
+h_gaps.csv to gs://us-central1-atlas-dev-74134e98-bucket/data/curr
+ent/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/dat
+a_test_mutually_exclusive_ranges_with_gaps.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_mutually_exclusive_ranges_wit
+h_gaps_zero_length.csv to gs://us-central1-atlas-dev-74134e98-bucket/data/projec
+t-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_tests/data/sche
+ma_tests/data_test_mutually_exclusive_ranges_with_gaps_zero_length.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_not_accepted_values.csv to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_db
+t/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_not_accep
+ted_values.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_not_constant.csv to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/data/schema_tests/data_test_not_constant.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_relationships_where_table_1.c
+sv to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/
+atlas_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_r
+elationships_where_table_1.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_relationships_where_table_2.c
+sv to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/
+atlas_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_r
+elationships_where_table_2.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_sequential_timestamps.csv to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_
+dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_sequent
+ial_timestamps.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_test_sequential_values.csv to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_test_sequential_
+values.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/data_unique_combination_of_columns.csv
+to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atl
+as_dbt/dbt_packages/dbt_utils/integration_tests/data/schema_tests/data_unique_co
+mbination_of_columns.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/schema_tests/schema.yml to gs://us-central1-atlas-de
+v-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_util
+s/integration_tests/data/schema_tests/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_deduplicate.csv to gs://us-central1-atlas-d
+ev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_uti
+ls/integration_tests/data/sql/data_deduplicate.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_deduplicate_expected.csv to gs://us-central
+1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_package
+s/dbt_utils/integration_tests/data/sql/data_deduplicate_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_events_20180101.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/sql/data_events_20180101.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_events_20180102.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/sql/data_events_20180102.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_events_20180103.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/sql/data_events_20180103.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_filtered_columns_in_relation.csv to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/data/sql/data_filtered_columns_in_relation
+.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_filtered_columns_in_relation_expected.csv t
+o gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atla
+s_dbt/dbt_packages/dbt_utils/integration_tests/data/sql/data_filtered_columns_in
+_relation_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_generate_series.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/sql/data_generate_series.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_generate_surrogate_key.csv to gs://us-centr
+al1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packa
+ges/dbt_utils/integration_tests/data/sql/data_generate_surrogate_key.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_column_values.csv to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/data/sql/data_get_column_values.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_column_values_dropped.csv to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/data/sql/data_get_column_values_dropped.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_column_values_where.csv to gs://us-cent
+ral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pack
+ages/dbt_utils/integration_tests/data/sql/data_get_column_values_where.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_column_values_where_expected.csv to gs:
+//us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt
+/dbt_packages/dbt_utils/integration_tests/data/sql/data_get_column_values_where_
+expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_query_results_as_dict.csv to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/data/sql/data_get_query_results_as_dict.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_get_single_value.csv to gs://us-central1-at
+las-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/db
+t_utils/integration_tests/data/sql/data_get_single_value.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_nullcheck_table.csv to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/data/sql/data_nullcheck_table.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_pivot.csv to gs://us-central1-atlas-dev-741
+34e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/int
+egration_tests/data/sql/data_pivot.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_pivot_expected.csv to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/data/sql/data_pivot_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_pivot_expected_apostrophe.csv to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/data/sql/data_pivot_expected_apostrophe.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_add.csv to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+integration_tests/data/sql/data_safe_add.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_divide.csv to gs://us-central1-atlas-d
+ev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_uti
+ls/integration_tests/data/sql/data_safe_divide.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_divide_denominator_expressions.csv to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_
+dbt/dbt_packages/dbt_utils/integration_tests/data/sql/data_safe_divide_denominat
+or_expressions.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_divide_numerator_expressions.csv to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_db
+t/dbt_packages/dbt_utils/integration_tests/data/sql/data_safe_divide_numerator_e
+xpressions.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_subtract.csv to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_safe_subtract.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star.csv to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/inte
+gration_tests/data/sql/data_star.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_aggregate.csv to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/data/sql/data_star_aggregate.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_aggregate_expected.csv to gs://us-cent
+ral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pack
+ages/dbt_utils/integration_tests/data/sql/data_star_aggregate_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_expected.csv to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_prefix_suffix_expected.csv to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_
+packages/dbt_utils/integration_tests/data/sql/data_star_prefix_suffix_expected.c
+sv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_star_quote_identifiers.csv to gs://us-centr
+al1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packa
+ges/dbt_utils/integration_tests/data/sql/data_star_quote_identifiers.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_events_expected.csv to gs://us-centra
+l1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packag
+es/dbt_utils/integration_tests/data/sql/data_union_events_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_exclude_expected.csv to gs://us-centr
+al1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packa
+ges/dbt_utils/integration_tests/data/sql/data_union_exclude_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_expected.csv to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/data/sql/data_union_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_table_1.csv to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_table_1.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_table_2.csv to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_union_table_2.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot.csv to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/i
+ntegration_tests/data/sql/data_unpivot.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_bool.csv to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/data/sql/data_unpivot_bool.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_bool_expected.csv to gs://us-centra
+l1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packag
+es/dbt_utils/integration_tests/data/sql/data_unpivot_bool_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_expected.csv to gs://us-central1-at
+las-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/db
+t_utils/integration_tests/data/sql/data_unpivot_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_original_api_expected.csv to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/db
+t_packages/dbt_utils/integration_tests/data/sql/data_unpivot_original_api_expect
+ed.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_quote.csv to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_quote.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_unpivot_quote_expected.csv to gs://us-centr
+al1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packa
+ges/dbt_utils/integration_tests/data/sql/data_unpivot_quote_expected.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/sql/data_width_bucket.csv to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/data/sql/data_width_bucket.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/web/data_url_host.csv to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+integration_tests/data/web/data_url_host.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/web/data_url_path.csv to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+integration_tests/data/web/data_url_path.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/data/web/data_urls.csv to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/inte
+gration_tests/data/web/data_urls.csv
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/dbt_project.yml to gs://us-central1-atlas-dev-74134e98-bu
+cket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration
+_tests/dbt_project.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/macros/.gitkeep to gs://us-central1-atlas-dev-74134e98-bu
+cket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration
+_tests/macros/.gitkeep
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/macros/assert_equal_values.sql to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/macros/assert_equal_values.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/macros/limit_zero.sql to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integ
+ration_tests/macros/limit_zero.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/macros/tests.sql to gs://us-central1-atlas-dev-74134e98-b
+ucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integratio
+n_tests/macros/tests.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/datetime/schema.yml to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+integration_tests/models/datetime/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/datetime/test_date_spine.sql to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/models/datetime/test_date_spine.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/equality_less_columns.sql to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/models/generic_tests/equality_less_columns
+.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/recency_time_excluded.sql to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/models/generic_tests/recency_time_excluded
+.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/recency_time_included.sql to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt
+_packages/dbt_utils/integration_tests/models/generic_tests/recency_time_included
+.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/schema.yml to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/test_equal_column_subset.sql to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/models/generic_tests/test_equal_column_
+subset.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/test_equal_rowcount.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/generic_tests/test_equal_rowcount.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/generic_tests/test_fewer_rows_than.sql to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_
+packages/dbt_utils/integration_tests/models/generic_tests/test_fewer_rows_than.s
+ql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/geo/schema.yml to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integ
+ration_tests/models/geo/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/geo/test_haversine_distance_km.sql to gs://us-cent
+ral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pack
+ages/dbt_utils/integration_tests/models/geo/test_haversine_distance_km.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/geo/test_haversine_distance_mi.sql to gs://us-cent
+ral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pack
+ages/dbt_utils/integration_tests/models/geo/test_haversine_distance_mi.sql
+.Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/schema.yml to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/inte
+gration_tests/models/sql/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_deduplicate.sql to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_deduplicate.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_generate_series.sql to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/models/sql/test_generate_series.sql
+.Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/test_generate_surrogate_key.sql to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/models/sql/test_generate_surrogate_key.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_column_values.sql to gs://us-central1
+-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages
+/dbt_utils/integration_tests/models/sql/test_get_column_values.sql
+.Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/test_get_column_values_where.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/sql/test_get_column_values_where.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_filtered_columns_in_relation.sql to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_d
+bt/dbt_packages/dbt_utils/integration_tests/models/sql/test_get_filtered_columns
+_in_relation.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_relations_by_pattern.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/sql/test_get_relations_by_pattern.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_relations_by_prefix_and_union.sql to
+gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_
+dbt/dbt_packages/dbt_utils/integration_tests/models/sql/test_get_relations_by_pr
+efix_and_union.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_single_value.sql to gs://us-central1-
+atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/
+dbt_utils/integration_tests/models/sql/test_get_single_value.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_get_single_value_default.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/sql/test_get_single_value_default.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_groupby.sql to gs://us-central1-atlas-dev
+-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils
+/integration_tests/models/sql/test_groupby.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_not_empty_string_failing.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/sql/test_not_empty_string_failing.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_not_empty_string_passing.sql to gs://us-c
+entral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_p
+ackages/dbt_utils/integration_tests/models/sql/test_not_empty_string_passing.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_nullcheck_table.sql to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/models/sql/test_nullcheck_table.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_pivot.sql to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/i
+ntegration_tests/models/sql/test_pivot.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_pivot_apostrophe.sql to gs://us-central1-
+atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/
+dbt_utils/integration_tests/models/sql/test_pivot_apostrophe.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_safe_add.sql to gs://us-central1-atlas-de
+v-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_util
+s/integration_tests/models/sql/test_safe_add.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_safe_divide.sql to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_safe_divide.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_safe_subtract.sql to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/models/sql/test_safe_subtract.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star.sql to gs://us-central1-atlas-dev-74
+134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/in
+tegration_tests/models/sql/test_star.sql
+.Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/test_star_aggregate.sql to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/models/sql/test_star_aggregate.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star_no_columns.sql to gs://us-central1-a
+tlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/d
+bt_utils/integration_tests/models/sql/test_star_no_columns.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star_prefix_suffix.sql to gs://us-central
+1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_package
+s/dbt_utils/integration_tests/models/sql/test_star_prefix_suffix.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star_quote_identifiers.sql to gs://us-cen
+tral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pac
+kages/dbt_utils/integration_tests/models/sql/test_star_quote_identifiers.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star_unquote_aliases.sql to gs://us-centr
+al1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packa
+ges/dbt_utils/integration_tests/models/sql/test_star_unquote_aliases.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_star_uppercase.sql to gs://us-central1-at
+las-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/db
+t_utils/integration_tests/models/sql/test_star_uppercase.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union.sql to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/i
+ntegration_tests/models/sql/test_union.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_base.sql to gs://us-central1-atlas-
+dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_ut
+ils/integration_tests/models/sql/test_union_base.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_exclude_base_lowercase.sql to gs://
+us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/d
+bt_packages/dbt_utils/integration_tests/models/sql/test_union_exclude_base_lower
+case.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_exclude_base_uppercase.sql to gs://
+us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/d
+bt_packages/dbt_utils/integration_tests/models/sql/test_union_exclude_base_upper
+case.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_exclude_lowercase.sql to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/models/sql/test_union_exclude_lowercase.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_exclude_uppercase.sql to gs://us-ce
+ntral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pa
+ckages/dbt_utils/integration_tests/models/sql/test_union_exclude_uppercase.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_no_source_column.sql to gs://us-cen
+tral1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_pac
+kages/dbt_utils/integration_tests/models/sql/test_union_no_source_column.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_where.sql to gs://us-central1-atlas
+-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_where.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_union_where_base.sql to gs://us-central1-
+atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/
+dbt_utils/integration_tests/models/sql/test_union_where_base.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_unpivot.sql to gs://us-central1-atlas-dev
+-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils
+/integration_tests/models/sql/test_unpivot.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_unpivot_bool.sql to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/test_unpivot_bool.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_unpivot_quote.sql to gs://us-central1-atl
+as-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt
+_utils/integration_tests/models/sql/test_unpivot_quote.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/sql/test_width_bucket.sql to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/integration_tests/models/sql/test_width_bucket.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/web/schema.yml to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integ
+ration_tests/models/web/schema.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/web/test_url_host.sql to gs://us-central1-atlas-de
+v-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_util
+s/integration_tests/models/web/test_url_host.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/web/test_url_path.sql to gs://us-central1-atlas-de
+v-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_util
+s/integration_tests/models/web/test_url_path.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/models/web/test_urls.sql to gs://us-central1-atlas-dev-74
+134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/in
+tegration_tests/models/web/test_urls.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/package-lock.yml to gs://us-central1-atlas-dev-74134e98-b
+ucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integratio
+n_tests/package-lock.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/packages.yml to gs://us-central1-atlas-dev-74134e98-bucke
+t/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_te
+sts/packages.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/profiles.yml to gs://us-central1-atlas-dev-74134e98-bucke
+t/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/integration_te
+sts/profiles.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/assert_get_query_results_as_dict_objects_equal.sql
+to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atl
+as_dbt/dbt_packages/dbt_utils/integration_tests/tests/assert_get_query_results_a
+s_dict_objects_equal.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/generic/expect_table_columns_to_match_set.sql to gs
+://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_db
+t/dbt_packages/dbt_utils/integration_tests/tests/generic/expect_table_columns_to
+_match_set.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/jinja_helpers/assert_pretty_output_msg_is_string.sq
+l to gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/a
+tlas_dbt/dbt_packages/dbt_utils/integration_tests/tests/jinja_helpers/assert_pre
+tty_output_msg_is_string.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/jinja_helpers/assert_pretty_time_is_string.sql to g
+s://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_d
+bt/dbt_packages/dbt_utils/integration_tests/tests/jinja_helpers/assert_pretty_ti
+me_is_string.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/jinja_helpers/test_slugify.sql to gs://us-central1-
+atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/
+dbt_utils/integration_tests/tests/jinja_helpers/test_slugify.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/sql/test_get_column_values_use_default.sql to gs://
+us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/d
+bt_packages/dbt_utils/integration_tests/tests/sql/test_get_column_values_use_def
+ault.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/integration_tests/tests/sql/test_get_single_value_multiple_rows.sql to gs:/
+/us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/
+dbt_packages/dbt_utils/integration_tests/tests/sql/test_get_single_value_multipl
+e_rows.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/accepted_range.sql to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macro
+s/generic_tests/accepted_range.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/at_least_one.sql to gs://us-central1-atlas-dev-74134e9
+8-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/
+generic_tests/at_least_one.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/cardinality_equality.sql to gs://us-central1-atlas-dev
+-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils
+/macros/generic_tests/cardinality_equality.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/equal_rowcount.sql to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macro
+s/generic_tests/equal_rowcount.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/equality.sql to gs://us-central1-atlas-dev-74134e98-bu
+cket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/gene
+ric_tests/equality.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/expression_is_true.sql to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/m
+acros/generic_tests/expression_is_true.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/fewer_rows_than.sql to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macr
+os/generic_tests/fewer_rows_than.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/mutually_exclusive_ranges.sql to gs://us-central1-atla
+s-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_
+utils/macros/generic_tests/mutually_exclusive_ranges.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/not_accepted_values.sql to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+macros/generic_tests/not_accepted_values.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/not_constant.sql to gs://us-central1-atlas-dev-74134e9
+8-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/
+generic_tests/not_constant.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/not_empty_string.sql to gs://us-central1-atlas-dev-741
+34e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/mac
+ros/generic_tests/not_empty_string.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/not_null_proportion.sql to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+macros/generic_tests/not_null_proportion.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/recency.sql to gs://us-central1-atlas-dev-74134e98-buc
+ket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/gener
+ic_tests/recency.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/relationships_where.sql to gs://us-central1-atlas-dev-
+74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/
+macros/generic_tests/relationships_where.sql
+.Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_
+utils/macros/generic_tests/sequential_values.sql to gs://us-central1-atlas-dev-7
+4134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/m
+acros/generic_tests/sequential_values.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/generic_tests/unique_combination_of_columns.sql to gs://us-central1-
+atlas-dev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/
+dbt_utils/macros/generic_tests/unique_combination_of_columns.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/_is_ephemeral.sql to gs://us-central1-atlas-dev-74134e
+98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros
+/jinja_helpers/_is_ephemeral.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/_is_relation.sql to gs://us-central1-atlas-dev-74134e9
+8-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/
+jinja_helpers/_is_relation.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/log_info.sql to gs://us-central1-atlas-dev-74134e98-bu
+cket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/jinj
+a_helpers/log_info.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/pretty_log_format.sql to gs://us-central1-atlas-dev-74
+134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/ma
+cros/jinja_helpers/pretty_log_format.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/pretty_time.sql to gs://us-central1-atlas-dev-74134e98
+-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/j
+inja_helpers/pretty_time.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/jinja_helpers/slugify.sql to gs://us-central1-atlas-dev-74134e98-buc
+ket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/jinja
+_helpers/slugify.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/date_spine.sql to gs://us-central1-atlas-dev-74134e98-bucket/dat
+a/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/date_spi
+ne.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/deduplicate.sql to gs://us-central1-atlas-dev-74134e98-bucket/da
+ta/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/dedupli
+cate.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/generate_series.sql to gs://us-central1-atlas-dev-74134e98-bucke
+t/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/gen
+erate_series.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/generate_surrogate_key.sql to gs://us-central1-atlas-dev-74134e9
+8-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/
+sql/generate_surrogate_key.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_column_values.sql to gs://us-central1-atlas-dev-74134e98-buc
+ket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/g
+et_column_values.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_filtered_columns_in_relation.sql to gs://us-central1-atlas-d
+ev-74134e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_uti
+ls/macros/sql/get_filtered_columns_in_relation.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_query_results_as_dict.sql to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macr
+os/sql/get_query_results_as_dict.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_relations_by_pattern.sql to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macro
+s/sql/get_relations_by_pattern.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_relations_by_prefix.sql to gs://us-central1-atlas-dev-74134e
+98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros
+/sql/get_relations_by_prefix.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_single_value.sql to gs://us-central1-atlas-dev-74134e98-buck
+et/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/ge
+t_single_value.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_table_types_sql.sql to gs://us-central1-atlas-dev-74134e98-b
+ucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql
+/get_table_types_sql.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_tables_by_pattern_sql.sql to gs://us-central1-atlas-dev-7413
+4e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macr
+os/sql/get_tables_by_pattern_sql.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/get_tables_by_prefix_sql.sql to gs://us-central1-atlas-dev-74134
+e98-bucket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macro
+s/sql/get_tables_by_prefix_sql.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/groupby.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/p
+roject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/groupby.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/haversine_distance.sql to gs://us-central1-atlas-dev-74134e98-bu
+cket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/
+haversine_distance.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/nullcheck.sql to gs://us-central1-atlas-dev-74134e98-bucket/data
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/nullcheck
+.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/nullcheck_table.sql to gs://us-central1-atlas-dev-74134e98-bucke
+t/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/nul
+lcheck_table.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/pivot.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/pivot.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/safe_add.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/safe_add.s
+ql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/safe_divide.sql to gs://us-central1-atlas-dev-74134e98-bucket/da
+ta/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/safe_di
+vide.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/safe_subtract.sql to gs://us-central1-atlas-dev-74134e98-bucket/
+data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/safe_
+subtract.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/star.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/proj
+ect-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/star.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/surrogate_key.sql to gs://us-central1-atlas-dev-74134e98-bucket/
+data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/surro
+gate_key.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/union.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/pro
+ject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/union.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/unpivot.sql to gs://us-central1-atlas-dev-74134e98-bucket/data/p
+roject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/unpivot.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/sql/width_bucket.sql to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/sql/width_
+bucket.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/web/get_url_host.sql to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/web/get_ur
+l_host.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/web/get_url_parameter.sql to gs://us-central1-atlas-dev-74134e98-buc
+ket/data/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/web/g
+et_url_parameter.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/macros/web/get_url_path.sql to gs://us-central1-atlas-dev-74134e98-bucket/d
+ata/current/dbt/atlas_dbt/dbt_packages/dbt_utils/macros/web/get_ur
+l_path.sql
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/pytest.ini to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/dbt/atlas_dbt/dbt_packages/dbt_utils/pytest.ini
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/run_functional_test.sh to gs://us-central1-atlas-dev-74134e98-bucket/data/p
+roject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/run_functional_test.sh
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/run_test.sh to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atla
+s/current/dbt/atlas_dbt/dbt_packages/dbt_utils/run_test.sh
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/supported_adapters.env to gs://us-central1-atlas-dev-74134e98-bucket/data/p
+roject-atlas/current/dbt/atlas_dbt/dbt_packages/dbt_utils/supported_adapters.env
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/atlas_dbt/dbt_packages/dbt_u
+tils/tox.ini to gs://us-central1-atlas-dev-74134e98-bucket/data/cu
+rrent/dbt/atlas_dbt/dbt_packages/dbt_utils/tox.ini
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dbt/profiles/.user.yml to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/dbt/profiles/.us
+er.yml
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.p0nHlZU13J/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-smoke-74732eee-local1784417488-run/run-summary.json#1784417714
+332059...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-airflow-20260718-scheduled__2026-07-18T06-00-00-00-00/run-summ
+ary.json#1784417639731051...
+...
+
+Average throughput: 286.4kiB/s
+At file:///tmp/tmp.p0nHlZU13J/atlas-bundle/dags/**, worker process 84828 thread
+139869034927936 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 84828 thread 139869034927936 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T001246Z-f9959cb6
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260719T001246Z-f9959cb6 --conf {"batch_id": "atlas-smoke-f9959cb6
+-local1784419966", "pipeline_run_id": "atlas-smoke-f9959cb6-local1784419966-run"
+, "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=8dbf6543-5618-4a73-8900-f48594508d9b
+Use ctrl-c to interrupt the command
+[2026-07-19T00:13:39.953858Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-f9959 | ine               | 20260719T001246Z- |
+|                   |          |                   |              |          |
+          |        |
+cb6-local178441996 |                   | f9959cb6          |
+|                   |          |                   |              |          |
+          |        |
+6',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-f9959 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+cb6-local178441996 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+6-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-19'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ^C
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 37d4e6aa533fcdbb25141f532f16018f49423f12 --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 37d4e6aa533fcdbb25141f532f16018f49423f12 → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260719T004112Z-37d4e6aa
+smoke batch:   atlas-smoke-37d4e6aa-local1784421672
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/37d
+4e6aa533fcdbb25141f532f16018f49423f12
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/37d4e6aa533f
+cdbb25141f532f16018f49423f12/atlas-bundle.tar.gz to file:///tmp/tmp.UmhKc0ASax/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/37d4e6aa533f
+cdbb25141f532f16018f49423f12/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.UmhKc
+0ASax/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: df08882643558f132384de2645f4327dea95c8d69be7366c35217
+66b5b415829
+verified 314 file checksums for 37d4e6aa533f
+audit: atlas-dev-20260719T004112Z-37d4e6aa -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.UmhKc0ASax/atlas-bundle/**, worker process 89476 thread 14015
+8593193792 listed 316...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 89476 thread 140158593193792 listed 320...
+
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-f9959cb6-local1784419966/events.jsonl#1784420054987745...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-f9959cb6-local1784419966/manifest.json#1784420055949508...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-f9959cb6-local1784419966/success.marker#1784420224676583...
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.UmhKc0ASax/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-smoke-f9959cb6-local1784419966-run/run-summary.json#1784420233
+573658...
+...
+
+Average throughput: 122.7kiB/s
+At file:///tmp/tmp.UmhKc0ASax/atlas-bundle/dags/**, worker process 89679 thread
+140039356651328 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 89679 thread 140039356651328 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260719T004112Z-37d4e6aa --conf {"batch_id": "atlas-smoke-37d4e6aa
+-local1784421672", "pipeline_run_id": "atlas-smoke-37d4e6aa-local1784421672-run"
+, "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=5b256da6-4ada-4c6e-9147-d0a330da5657
+Use ctrl-c to interrupt the command
+[2026-07-19T00:42:04.495033Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-37d4e | ine               | 20260719T004112Z- |
+|                   |          |                   |              |          |
+          |        |
+6aa-local178442167 |                   | 37d4e6aa          |
+|                   |          |                   |              |          |
+          |        |
+2',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-37d4e |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+6aa-local178442167 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+2-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-19'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=running (65s elapsed
+)
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=running (105s elapse
+d)
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=running (146s elapse
+d)
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=running (187s elapse
+d)
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=running (227s elapse
+d)
+smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: state=success (268s elapse
+d)
+Smoke run smoke__atlas-dev-20260719T004112Z-37d4e6aa: success
+[PASS] dag_imported: atlas_batch_pipeline present in Composer
+[PASS] dag_import_errors: no import errors for project_atlas
+[FAIL] deployed_sha: current runtime manifest git_sha=f9959cb66729442a06501c372c
+fb39e5024f4d9f
+[FAIL] airflow_terminal_success: smoke dag run state=see pipeline_runs
+[PASS] raw_batch_count: raw rows for atlas-smoke-37d4e6aa-local1784421672: 50000
+ (expected 50000)
+[PASS] no_duplicate_load: distinct ingestion runs for batch: 1
+[PASS] gcs_object_exists: raw JSONL object present in gs://atlas-raw-events-vita
+l-scout-479118-n7
+[PASS] batch_manifest_exists: batch manifest/artifacts present in Composer data
+path
+[PASS] success_marker: success.marker present for atlas-smoke-37d4e6aa-local1784
+421672
+[PASS] warehouse_reconciliation: batch-scoped raw/classified/fact/mart reconcili
+ation
+[PASS] pipeline_runs_success: pipeline_runs status=SUCCESS
+[PASS] deployments_row: atlas_ops.deployments rows for atlas-dev-20260719T004112
+Z-37d4e6aa: 1
+
+SMOKE VALIDATION FAILED: 2 check(s) failed
+STAGE FAILED: smoke_validation — post-deployment smoke validation failed
+audit: atlas-dev-20260719T004112Z-37d4e6aa -> FAILED (stage smoke_validation)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 37d4e6aa533fcdbb25141f532f16018f49423f12 (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 640cd78694a90275866bebbaf7550ee121fff79b --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 640cd78694a90275866bebbaf7550ee121fff79b → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260719T005308Z-640cd786
+smoke batch:   atlas-smoke-640cd786-local1784422388
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/640
+cd78694a90275866bebbaf7550ee121fff79b
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/640cd78694a9
+0275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz to file:///tmp/tmp.6CEzxjIsKt/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/640cd78694a9
+0275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.6CEzx
+jIsKt/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa6993
+6c6575e6e7c
+verified 314 file checksums for 640cd78694a9
+audit: atlas-dev-20260719T005308Z-640cd786 -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/**, worker process 92980 thread 14050
+9557425984 listed 316...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 92980 thread 140509557425984 listed 320...
+
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-37d4e6aa-local1784421672/events.jsonl#1784421754099263...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-37d4e6aa-local1784421672/success.marker#1784421909876646...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-37d4e6aa-local1784421672/manifest.json#1784421755045203...
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/dbt/profiles/.user.yml to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/dbt/profiles/.us
+er.yml
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-smoke-37d4e6aa-local1784421672-run/run-summary.json#1784421921
+555964...
+...
+
+Average throughput: 553.2kiB/s
+At file:///tmp/tmp.6CEzxjIsKt/atlas-bundle/dags/**, worker process 93182 thread
+140576699508544 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 93182 thread 140576699508544 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T005308Z-640cd786
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260719T005308Z-640cd786 --conf {"batch_id": "atlas-smoke-640cd786
+-local1784422388", "pipeline_run_id": "atlas-smoke-640cd786-local1784422388-run"
+, "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=6af332f9-4860-4066-861c-4f8bcbf748ba
+Use ctrl-c to interrupt the command
+[2026-07-19T00:53:59.789337Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-640cd | ine               | 20260719T005308Z- |
+|                   |          |                   |              |          |
+          |        |
+786-local178442238 |                   | 640cd786          |
+|                   |          |                   |              |          |
+          |        |
+8',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-640cd |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+786-local178442238 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+8-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-19'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (68s elapsed
+)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (111s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (151s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (192s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (236s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (276s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=running (316s elapse
+d)
+smoke run smoke__atlas-dev-20260719T005308Z-640cd786: state=success (357s elapse
+d)
+Smoke run smoke__atlas-dev-20260719T005308Z-640cd786: success
+[PASS] dag_imported: atlas_batch_pipeline present in Composer
+[PASS] dag_import_errors: no import errors for project_atlas
+[PASS] deployed_sha: current runtime manifest git_sha=640cd78694a90275866bebbaf7
+550ee121fff79b
+[PASS] airflow_terminal_success: smoke dag run state=success
+[PASS] raw_batch_count: raw rows for atlas-smoke-640cd786-local1784422388: 50000
+ (expected 50000)
+[PASS] no_duplicate_load: distinct ingestion runs for batch: 1
+[PASS] gcs_object_exists: raw JSONL object present in gs://atlas-raw-events-vita
+l-scout-479118-n7
+[PASS] batch_manifest_exists: batch manifest/artifacts present in Composer data
+path
+[PASS] success_marker: success.marker present for atlas-smoke-640cd786-local1784
+422388
+[PASS] warehouse_reconciliation: batch-scoped raw/classified/fact/mart reconcili
+ation
+[PASS] pipeline_runs_success: pipeline_runs status=SUCCESS
+[PASS] deployments_row: atlas_ops.deployments rows for atlas-dev-20260719T005308
+Z-640cd786: 1
+
+SMOKE VALIDATION PASSED (git_sha 640cd78694a9, batch atlas-smoke-640cd786-local1
+784422388)
+DAG left paused per request.
+audit: atlas-dev-20260719T005308Z-640cd786 -> SUCCESS
+
+=== deploy SUCCESS: 640cd78694a90275866bebbaf7550ee121fff79b ===
+deployment_id:      atlas-dev-20260719T005308Z-640cd786
+artifact:           gs://atlas-deployments-example-gcp-project/atlas/releases/
+640cd78694a90275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz
+artifact checksum:  aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa69936c6575e
+6e7c
+smoke run:          atlas-smoke-640cd786-local1784422388-run
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_DEPLOY=true bash scripts/deploy_atlas
+_release.sh --git-sha 1af166ea5111529c154db15057e5c85472f0ecf1 --leave-paused 2>
+&1 | tee /tmp/atlas-deploy.log; echo "DEPLOY_EXIT=$?"
+=== Atlas deploy: 1af166ea5111529c154db15057e5c85472f0ecf1 → atlas-dev (us-centr
+al1) ===
+deployment_id: atlas-dev-20260719T010538Z-1af166ea
+smoke batch:   atlas-smoke-1af166ea-local1784423138
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/1af
+166ea5111529c154db15057e5c85472f0ecf1
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/1af166ea5111
+529c154db15057e5c85472f0ecf1/atlas-bundle.tar.gz to file:///tmp/tmp.NLmcNE3DIA/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/1af166ea5111
+529c154db15057e5c85472f0ecf1/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.NLmcN
+E3DIA/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: 02b6d6a1d915d7701941843fcdbb3f2aea0ade54e56468cd5a6ab
+19c2e994d31
+verified 314 file checksums for 1af166ea5111
+audit: atlas-dev-20260719T010538Z-1af166ea -> RUNNING
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+  APPLIED      001_create_pipeline_runs_table  (5fb06a83e1b3…)
+  APPLIED      002_sprint3_raw_batch_columns  (db8b53e68ee6…)
+  APPLIED      003_create_deployments_table  (d581c625ad1e…)
+migrations applied
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/**, worker process 95726 thread 13987
+8035486528 listed 316...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 95726 thread 139878035486528 listed 320...
+
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-640cd786-local1784422388/events.jsonl#1784422465870174...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-640cd786-local1784422388/manifest.json#1784422466775214...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-640cd786-local1784422388/success.marker#1784422694937179...
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dbt/atlas_dbt/dbt_project.yml to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas
+_dbt/dbt_project.yml
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dbt/profiles/.user.yml to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/dbt/profiles/.us
+er.yml
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/__pycache__/__init__.c
+python-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/
+current/src/atlas/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/config/__pycache__/__i
+nit__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/config/__pycache__/set
+tings.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project
+-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/__init
+__.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-at
+las/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/audit.
+cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas
+/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/migrat
+ions.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-
+atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc
+Copying file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/src/atlas/ops/__pycache__/resour
+ces.cpython-312.pyc to gs://us-central1-atlas-dev-74134e98-bucket/data/project-a
+tlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-smoke-640cd786-local1784422388-run/run-summary.json#1784422705
+287753...
+...
+
+Average throughput: 331.2kiB/s
+At file:///tmp/tmp.NLmcNE3DIA/atlas-bundle/dags/**, worker process 95930 thread
+140206083966784 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 95930 thread 140206083966784 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T010538Z-1af166ea
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260719T010538Z-1af166ea --conf {"batch_id": "atlas-smoke-1af166ea
+-local1784423138", "pipeline_run_id": "atlas-smoke-1af166ea-local1784423138-run"
+, "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=2a71b2fe-1e78-4db9-b124-e5c30be8194a
+Use ctrl-c to interrupt the command
+[2026-07-19T01:06:30.191349Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-1af16 | ine               | 20260719T010538Z- |
+|                   |          |                   |              |          |
+          |        |
+6ea-local178442313 |                   | 1af166ea          |
+|                   |          |                   |              |          |
+          |        |
+8',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-1af16 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+6ea-local178442313 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+8-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-19'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (65s elapsed
+)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (106s elapse
+d)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (148s elapse
+d)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (189s elapse
+d)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (229s elapse
+d)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=running (272s elapse
+d)
+smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: state=failed (313s elapsed
+)
+Smoke run smoke__atlas-dev-20260719T010538Z-1af166ea: FAILED
+Executing the command: [ airflow tasks states-for-dag-run atlas_batch_pipeline s
+moke__atlas-dev-20260719T010538Z-1af166ea ]...
+Command has been started. execution_id=cff1ba65-63a7-4c19-9695-1973514fbdac
+Use ctrl-c to interrupt the command
+[2026-07-19T01:10:58.878633Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+dag_id               | logical_date | task_id                | state           |
+ start_date                       | end_date
+=====================+==============+========================+=================+
+==================================+=================================
+atlas_batch_pipeline |              | publish_success_marker | upstream_failed |
+ 2026-07-19T01:10:38.130233+00:00 | 2026-07-19T01:10:38.130233+00:00
+atlas_batch_pipeline |              | dbt_seed               | success         |
+ 2026-07-19T01:07:27.799989+00:00 | 2026-07-19T01:07:49.171495+00:00
+atlas_batch_pipeline |              | dbt_source_freshness   | success         |
+ 2026-07-19T01:07:50.469746+00:00 | 2026-07-19T01:08:28.129518+00:00
+atlas_batch_pipeline |              | dbt_build              | failed          |
+ 2026-07-19T01:08:30.214555+00:00 | 2026-07-19T01:10:36.416826+00:00
+atlas_batch_pipeline |              | validate_warehouse     | upstream_failed |
+ 2026-07-19T01:10:37.588312+00:00 | 2026-07-19T01:10:37.588312+00:00
+atlas_batch_pipeline |              | start_run_audit        | success         |
+ 2026-07-19T01:06:38.132673+00:00 | 2026-07-19T01:06:43.544435+00:00
+atlas_batch_pipeline |              | generate_events        | success         |
+ 2026-07-19T01:06:51.020568+00:00 | 2026-07-19T01:06:56.948948+00:00
+atlas_batch_pipeline |              | load_bigquery_raw      | success         |
+ 2026-07-19T01:07:02.293732+00:00 | 2026-07-19T01:07:14.083256+00:00
+atlas_batch_pipeline |              | validate_raw_load      | success         |
+ 2026-07-19T01:07:14.325401+00:00 | 2026-07-19T01:07:27.061595+00:00
+atlas_batch_pipeline |              | resolve_run_context    | success         |
+ 2026-07-19T01:06:31.351457+00:00 | 2026-07-19T01:06:32.134522+00:00
+atlas_batch_pipeline |              | ensure_audit_resources | success         |
+ 2026-07-19T01:06:32.795892+00:00 | 2026-07-19T01:06:37.716325+00:00
+atlas_batch_pipeline |              | write_run_summary      | failed          |
+ 2026-07-19T01:10:39.417879+00:00 | 2026-07-19T01:10:47.178737+00:00
+atlas_batch_pipeline |              | preflight_environment  | success         |
+ 2026-07-19T01:06:44.560709+00:00 | 2026-07-19T01:06:49.790375+00:00
+atlas_batch_pipeline |              | upload_events          | success         |
+ 2026-07-19T01:06:57.246043+00:00 | 2026-07-19T01:07:01.576806+00:00
+STAGE FAILED: smoke_batch — smoke run did not reach terminal SUCCESS
+audit: atlas-dev-20260719T010538Z-1af166ea -> FAILED (stage smoke_batch)
+Recovery: inspect logs above, then re-run this script with the same
+  --git-sha 1af166ea5111529c154db15057e5c85472f0ecf1 (deployment records are ide
+mpotent per deployment_id)
+DEPLOY_EXIT=0
+(atlas-venv) project-atlas $ ATLAS_APPROVE_ROLLBACK_TEST=true ATLAS_APPROVE_DEPL
+OY=true bash scripts/rollback_atlas.sh 2>&1 | tee /tmp/atlas-rollback.log; echo
+"ROLLBACK_EXIT=$?"
+currently deployed: 1af166ea5111529c154db15057e5c85472f0ecf1
+rollback target:    640cd78694a90275866bebbaf7550ee121fff79b
+=== Atlas rollback: 640cd78694a90275866bebbaf7550ee121fff79b → atlas-dev (us-cen
+tral1) ===
+deployment_id: atlas-dev-20260719T011614Z-640cd786
+smoke batch:   atlas-smoke-640cd786-local1784423774
+Fetching release gs://atlas-deployments-example-gcp-project/atlas/releases/640
+cd78694a90275866bebbaf7550ee121fff79b
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/640cd78694a9
+0275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz to file:///tmp/tmp.yM2rEHjMJ7/a
+tlas-bundle.tar.gz
+
+.
+Copying gs://atlas-deployments-example-gcp-project/atlas/releases/640cd78694a9
+0275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.yM2rE
+HjMJ7/atlas-bundle.tar.gz.sha256
+
+.
+archive checksum verified: aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa6993
+6c6575e6e7c
+verified 314 file checksums for 640cd78694a9
+audit: atlas-dev-20260719T011614Z-640cd786 -> ROLLING_BACK
+schema check: required 003_create_deployments_table — all release migrations app
+lied
+COMPATIBLE
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + da
+ta/current)
+At file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/**, worker process 97160 thread 14038
+4001984320 listed 309...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/current/**, wor
+ker process 97160 thread 140384001984320 listed 319...
+
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-1af166ea-local1784423138/events.jsonl#1784423215974973...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/d
+ata/runs/atlas-smoke-1af166ea-local1784423138/manifest.json#1784423216852163...
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dbt/atlas_dbt/dbt_project.yml to
+ gs://us-central1-atlas-dev-74134e98-bucket/data/current/dbt/atlas
+_dbt/dbt_project.yml
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dbt/profiles/.user.yml to gs://u
+s-central1-atlas-dev-74134e98-bucket/data/current/dbt/profiles/.us
+er.yml
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/deployment-info.json to gs://us-
+central1-atlas-dev-74134e98-bucket/data/current/deployment-info.js
+on
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/release-manifest.json to gs://us
+-central1-atlas-dev-74134e98-bucket/data/current/release-manifest.
+json
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/l
+ogs/airflow/atlas-smoke-1af166ea-local1784423138-run/run-summary.json#1784423447
+026230...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/__pycache__/__init__.cpython-312.pyc#1784423148712941...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/config/__pycache__/__init__.cpython-312.pyc#1784423148613915...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/ops/__pycache__/__init__.cpython-312.pyc#1784423148510184...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/ops/__pycache__/resources.cpython-312.pyc#1784423148771944...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/ops/__pycache__/migrations.cpython-312.pyc#1784423148771583...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/config/__pycache__/settings.cpython-312.pyc#1784423148697057...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/current/s
+rc/atlas/ops/__pycache__/audit.cpython-312.pyc#1784423148772489...
+..
+
+Average throughput: 312.0kiB/s
+At file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dags/**, worker process 97362 thread
+140483103950656 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker proc
+ess 97362 thread 140483103950656 listed 7...
+
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T011614Z-640cd786
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smok
+e__atlas-dev-20260719T011614Z-640cd786 --conf {"batch_id": "atlas-smoke-640cd786
+-local1784423774", "pipeline_run_id": "atlas-smoke-640cd786-local1784423774-run"
+, "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=cb746bda-bd86-4102-9dfd-cbb21b927041
+Use ctrl-c to interrupt the command
+[2026-07-19T01:17:03.995900Z] {{default_celery.py:196}} WARNING - You have confi
+gured a result_backend using the protocol `redis`, it is highly recommended to u
+se an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |
+ |          | last_scheduling_d |              |          |            |
+| triggering_user_nam
+conf               | dag_id            | dag_run_id        | t
+| data_interval_end | end_date | ecision           | logical_date | run_type | s
+tart_date | state  | e
+===================+===================+===================+====================
++===================+==========+===================+==============+==========+==
+==========+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None
+| None              | None     | None              | None         | manual   | N
+one       | queued | airflow
+'atlas-smoke-640cd | ine               | 20260719T011614Z- |
+|                   |          |                   |              |          |
+          |        |
+786-local178442377 |                   | 640cd786          |
+|                   |          |                   |              |          |
+          |        |
+4',                |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'pipeline_run_id': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'atlas-smoke-640cd |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+786-local178442377 |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+4-run',            |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'processing_date': |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+'2026-07-19'}      |                   |                   |
+|                   |          |                   |              |          |
+          |        |
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (67s elapsed
+)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (108s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (150s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (190s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (231s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (271s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (311s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (352s elapse
+d)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=success (392s elapse
+d)
+Smoke run smoke__atlas-dev-20260719T011614Z-640cd786: success
+[PASS] dag_imported: atlas_batch_pipeline present in Composer
+[PASS] dag_import_errors: no import errors for project_atlas
+[PASS] deployed_sha: current runtime manifest git_sha=640cd78694a90275866bebbaf7
+550ee121fff79b
+[PASS] airflow_terminal_success: smoke dag run state=success
+[PASS] raw_batch_count: raw rows for atlas-smoke-640cd786-local1784423774: 50000
+ (expected 50000)
+[PASS] no_duplicate_load: distinct ingestion runs for batch: 1
+[PASS] gcs_object_exists: raw JSONL object present in gs://atlas-raw-events-vita
+l-scout-479118-n7
+[PASS] batch_manifest_exists: batch manifest/artifacts present in Composer data
+path
+[PASS] success_marker: success.marker present for atlas-smoke-640cd786-local1784
+423774
+[PASS] warehouse_reconciliation: batch-scoped raw/classified/fact/mart reconcili
+ation
+[PASS] pipeline_runs_success: pipeline_runs status=SUCCESS
+[PASS] deployments_row: atlas_ops.deployments rows for atlas-dev-20260719T011614
+Z-640cd786: 1
+
+SMOKE VALIDATION PASSED (git_sha 640cd78694a9, batch atlas-smoke-640cd786-local1
+784423774)
+audit: atlas-dev-20260719T011614Z-640cd786 -> ROLLED_BACK
+
+=== rollback ROLLED_BACK: 640cd78694a90275866bebbaf7550ee121fff79b ===
+deployment_id:      atlas-dev-20260719T011614Z-640cd786
+artifact:           gs://atlas-deployments-example-gcp-project/atlas/releases/
+640cd78694a90275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz
+artifact checksum:  aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa69936c6575e
+6e7c
+smoke run:          atlas-smoke-640cd786-local1784423774-run
+ROLLBACK_EXIT=0
+(atlas-venv) project-atlas $

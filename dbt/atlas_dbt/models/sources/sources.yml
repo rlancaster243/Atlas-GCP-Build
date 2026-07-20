@@ -1,0 +1,73 @@
+version: 2
+
+sources:
+  - name: atlas_raw
+    description: >
+      Immutable Sprint 1 raw event landing table. Physical-row grain; append-only.
+      Known seeded anomalies are preserved for downstream classification and quarantine.
+    database: "{{ env_var('ATLAS_GCP_PROJECT_ID') }}"
+    schema: "{{ env_var('ATLAS_BQ_DATASET', 'atlas_raw') }}"
+    loader: atlas_sprint1_pipeline
+    loaded_at_field: ingested_at
+    config:
+      freshness:
+        warn_after: { count: 24, period: hour }
+        error_after: { count: 48, period: hour }
+    tables:
+      - name: events
+        description: >
+          Raw mobile/web analytics events partitioned by event_date and clustered
+          by event_name and country_code. One row per physical ingest record.
+        config:
+          freshness:
+            warn_after: { count: 24, period: hour }
+            error_after: { count: 48, period: hour }
+        columns:
+          - name: event_id
+            description: Business event identifier; duplicates may exist at raw grain.
+            tests:
+              - not_null
+          - name: user_id
+            description: Nullable user identifier; null values are blocking defects.
+          - name: event_name
+            description: Canonical event type label.
+            tests:
+              - not_null
+          - name: event_timestamp
+            description: Event occurrence timestamp in UTC.
+            tests:
+              - not_null
+          - name: event_date
+            description: Declared calendar date used for partitioning.
+            tests:
+              - not_null
+          - name: country_code
+            description: ISO-style country code; may be invalid or null.
+          - name: platform
+            description: Client platform (ios, android, web).
+          - name: app_version
+            description: Application version string.
+          - name: ingested_at
+            description: BigQuery load timestamp added by the Sprint 1 loader.
+            tests:
+              - not_null
+          - name: source_file
+            description: GCS object URI for lineage.
+            tests:
+              - not_null
+          - name: pipeline_run_id
+            description: Atlas pipeline run identifier for idempotency and scoping.
+            tests:
+              - not_null
+          - name: batch_id
+            description: >
+              Stable batch identifier for Airflow-orchestrated loads (nullable for Sprint 1 rows).
+            tests:
+              - dbt_utils.expression_is_true:
+                  expression: "is not null"
+                  config:
+                    where: "pipeline_run_id like 'atlas-airflow-%'"
+          - name: processing_date
+            description: >
+              Logical batch processing date; drives reproducible temporal anomaly
+              flags. Nullable for legacy Sprint 1 rows.

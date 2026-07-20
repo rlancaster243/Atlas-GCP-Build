@@ -1,0 +1,395 @@
+version: 2
+
+models:
+  - name: int_event_classification
+    description: >
+      Physical-row quality classification with duplicate ranking and a single terminal
+      rejection reason per row. Precedence: missing_user_id, invalid_country_code,
+      future_dated, duplicate_extra, accepted. Warning flags remain independent.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per staged physical event record with classification flags
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.1"
+        consumers: [warehouse_reconciliation, int_accepted_events, int_rejected_events]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+      - name: rejection_reason
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - accepted
+                  - missing_user_id
+                  - invalid_country_code
+                  - future_dated
+                  - duplicate_extra
+      - name: duplicate_rank
+        description: >
+          Global canonical rank per event_id (first-seen-batch wins; latest write
+          wins within a batch). duplicate_rank = 1 is the canonical row.
+        tests:
+          - not_null
+      - name: within_batch_duplicate_rank
+        description: Duplicate rank scoped to the batch; > 1 marks a within-batch duplicate.
+        tests:
+          - not_null
+      - name: is_within_batch_duplicate
+        description: True when this row duplicates another row in the same batch (the batch anomaly).
+        tests:
+          - not_null
+      - name: is_duplicate_extra
+        description: True when this row is not the global canonical row for its event_id.
+        tests:
+          - not_null
+      - name: duplicate_scope
+        description: Classifies the duplicate relationship for this row.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - none
+                  - within_batch
+                  - cross_batch_replay
+      - name: is_accepted
+        tests:
+          - not_null
+
+  - name: int_accepted_events
+    description: >
+      Accepted canonical events at one row per event_id that passed all blocking checks.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per accepted event_id (global canonical selection)
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [core.fct_events, warehouse_reconciliation]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+          - unique
+      - name: rejection_reason
+        tests:
+          - accepted_values:
+              arguments:
+                values: [accepted]
+
+  - name: int_rejected_events
+    description: >
+      Quarantined physical rows with a terminal blocking rejection reason.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per rejected physical event record
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [warehouse_reconciliation]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    columns:
+      - name: rejection_reason
+        tests:
+          - not_null
+          - dbt_utils.not_accepted_values:
+              arguments:
+                values: [accepted]
+
+unit_tests:
+  - name: test_rejection_precedence_missing_user
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-1,
+              user_id: null,
+              event_name: login,
+              event_timestamp: "2026-07-14 10:00:00 UTC",
+              event_date: "2026-07-14",
+              country_code: ZZ,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 12:00:00 UTC",
+              source_file: gs://bucket/a.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 1,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: false,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - { event_id: evt-1, rejection_reason: missing_user_id, is_accepted: false }
+
+  - name: test_rejection_precedence_invalid_country_over_future
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-2,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-15 10:00:00 UTC",
+              event_date: "2026-07-15",
+              country_code: ZZ,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 12:00:00 UTC",
+              source_file: gs://bucket/a.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 2,
+              event_timestamp_date: "2026-07-15",
+              ingested_date: "2026-07-14",
+              is_future_dated: true,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: true,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - { event_id: evt-2, rejection_reason: invalid_country_code, is_accepted: false }
+
+  - name: test_duplicate_ranking_keeps_latest_canonical
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-dup,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-14 09:00:00 UTC",
+              event_date: "2026-07-14",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 11:00:00 UTC",
+              source_file: gs://bucket/old.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 10,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: false,
+            }
+          - {
+              event_id: evt-dup,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-14 10:00:00 UTC",
+              event_date: "2026-07-14",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 12:00:00 UTC",
+              source_file: gs://bucket/new.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 11,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: false,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - {
+            event_id: evt-dup,
+            duplicate_rank: 1,
+            rejection_reason: accepted,
+            is_accepted: true,
+            source_file: gs://bucket/new.jsonl,
+          }
+        - {
+            event_id: evt-dup,
+            duplicate_rank: 2,
+            rejection_reason: duplicate_extra,
+            is_accepted: false,
+            source_file: gs://bucket/old.jsonl,
+          }
+
+  - name: test_accepted_row_can_carry_warning_flags
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-warn,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-14 10:00:00 UTC",
+              event_date: "2026-07-09",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 12:00:00 UTC",
+              source_file: gs://bucket/a.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 3,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: true,
+              has_event_date_timestamp_mismatch: true,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - {
+            event_id: evt-warn,
+            rejection_reason: accepted,
+            is_accepted: true,
+            is_backdated_event_date: true,
+            has_event_date_timestamp_mismatch: true,
+          }
+
+  - name: test_future_dated_is_blocking
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-future,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-15 10:00:00 UTC",
+              event_date: "2026-07-15",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 12:00:00 UTC",
+              source_file: gs://bucket/a.jsonl,
+              pipeline_run_id: run-1,
+              raw_record_hash: 4,
+              event_timestamp_date: "2026-07-15",
+              ingested_date: "2026-07-14",
+              is_future_dated: true,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: true,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - { event_id: evt-future, rejection_reason: future_dated, is_accepted: false }
+
+  - name: test_cross_batch_replay_preserves_first_seen
+    # Sprint 7: the same event_id arriving in a later batch (same date) is a
+    # cross-batch replay, not a within-batch duplicate. First-seen batch stays
+    # canonical; the replay is rejected as duplicate_extra with scope
+    # cross_batch_replay. is_within_batch_duplicate stays false for both.
+    model: int_event_classification
+    given:
+      - input: ref('stg_events')
+        rows:
+          - {
+              event_id: evt-replay,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-14 10:00:00 UTC",
+              event_date: "2026-07-14",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 06:00:00 UTC",
+              source_file: gs://bucket/batch-a.jsonl,
+              pipeline_run_id: run-a,
+              batch_id: batch-a,
+              raw_record_hash: 100,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: false,
+            }
+          - {
+              event_id: evt-replay,
+              user_id: user-1,
+              event_name: login,
+              event_timestamp: "2026-07-14 10:00:00 UTC",
+              event_date: "2026-07-14",
+              country_code: US,
+              platform: web,
+              app_version: 1.0.0,
+              ingested_at: "2026-07-14 15:00:00 UTC",
+              source_file: gs://bucket/batch-b.jsonl,
+              pipeline_run_id: run-b,
+              batch_id: batch-b,
+              raw_record_hash: 101,
+              event_timestamp_date: "2026-07-14",
+              ingested_date: "2026-07-14",
+              is_future_dated: false,
+              is_event_time_late_arriving: false,
+              is_backdated_event_date: false,
+              has_event_date_timestamp_mismatch: false,
+            }
+      - input: ref('valid_country_codes')
+        rows:
+          - { country_code: US, is_active: true }
+    expect:
+      rows:
+        - {
+            event_id: evt-replay,
+            batch_id: batch-a,
+            duplicate_rank: 1,
+            is_within_batch_duplicate: false,
+            is_duplicate_extra: false,
+            duplicate_scope: none,
+            rejection_reason: accepted,
+            is_accepted: true,
+          }
+        - {
+            event_id: evt-replay,
+            batch_id: batch-b,
+            duplicate_rank: 2,
+            is_within_batch_duplicate: false,
+            is_duplicate_extra: true,
+            duplicate_scope: cross_batch_replay,
+            rejection_reason: duplicate_extra,
+            is_accepted: false,
+          }

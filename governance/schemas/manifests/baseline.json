@@ -1,0 +1,265 @@
+{
+  "assets": {
+    "dim_countries": {
+      "contract_version": "1.0",
+      "fields": {
+        "country_code": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "is_active": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per country_code"
+    },
+    "dim_users": {
+      "contract_version": "1.0",
+      "fields": {
+        "first_event_at": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "last_event_at": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "user_id": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per user_id"
+    },
+    "fct_events": {
+      "contract_version": "1.0",
+      "event_identity": [
+        "event_id"
+      ],
+      "fields": {
+        "country_code": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_date": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_id": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_name": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "platform": {
+          "accepted_values": [
+            "ios",
+            "android",
+            "web"
+          ],
+          "nullable": false,
+          "type": "unknown"
+        },
+        "user_id": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per event_id (global fact uniqueness \u2014 see ADR-017)",
+      "partition_field": "event_date"
+    },
+    "int_accepted_events": {
+      "contract_version": "1.0",
+      "fields": {
+        "event_id": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "rejection_reason": {
+          "accepted_values": [
+            "accepted"
+          ],
+          "nullable": true,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per accepted event_id (global canonical selection)"
+    },
+    "int_event_classification": {
+      "contract_version": "1.1",
+      "fields": {
+        "duplicate_rank": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "duplicate_scope": {
+          "accepted_values": [
+            "none",
+            "within_batch",
+            "cross_batch_replay"
+          ],
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_id": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "is_accepted": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "is_duplicate_extra": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "is_within_batch_duplicate": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "rejection_reason": {
+          "accepted_values": [
+            "accepted",
+            "missing_user_id",
+            "invalid_country_code",
+            "future_dated",
+            "duplicate_extra"
+          ],
+          "nullable": false,
+          "type": "unknown"
+        },
+        "within_batch_duplicate_rank": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per staged physical event record with classification flags"
+    },
+    "int_rejected_events": {
+      "contract_version": "1.0",
+      "fields": {
+        "rejection_reason": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per rejected physical event record"
+    },
+    "mart_daily_event_metrics": {
+      "contract_version": "1.0",
+      "fields": {
+        "country_code": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_count": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_date": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "event_name": {
+          "nullable": false,
+          "type": "unknown"
+        },
+        "platform": {
+          "nullable": false,
+          "type": "unknown"
+        }
+      },
+      "grain": "one row per (event_date, event_name, country_code, platform)"
+    },
+    "stg_events": {
+      "contract_version": "1.0",
+      "fields": {
+        "app_version": {
+          "nullable": true,
+          "type": "string"
+        },
+        "batch_id": {
+          "nullable": true,
+          "type": "string"
+        },
+        "country_code": {
+          "nullable": true,
+          "type": "string"
+        },
+        "event_date": {
+          "nullable": false,
+          "type": "date"
+        },
+        "event_id": {
+          "nullable": false,
+          "type": "string"
+        },
+        "event_name": {
+          "nullable": false,
+          "type": "string"
+        },
+        "event_timestamp": {
+          "nullable": false,
+          "type": "timestamp"
+        },
+        "event_timestamp_date": {
+          "nullable": false,
+          "type": "date"
+        },
+        "has_event_date_timestamp_mismatch": {
+          "nullable": false,
+          "type": "boolean"
+        },
+        "ingested_at": {
+          "nullable": false,
+          "type": "timestamp"
+        },
+        "ingested_date": {
+          "nullable": false,
+          "type": "date"
+        },
+        "is_backdated_event_date": {
+          "nullable": false,
+          "type": "boolean"
+        },
+        "is_event_time_late_arriving": {
+          "nullable": false,
+          "type": "boolean"
+        },
+        "is_future_dated": {
+          "nullable": false,
+          "type": "boolean"
+        },
+        "pipeline_run_id": {
+          "nullable": false,
+          "type": "string"
+        },
+        "platform": {
+          "nullable": true,
+          "type": "string"
+        },
+        "processing_date": {
+          "nullable": true,
+          "type": "date"
+        },
+        "raw_record_hash": {
+          "nullable": false,
+          "type": "int64"
+        },
+        "source_file": {
+          "nullable": false,
+          "type": "string"
+        },
+        "user_id": {
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "grain": "one row per raw physical event record (event_id may repeat)"
+    }
+  },
+  "version": 1
+}

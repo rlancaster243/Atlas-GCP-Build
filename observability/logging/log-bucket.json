@@ -1,0 +1,9 @@
+{
+  "_comment": "Atlas dedicated log bucket (Sprint 5, Phase 5). Created by scripts/bootstrap_observability.sh; this file is the versioned source of truth for its configuration.",
+  "bucket_id": "atlas-observability",
+  "location": "us-central1",
+  "retention_days": 30,
+  "analytics_enabled": true,
+  "locked": false,
+  "description": "Atlas runtime logs: Composer environment logs plus structured Atlas contract events. Retention 30d per cost-review-sprint5.md; Log Analytics enabled for the atlas_logs linked BigQuery dataset."
+}

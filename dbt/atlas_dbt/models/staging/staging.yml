@@ -1,0 +1,114 @@
+version: 2
+
+models:
+  - name: stg_events
+    description: >
+      Staged raw events at physical-row grain with normalized types, lineage metadata,
+      a stable raw_record_hash, and corrected Sprint 2 temporal quality flags.
+    meta:
+      governance:
+        technical_owner: atlas-data-eng
+        business_owner_or_role: atlas-platform
+        grain: one row per raw physical event record (event_id may repeat)
+        classification: INTERNAL
+        retention_class: canonical_warehouse
+        contract_version: "1.0"
+        consumers: [warehouse_reconciliation]
+        lifecycle_status: ACTIVE
+        freshness_expectation: per batch
+        runbook: docs/runbook-sprint2.md
+        last_reviewed: "2026-07-19"
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: event_id
+        description: Business event identifier from the raw landing table.
+        data_type: string
+        tests:
+          - not_null
+      - name: user_id
+        description: Trimmed user identifier; null indicates a blocking defect downstream.
+        data_type: string
+      - name: event_name
+        description: Normalized event type label.
+        data_type: string
+        tests:
+          - not_null
+      - name: event_timestamp
+        description: Event occurrence timestamp in UTC.
+        data_type: timestamp
+        tests:
+          - not_null
+      - name: event_date
+        description: Declared calendar date used for partitioning.
+        data_type: date
+        tests:
+          - not_null
+      - name: country_code
+        description: Uppercase country code when present.
+        data_type: string
+      - name: platform
+        description: Lowercase client platform label.
+        data_type: string
+      - name: app_version
+        description: Application version string.
+        data_type: string
+      - name: ingested_at
+        description: BigQuery load timestamp from the raw layer.
+        data_type: timestamp
+        tests:
+          - not_null
+      - name: source_file
+        description: GCS object URI for lineage.
+        data_type: string
+        tests:
+          - not_null
+      - name: pipeline_run_id
+        description: Atlas pipeline run identifier.
+        data_type: string
+        tests:
+          - not_null
+      - name: batch_id
+        description: Stable batch identifier for Airflow-orchestrated loads; nullable for Sprint 1 rows.
+        data_type: string
+      - name: processing_date
+        description: >
+          Logical batch processing date used as the reference for temporal anomaly
+          flags. Null for legacy Sprint 1 rows (which fall back to DATE(ingested_at)).
+        data_type: date
+      - name: raw_record_hash
+        description: Stable fingerprint for duplicate tie-breaking and lineage.
+        data_type: int64
+        tests:
+          - not_null
+      - name: event_timestamp_date
+        description: Calendar date derived from event_timestamp.
+        data_type: date
+        tests:
+          - not_null
+      - name: ingested_date
+        description: Calendar date derived from ingested_at.
+        data_type: date
+        tests:
+          - not_null
+      - name: is_future_dated
+        description: Blocking flag when DATE(event_timestamp) > DATE(ingested_at).
+        data_type: boolean
+        tests:
+          - not_null
+      - name: is_event_time_late_arriving
+        description: Warning flag when DATE(event_timestamp) < DATE(ingested_at).
+        data_type: boolean
+        tests:
+          - not_null
+      - name: is_backdated_event_date
+        description: Warning flag when event_date < DATE(ingested_at).
+        data_type: boolean
+        tests:
+          - not_null
+      - name: has_event_date_timestamp_mismatch
+        description: Warning flag when event_date != DATE(event_timestamp).
+        data_type: boolean
+        tests:
+          - not_null

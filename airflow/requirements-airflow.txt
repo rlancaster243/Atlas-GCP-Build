@@ -1,0 +1,9 @@
+# Composer-parity pins for local Airflow 3.1.7 (verified 2026-07-14).
+# Install with official constraints:
+#   pip install "apache-airflow==3.1.7" \
+#     --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.1.7/constraints-3.12.txt"
+#   pip install -r requirements-airflow.txt
+
+apache-airflow==3.1.7
+apache-airflow-providers-google==20.0.0
+apache-airflow-providers-standard==1.12.1

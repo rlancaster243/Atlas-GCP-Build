@@ -1,0 +1,127 @@
+{
+  "custom.googleapis.com/atlas/monitor/check_status": {
+    "series": 22,
+    "points_4h": 103,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev",
+        "check_name": "cost_anomaly"
+      },
+      "value": 0,
+      "time": "2026-07-19 07:19:14.502888+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/pipeline/last_success_age_seconds": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "dag_id": "atlas_batch_pipeline",
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 196.0,
+      "time": "2026-07-19 07:01:20.459986+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/pipeline/telemetry_incomplete_count": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "dag_id": "atlas_batch_pipeline",
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 0,
+      "time": "2026-07-19 07:01:29.478219+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/data/rejection_rate": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 0.0179,
+      "time": "2026-07-19 07:01:40.094884+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/data/raw_row_count": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 50000,
+      "time": "2026-07-19 07:01:35.942524+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/data/volume_deviation_ratio": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 1.0,
+      "time": "2026-07-19 07:01:36.060340+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/data/schema_drift_count": {
+    "series": 6,
+    "points_4h": 24,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "severity": "CRITICAL",
+        "environment": "atlas-dev"
+      },
+      "value": 0,
+      "time": "2026-07-19 07:01:45.768376+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/data/reconciliation_failure_count": {
+    "series": 2,
+    "points_4h": 7,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 0,
+      "time": "2026-07-19 07:01:32.537346+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/deployment/latest_failed": {
+    "series": 2,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "mode": "drill",
+        "environment": "atlas-dev"
+      },
+      "value": 0,
+      "time": "2026-07-19 07:01:54.035875+00:00"
+    }
+  },
+  "custom.googleapis.com/atlas/deployment/duration_seconds": {
+    "series": 3,
+    "points_4h": 8,
+    "latest_sample": {
+      "labels": {
+        "mode": "normal",
+        "environment": "atlas-dev",
+        "status": "ROLLED_BACK"
+      },
+      "value": 445.0,
+      "time": "2026-07-19 03:28:57.499348+00:00"
+    }
+  }
+}

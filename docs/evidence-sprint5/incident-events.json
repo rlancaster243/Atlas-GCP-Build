@@ -1,0 +1,255 @@
+[
+  {
+    "insertId": "1w9zttsf8hrsg8",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: telemetry incomplete",
+      "policy_id": "2189602217894168208",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784444831",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf545p85441"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T07:07:11.396575117Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:07:11Z"
+  },
+  {
+    "insertId": "1brjfdif4czbbe",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: BigQuery cost anomaly",
+      "policy_id": "10784657038527994875",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784444809",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=cost_anomaly, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=cost_anomaly, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf53uuk0td1"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T07:06:49.432523914Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:06:49Z"
+  },
+  {
+    "insertId": "wrxol5f6hv3ac",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: breaking schema drift",
+      "policy_id": "5106246397808706358",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784444779",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=schema_drift, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=schema_drift, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf53g1toeh7"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T07:06:19.546724441Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:06:19Z"
+  },
+  {
+    "insertId": "iw6z14f4dzlj7",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: critical volume deviation",
+      "policy_id": "2189602217894170243",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784444723",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=volume_deviation, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=volume_deviation, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf52ofe3mrz"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T07:05:23.312195165Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:05:23Z"
+  },
+  {
+    "insertId": "1ke2mttf47b0sa",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: data stale",
+      "policy_id": "144332609457282610",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784444694",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=freshness, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=freshness, environment=atlas-dev, mode=drill} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf52a4f18hp"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T07:04:54.615245278Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:04:54Z"
+  },
+  {
+    "insertId": "1gr7ndaf41d5co",
+    "labels": {
+      "activity_type_name": "ViolationAutoResolveEventv1",
+      "policy_display_name": "Atlas: pipeline failed",
+      "policy_id": "14992081806484518993",
+      "resolved_at": "1784444591",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=latest_run_state, environment=atlas-dev, mode=normal} returned to normal with a value of 0.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=latest_run_state, environment=atlas-dev, mode=normal} returned to normal with a value of 0.000.",
+      "violation_id": "0.oaf4n04jvxx1"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationAutoResolveEventv1",
+    "receiveTimestamp": "2026-07-19T07:03:11.104543030Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T07:03:11Z"
+  },
+  {
+    "insertId": "17blt8zf4r6g11",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: pipeline failed",
+      "policy_id": "14992081806484518993",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784443579",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=latest_run_state, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=latest_run_state, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf4n04jvxx1"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T06:46:20.045133977Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T06:46:19Z"
+  },
+  {
+    "insertId": "1vgm5kyf1e9ues",
+    "labels": {
+      "activity_type_name": "ViolationAutoResolveEventv1",
+      "policy_display_name": "Atlas: telemetry incomplete",
+      "policy_id": "2189602217894168208",
+      "resolved_at": "1784442780",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} returned to normal with a value of 0.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} returned to normal with a value of 0.000.",
+      "violation_id": "0.oaf3pqgsimvt"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationAutoResolveEventv1",
+    "receiveTimestamp": "2026-07-19T06:33:00.420640623Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T06:33:00Z"
+  },
+  {
+    "insertId": "18ymujkf4nme8t",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: telemetry incomplete",
+      "policy_id": "2189602217894168208",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784441151",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf3pqgsimvt"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T06:05:51.653376095Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T06:05:51Z"
+  },
+  {
+    "insertId": "oh1dq5fg1m9p5",
+    "labels": {
+      "activity_type_name": "ViolationAutoResolveEventv1",
+      "policy_display_name": "Atlas: telemetry incomplete",
+      "policy_id": "2189602217894168208",
+      "resolved_at": "1784434151",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} returned to normal with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} returned to normal with a value of 2.000.",
+      "violation_id": "0.oaf09qv4gi7i"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationAutoResolveEventv1",
+    "receiveTimestamp": "2026-07-19T04:09:11.957463838Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T04:09:11Z"
+  },
+  {
+    "insertId": "5buyatf2w5xus",
+    "labels": {
+      "activity_type_name": "ViolationOpenEventv1",
+      "policy_display_name": "Atlas: telemetry incomplete",
+      "policy_id": "2189602217894168208",
+      "resource_id": "",
+      "resource_name": "example-gcp-project",
+      "started_at": "1784432102",
+      "terse_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "verbose_message": "custom/atlas/monitor/check_status for example-gcp-project with metric labels {check_name=telemetry_completeness, environment=atlas-dev, mode=normal} is above the threshold of 1.500 with a value of 2.000.",
+      "violation_id": "0.oaf09qv4gi7i"
+    },
+    "logName": "projects/example-gcp-project/logs/monitoring.googleapis.com%2FViolationOpenEventv1",
+    "receiveTimestamp": "2026-07-19T03:35:03.028598377Z",
+    "resource": {
+      "labels": {
+        "project_id": "example-gcp-project"
+      },
+      "type": "global"
+    },
+    "timestamp": "2026-07-19T03:35:02Z"
+  }
+]

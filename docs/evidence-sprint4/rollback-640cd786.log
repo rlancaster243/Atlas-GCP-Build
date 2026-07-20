@@ -1,0 +1,92 @@
+currently deployed: 1af166ea5111529c154db15057e5c85472f0ecf1
+rollback target:    640cd78694a90275866bebbaf7550ee121fff79b
+=== Atlas rollback: 640cd78694a90275866bebbaf7550ee121fff79b → atlas-dev (us-central1) ===
+deployment_id: atlas-dev-20260719T011614Z-640cd786
+smoke batch:   atlas-smoke-640cd786-local1784423774
+Fetching release gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/640cd78694a90275866bebbaf7550ee121fff79b
+Copying gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/640cd78694a90275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz to file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle.tar.gz
+  
+.
+Copying gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/640cd78694a90275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz.sha256 to file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle.tar.gz.sha256
+  
+.
+archive checksum verified: aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa69936c6575e6e7c
+verified 314 file checksums for 640cd78694a9
+audit: atlas-dev-20260719T011614Z-640cd786 -> ROLLING_BACK
+schema check: required 003_create_deployments_table — all release migrations applied
+COMPATIBLE
+Promoting to gs://us-central1-atlas-dev-74134e98-bucket (dags/project_atlas + data/project-atlas/current)
+At file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/**, worker process 97160 thread 140384001984320 listed 309...
+At gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/**, worker process 97160 thread 140384001984320 listed 319...
+  
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/data/runs/atlas-smoke-1af166ea-local1784423138/events.jsonl#1784423215974973...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/data/runs/atlas-smoke-1af166ea-local1784423138/manifest.json#1784423216852163...
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dbt/atlas_dbt/dbt_project.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/dbt/atlas_dbt/dbt_project.yml
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dbt/profiles/.user.yml to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/dbt/profiles/.user.yml
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/deployment-info.json to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/deployment-info.json
+Copying file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/release-manifest.json to gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/release-manifest.json
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/logs/airflow/atlas-smoke-1af166ea-local1784423138-run/run-summary.json#1784423447026230...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/__pycache__/__init__.cpython-312.pyc#1784423148712941...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/config/__pycache__/__init__.cpython-312.pyc#1784423148613915...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/__init__.cpython-312.pyc#1784423148510184...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/resources.cpython-312.pyc#1784423148771944...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/migrations.cpython-312.pyc#1784423148771583...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/config/__pycache__/settings.cpython-312.pyc#1784423148697057...
+Removing gs://us-central1-atlas-dev-74134e98-bucket/data/project-atlas/current/src/atlas/ops/__pycache__/audit.cpython-312.pyc#1784423148772489...
+..
+
+Average throughput: 312.0kiB/s
+At file:///tmp/tmp.yM2rEHjMJ7/atlas-bundle/dags/**, worker process 97362 thread 140483103950656 listed 7...
+At gs://us-central1-atlas-dev-74134e98-bucket/dags/project_atlas/**, worker process 97362 thread 140483103950656 listed 7...
+  
+
+atlas_batch_pipeline parsed with no import errors
+Triggering smoke run smoke__atlas-dev-20260719T011614Z-640cd786
+Executing the command: [ airflow dags trigger atlas_batch_pipeline --run-id smoke__atlas-dev-20260719T011614Z-640cd786 --conf {"batch_id": "atlas-smoke-640cd786-local1784423774", "pipeline_run_id": "atlas-smoke-640cd786-local1784423774-run", "processing_date": "2026-07-19"} ]...
+Command has been started. execution_id=cb746bda-bd86-4102-9dfd-cbb21b927041
+Use ctrl-c to interrupt the command
+[2026-07-19T01:17:03.995900Z] {{default_celery.py:196}} WARNING - You have configured a result_backend using the protocol `redis`, it is highly recommended to use an alternative result_backend (i.e. a database).
+|                   |                   | data_interval_star |                   |          | last_scheduling_d |              |          |            |        | triggering_user_nam
+conf               | dag_id            | dag_run_id        | t                  | data_interval_end | end_date | ecision           | logical_date | run_type | start_date | state  | e
+===================+===================+===================+====================+===================+==========+===================+==============+==========+============+========+====================
+{'batch_id':       | atlas_batch_pipel | smoke__atlas-dev- | None               | None              | None     | None              | None         | manual   | None       | queued | airflow
+'atlas-smoke-640cd | ine               | 20260719T011614Z- |                    |                   |          |                   |              |          |            |        |
+786-local178442377 |                   | 640cd786          |                    |                   |          |                   |              |          |            |        |
+4',                |                   |                   |                    |                   |          |                   |              |          |            |        |
+'pipeline_run_id': |                   |                   |                    |                   |          |                   |              |          |            |        |
+'atlas-smoke-640cd |                   |                   |                    |                   |          |                   |              |          |            |        |
+786-local178442377 |                   |                   |                    |                   |          |                   |              |          |            |        |
+4-run',            |                   |                   |                    |                   |          |                   |              |          |            |        |
+'processing_date': |                   |                   |                    |                   |          |                   |              |          |            |        |
+'2026-07-19'}      |                   |                   |                    |                   |          |                   |              |          |            |        |
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (67s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (108s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (150s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (190s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (231s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (271s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (311s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=running (352s elapsed)
+smoke run smoke__atlas-dev-20260719T011614Z-640cd786: state=success (392s elapsed)
+Smoke run smoke__atlas-dev-20260719T011614Z-640cd786: success
+[PASS] dag_imported: atlas_batch_pipeline present in Composer
+[PASS] dag_import_errors: no import errors for project_atlas
+[PASS] deployed_sha: current runtime manifest git_sha=640cd78694a90275866bebbaf7550ee121fff79b
+[PASS] airflow_terminal_success: smoke dag run state=success
+[PASS] raw_batch_count: raw rows for atlas-smoke-640cd786-local1784423774: 50000 (expected 50000)
+[PASS] no_duplicate_load: distinct ingestion runs for batch: 1
+[PASS] gcs_object_exists: raw JSONL object present in gs://atlas-raw-events-vital-scout-479118-n7
+[PASS] batch_manifest_exists: batch manifest/artifacts present in Composer data path
+[PASS] success_marker: success.marker present for atlas-smoke-640cd786-local1784423774
+[PASS] warehouse_reconciliation: batch-scoped raw/classified/fact/mart reconciliation
+[PASS] pipeline_runs_success: pipeline_runs status=SUCCESS
+[PASS] deployments_row: atlas_ops.deployments rows for atlas-dev-20260719T011614Z-640cd786: 1
+
+SMOKE VALIDATION PASSED (git_sha 640cd78694a9, batch atlas-smoke-640cd786-local1784423774)
+audit: atlas-dev-20260719T011614Z-640cd786 -> ROLLED_BACK
+
+=== rollback ROLLED_BACK: 640cd78694a90275866bebbaf7550ee121fff79b ===
+deployment_id:      atlas-dev-20260719T011614Z-640cd786
+artifact:           gs://atlas-deployments-vital-scout-479118-n7/atlas/releases/640cd78694a90275866bebbaf7550ee121fff79b/atlas-bundle.tar.gz
+artifact checksum:  aaa83bc1578057e8f88b38f68aa9785a956099538f6ebf7aa69936c6575e6e7c
+smoke run:          atlas-smoke-640cd786-local1784423774-run

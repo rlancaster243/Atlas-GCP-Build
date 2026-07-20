@@ -1,0 +1,21 @@
+version: 2
+
+seeds:
+  - name: valid_country_codes
+    description: >
+      Authoritative ISO-style country allowlist sourced from anomaly_profile.yaml.
+      Used to classify invalid country_code values during event quality review.
+    columns:
+      - name: country_code
+        description: Two-letter country code.
+        tests:
+          - not_null
+          - unique
+      - name: is_active
+        description: Whether the country is currently accepted in Atlas core models.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false

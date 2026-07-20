@@ -1,0 +1,32 @@
+{
+  "createTime": "2026-07-19T03:06:20.814459227Z",
+  "description": "Routes Atlas runtime logs to the atlas-observability bucket (additive; _Default unaffected)",
+  "destination": "logging.googleapis.com/projects/example-gcp-project/locations/us-central1/buckets/atlas-observability",
+  "filter": "resource.type=\"cloud_composer_environment\" OR jsonPayload.atlas_event=true",
+  "name": "atlas-observability-sink",
+  "resourceName": "projects/example-gcp-project/sinks/atlas-observability-sink",
+  "updateTime": "2026-07-19T03:06:20.814459227Z"
+}
+{
+  "analyticsEnabled": true,
+  "createTime": "2026-07-19T03:04:34.700919244Z",
+  "description": "Atlas runtime logs (Sprint 5). Composer + structured Atlas events.",
+  "lifecycleState": "ACTIVE",
+  "name": "projects/example-gcp-project/locations/us-central1/buckets/atlas-observability",
+  "retentionDays": 30,
+  "updateTime": "2026-07-19T03:06:18.593776549Z"
+}
+[
+  {
+    "description": "Access to all logs",
+    "name": "projects/example-gcp-project/locations/us-central1/buckets/atlas-observability/views/_AllLogs"
+  },
+  {
+    "createTime": "2026-07-19T03:06:22.500860717Z",
+    "description": "Least-privilege Atlas runtime view (grant roles/logging.viewAccessor here)",
+    "filter": "SOURCE(\"projects/example-gcp-project\")",
+    "name": "projects/example-gcp-project/locations/us-central1/buckets/atlas-observability/views/atlas-runtime",
+    "updateTime": "2026-07-19T03:06:22.500860717Z"
+  }
+]
+{"dataset": "example-gcp-project:atlas_logs", "type": "LINKED", "linked": true}

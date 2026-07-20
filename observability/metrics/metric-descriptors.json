@@ -1,0 +1,134 @@
+{
+  "_comment": "Atlas custom metric descriptors (Sprint 5, Phase 6). Created idempotently by `python -m atlas.observability.metrics --ensure-descriptors` (invoked from bootstrap_observability.sh --apply). Cardinality budget: labels are drawn ONLY from the bounded sets documented per metric; run/batch/deployment ids and error strings are forbidden (ADR-011). Native Composer metrics (environment healthy, scheduler heartbeat, DAG parse stats) are used as-is and deliberately NOT recreated here.",
+  "cardinality_budget": {
+    "environment": ["atlas-dev"],
+    "dag_id": ["atlas_batch_pipeline", "atlas_observability_monitor"],
+    "component": ["pipeline", "monitor", "deployment", "cost"],
+    "check_name": "bounded by config/observability.yaml checks (<= 15)",
+    "severity": ["INFO", "WARNING", "CRITICAL"],
+    "mode": ["normal", "drill"],
+    "max_projected_time_series": 120
+  },
+  "descriptors": [
+    {
+      "type": "custom.googleapis.com/atlas/pipeline/last_success_age_seconds",
+      "metric_kind": "GAUGE",
+      "value_type": "DOUBLE",
+      "unit": "s",
+      "description": "Seconds since the last SUCCESS row in atlas_ops.pipeline_runs. Source of truth: Plane 1; published by the monitor DAG.",
+      "labels": ["environment", "dag_id", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/pipeline/run_duration_seconds",
+      "metric_kind": "GAUGE",
+      "value_type": "DOUBLE",
+      "unit": "s",
+      "description": "Duration of the most recent terminal pipeline run.",
+      "labels": ["environment", "dag_id", "status", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/pipeline/telemetry_incomplete_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Expected tasks missing terminal task_events rows for the latest run (0 = telemetry complete).",
+      "labels": ["environment", "dag_id", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/raw_row_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Raw rows loaded for the latest successful batch.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/accepted_row_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Accepted rows for the latest successful batch.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/rejected_row_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Rejected rows for the latest successful batch.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/rejection_rate",
+      "metric_kind": "GAUGE",
+      "value_type": "DOUBLE",
+      "unit": "10^2.%",
+      "description": "rejected / raw for the latest successful batch (0.0-1.0).",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/volume_deviation_ratio",
+      "metric_kind": "GAUGE",
+      "value_type": "DOUBLE",
+      "unit": "1",
+      "description": "Latest raw row count divided by the baseline-window median (1.0 = on baseline).",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/reconciliation_failure_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "FAIL rows in atlas_ops.quality_results for the latest run.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/data/schema_drift_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Schema-drift findings by severity for monitored tables.",
+      "labels": ["environment", "severity", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/deployment/latest_failed",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "1 when the most recent atlas_ops.deployments row is FAILED/ROLLBACK_FAILED, else 0.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/deployment/duration_seconds",
+      "metric_kind": "GAUGE",
+      "value_type": "DOUBLE",
+      "unit": "s",
+      "description": "Duration of the most recent terminal deployment or rollback.",
+      "labels": ["environment", "status", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/cost/bigquery_bytes_billed",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "By",
+      "description": "Atlas-attributed BigQuery bytes billed in the monitor evaluation window (ADR-012 attribution).",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/cost/bigquery_job_count",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Atlas-attributed BigQuery job count in the monitor evaluation window.",
+      "labels": ["environment", "mode"]
+    },
+    {
+      "type": "custom.googleapis.com/atlas/monitor/check_status",
+      "metric_kind": "GAUGE",
+      "value_type": "INT64",
+      "unit": "1",
+      "description": "Uniform monitor outcome per check: 0=PASS, 1=WARN, 2=FAIL, -1=NO_DATA, -2=DISABLED. Primary alerting surface.",
+      "labels": ["environment", "check_name", "mode"]
+    }
+  ]
+}

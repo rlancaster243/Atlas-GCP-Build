@@ -1,0 +1,49 @@
+name: atlas_dbt
+version: "1.0.0"
+config-version: 2
+
+profile: atlas_dbt
+require-dbt-version: "=1.11.12"
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# BigQuery cost attribution (Sprint 5, ADR-012): dbt-bigquery converts this
+# JSON query comment into BigQuery job labels (officially supported
+# query-comment job-label mechanism), so dbt jobs are attributable in
+# region-qualified INFORMATION_SCHEMA.JOBS alongside Python jobs.
+query-comment:
+  comment: '{"application": "atlas", "component": "dbt", "environment": "atlas-dev"}'
+  job-label: true
+
+vars:
+  lookback_days: 3
+  # Validated by the Sprint 1 acceptance report; override for later runs.
+  validated_run_id: "atlas-20260714T163527Z-19a0e4f6"
+  validated_batch_id: ""
+  inject_failure: false
+
+seeds:
+  atlas_dbt:
+    +schema: staging
+
+models:
+  atlas_dbt:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+    core:
+      +schema: core
+    marts:
+      +schema: marts
+      +materialized: table

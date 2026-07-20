@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+.venv-*/
+.venv-dbt/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+credentials/
+secrets/
+.gcp/
+service-account*.json
+*-key.json
+
+# Generated pipeline artifacts
+data/*.jsonl
+data/runs/
+logs/
+
+# dbt generated state and local profile
+dbt/atlas_dbt/target/
+dbt/atlas_dbt/logs/
+dbt/atlas_dbt/dbt_packages/
+dbt/atlas_dbt/profiles.yml
+
+# Airflow local state
+airflow/logs/
+airflow/airflow.db
+airflow/airflow.cfg
+airflow/webserver_config.py
+
+# Terraform local state
+**/.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.vscode/

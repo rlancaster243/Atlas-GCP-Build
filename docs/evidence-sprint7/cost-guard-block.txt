@@ -1,0 +1,18 @@
+Atlas Sprint 7 — cost-guard pre-spend block evidence (2026-07-19, live, dry-run only, $0)
+
+(1) Partition-filter guard on deliberately unbounded raw scan:
+$ python -m atlas.observability.cost_guard check-partition-filter \
+    --sql-file observability/performance/queries/unbounded_scan.sql --asset atlas_raw.events
+COST GUARD: query over atlas_raw.events is missing a required partition filter (event_date/processing_date)
+exit=2 (BLOCKED before any execution)
+
+(2) estimate CLI (dry-run first, then threshold enforcement):
+- Full unbounded scan estimate: 12,659,283 bytes (dry-run, billed $0)
+- atlas-dev ceiling 1,073,741,824 bytes -> decision ALLOW (dataset is small)
+- With a tightened 1,000-byte ceiling -> decision BLOCKED pre-execution:
+  "estimate 12659283 bytes exceeds ceiling 1000 bytes for 'atlas-dev'; set
+   ATLAS_APPROVE_COST_OVERRIDE=true only after a documented cost review"
+
+Conclusion: an unbounded query is refused before material spend by (a) the
+required-partition-filter guard and (b) the dry-run estimate ceiling. No bytes
+were billed to produce this evidence.

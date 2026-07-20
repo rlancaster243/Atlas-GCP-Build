@@ -1,0 +1,13 @@
+atlas_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('ATLAS_GCP_PROJECT_ID') }}"
+      dataset: "{{ env_var('ATLAS_DBT_DATASET', 'atlas') }}"
+      location: "{{ env_var('DBT_LOCATION') }}"
+      threads: 4
+      priority: interactive
+      job_execution_timeout_seconds: 300
+      job_retries: 1

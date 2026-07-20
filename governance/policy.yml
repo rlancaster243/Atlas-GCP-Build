@@ -1,0 +1,91 @@
+# Atlas governance policy (Sprint 7, ADR-016).
+#
+# This file declares the *rules* governance validation enforces. It is the
+# single place that defines required fields, controlled vocabularies, and the
+# source-of-truth split between dbt metadata and the non-dbt asset registry.
+# It is NOT an asset registry itself.
+
+version: 1
+
+# Source-of-truth split (ADR-016). dbt models are governed by their dbt `meta`
+# blocks; everything else is governed by governance/non_dbt_assets.yml. The
+# consolidated catalog is generated from both and must never be hand-edited.
+source_of_truth:
+  dbt_models: dbt_meta            # dbt/atlas_dbt/models/**/*.yml -> meta:
+  non_dbt_assets: registry        # governance/non_dbt_assets.yml
+  generated_catalog: governance/generated/catalog.json
+
+# Required governance fields for every major asset (dbt or non-dbt).
+required_fields:
+  - asset_id
+  - asset_type
+  - purpose
+  - technical_owner
+  - business_owner_or_role
+  - grain
+  - source
+  - consumers
+  - classification
+  - retention_class
+  - freshness_expectation
+  - contract_version
+  - lifecycle_status
+  - repository_path
+  - runbook
+  - last_reviewed
+
+# Controlled vocabularies.
+asset_types:
+  - raw_table
+  - staging_model
+  - intermediate_model
+  - dimension_model
+  - fact_model
+  - mart_model
+  - operational_table
+  - bucket
+  - dag
+  - dashboard
+  - log_resource
+
+lifecycle_statuses:
+  - ACTIVE
+  - DEPRECATED
+  - REMOVAL_SCHEDULED
+  - REMOVED
+
+classifications:
+  - PUBLIC
+  - INTERNAL
+  - CONFIDENTIAL
+  - RESTRICTED
+
+# Retention classes are defined in governance/retention.yml; the ids here are
+# the allowed set that assets may reference.
+retention_classes:
+  - canonical_warehouse
+  - raw_landing
+  - operational_audit
+  - observability_logs
+  - release_evidence
+  - temporary_integration
+  - test_fixture
+
+# Schema-change compatibility classes (ADR-017).
+compatibility_classes:
+  - COMPATIBLE
+  - CONDITIONALLY_COMPATIBLE
+  - BREAKING
+  - PROHIBITED
+
+# Deprecation policy.
+deprecation:
+  minimum_window_days: 30
+  require_replacement: true
+  require_change_record: true
+
+# Owners must be role identifiers, not personal email addresses (avoids
+# committing personal data and keeps ownership durable across staffing).
+owner_rules:
+  disallow_email_addresses: true
+  allowed_owner_pattern: "^[a-z0-9][a-z0-9-]*(/[a-z0-9-]+)?$"

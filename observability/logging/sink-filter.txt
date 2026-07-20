@@ -1,0 +1,14 @@
+-- Atlas log sink filter (Sprint 5, Phase 5).
+-- Routes Atlas runtime logs into the dedicated atlas-observability bucket.
+-- The sink is additive: the _Default bucket keeps receiving these entries
+-- (no exclusion filters), so a sink misconfiguration cannot lose logs.
+-- Scope:
+--   1. All Cloud Composer environment logs in this project (workers,
+--      scheduler, DAG processor, task logs). example-gcp-project runs only
+--      the Atlas atlas-dev environment, so no per-environment narrowing is
+--      required; revisit if a second environment ever appears.
+--   2. Structured Atlas contract events emitted outside Composer (deploy,
+--      rollback, drills) carrying the jsonPayload.atlas_event marker.
+-- Lines starting with "--" are comments and are stripped by the bootstrap
+-- script before the filter is applied.
+resource.type="cloud_composer_environment" OR jsonPayload.atlas_event=true

@@ -1,0 +1,28 @@
+# Atlas schema-change record template (Sprint 7, ADR-017).
+# Copy to governance/changes/<change_id>.yml for any non-COMPATIBLE change.
+# A BREAKING change without a complete, approved record is rejected by CI.
+
+change_id: CHG-YYYYMMDD-short-slug
+asset_id: <governed asset id, e.g. fct_events>
+old_contract_version: "1.0"
+new_contract_version: "2.0"
+compatibility_class: BREAKING          # COMPATIBLE | CONDITIONALLY_COMPATIBLE | BREAKING | PROHIBITED
+reason: >
+  Why this change is necessary.
+owner: atlas-data-eng                    # role id, not an email
+consumer_impact: >
+  Which consumers (governance/consumers.yml) are affected and how. Reference the
+  consumer-impact report (python -m atlas.governance.impact ...).
+migration_plan: >
+  Exact steps to migrate producers/consumers. Required for BREAKING/CONDITIONALLY.
+backfill_plan: >
+  How historical data is backfilled or why none is required.
+validation_plan: >
+  Tests/checks proving correctness before and after.
+rollback_limitations: >
+  What cannot be rolled back once applied (e.g. dropped columns).
+deprecation_window: >
+  If deprecating: start date, earliest removal date (>= 30 days), replacement.
+approval_reference: >
+  Approval evidence: approval variable set, PR approval id, or ADR reference.
+  BREAKING/PROHIBITED changes require this to be non-empty.

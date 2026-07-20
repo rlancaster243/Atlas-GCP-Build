@@ -1,0 +1,811 @@
+{
+  "displayName": "Atlas Operations",
+  "labels": {
+    "application": "atlas",
+    "managed_by": "atlas-sprint5"
+  },
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "widget": {
+          "title": "Current status (all scorecards: green 0 = PASS, yellow 1 = WARN, red 2 = FAIL)",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 0
+      },
+      {
+        "widget": {
+          "title": "Latest pipeline run",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"latest_run_state\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 10,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 3
+      },
+      {
+        "widget": {
+          "title": "Age since last success (s)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/pipeline/last_success_age_seconds\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 14,
+        "height": 4,
+        "xPos": 10,
+        "yPos": 3
+      },
+      {
+        "widget": {
+          "title": "Latest deployment",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"deployment_failure\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 10,
+        "height": 4,
+        "xPos": 24,
+        "yPos": 3
+      },
+      {
+        "widget": {
+          "title": "Composer healthy (native)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"composer.googleapis.com/environment/healthy\" AND resource.type=\"cloud_composer_environment\"",
+                    "aggregation": {
+                      "alignmentPeriod": "300s",
+                      "perSeriesAligner": "ALIGN_FRACTION_TRUE"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 14,
+        "height": 4,
+        "xPos": 34,
+        "yPos": 3
+      },
+      {
+        "widget": {
+          "title": "Pipeline reliability",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 7
+      },
+      {
+        "widget": {
+          "title": "Run duration (s)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/pipeline/run_duration_seconds\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 10
+      },
+      {
+        "widget": {
+          "title": "Telemetry incomplete tasks",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/pipeline/telemetry_incomplete_count\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 16,
+        "yPos": 10
+      },
+      {
+        "widget": {
+          "title": "Telemetry completeness",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"telemetry_completeness\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 32,
+        "yPos": 10
+      },
+      {
+        "widget": {
+          "title": "Missing scheduled run",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"missing_scheduled_run\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 40,
+        "yPos": 10
+      },
+      {
+        "widget": {
+          "title": "Data health",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 14
+      },
+      {
+        "widget": {
+          "title": "Raw / accepted / rejected rows",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/data/raw_row_count\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 17
+      },
+      {
+        "widget": {
+          "title": "Rejection rate",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/data/rejection_rate\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 12,
+        "height": 4,
+        "xPos": 16,
+        "yPos": 17
+      },
+      {
+        "widget": {
+          "title": "Volume deviation ratio (1.0 = baseline)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/data/volume_deviation_ratio\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 12,
+        "height": 4,
+        "xPos": 28,
+        "yPos": 17
+      },
+      {
+        "widget": {
+          "title": "Reconciliation",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"reconciliation\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 40,
+        "yPos": 17
+      },
+      {
+        "widget": {
+          "title": "Freshness",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"freshness\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 21
+      },
+      {
+        "widget": {
+          "title": "Schema drift",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"schema_drift\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 8,
+        "yPos": 21
+      },
+      {
+        "widget": {
+          "title": "Schema drift findings by severity",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/data/schema_drift_count\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 16,
+        "yPos": 21
+      },
+      {
+        "widget": {
+          "title": "Reconciliation failures",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/data/reconciliation_failure_count\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 32,
+        "yPos": 21
+      },
+      {
+        "widget": {
+          "title": "Delivery",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 25
+      },
+      {
+        "widget": {
+          "title": "Deployment duration (s)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/deployment/duration_seconds\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 28
+      },
+      {
+        "widget": {
+          "title": "Latest deployment failed (1 = yes)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/deployment/latest_failed\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 16,
+        "yPos": 28
+      },
+      {
+        "widget": {
+          "title": "Rollback health",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"rollback_failure\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 32,
+        "yPos": 28
+      },
+      {
+        "widget": {
+          "title": "Deployment health",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"deployment_failure\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 40,
+        "yPos": 28
+      },
+      {
+        "widget": {
+          "title": "Cost",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 32
+      },
+      {
+        "widget": {
+          "title": "Atlas BigQuery bytes billed (24h window)",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/cost/bigquery_bytes_billed\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "By",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 0,
+        "yPos": 35
+      },
+      {
+        "widget": {
+          "title": "Atlas BigQuery job count",
+          "xyChart": {
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "timeSeriesFilter": {
+                    "filter": "metric.type=\"custom.googleapis.com/atlas/cost/bigquery_job_count\" AND metric.label.mode=\"normal\"",
+                    "aggregation": {
+                      "alignmentPeriod": "1800s",
+                      "perSeriesAligner": "ALIGN_MAX"
+                    }
+                  }
+                },
+                "plotType": "LINE"
+              }
+            ],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 16,
+        "height": 4,
+        "xPos": 16,
+        "yPos": 35
+      },
+      {
+        "widget": {
+          "title": "Cost anomaly",
+          "scorecard": {
+            "timeSeriesQuery": {
+              "timeSeriesFilter": {
+                "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"cost_anomaly\" AND metric.label.mode=\"normal\"",
+                "aggregation": {
+                  "alignmentPeriod": "1800s",
+                  "perSeriesAligner": "ALIGN_MAX"
+                }
+              }
+            },
+            "thresholds": [
+              {
+                "value": 0.5,
+                "color": "YELLOW",
+                "direction": "ABOVE"
+              },
+              {
+                "value": 1.5,
+                "color": "RED",
+                "direction": "ABOVE"
+              }
+            ]
+          }
+        },
+        "width": 8,
+        "height": 4,
+        "xPos": 32,
+        "yPos": 35
+      },
+      {
+        "widget": {
+          "title": "Logs (Atlas runtime \u2014 bucket atlas-observability, view atlas-runtime)",
+          "sectionHeader": {
+            "dividerBelow": true
+          }
+        },
+        "width": 48,
+        "height": 3,
+        "xPos": 0,
+        "yPos": 39
+      },
+      {
+        "widget": {
+          "title": "Atlas errors and retries",
+          "logsPanel": {
+            "filter": "jsonPayload.atlas_event=true AND (severity>=ERROR OR jsonPayload.event_type=\"task_retry\")",
+            "resourceNames": [
+              "projects/example-gcp-project"
+            ]
+          }
+        },
+        "width": 24,
+        "height": 8,
+        "xPos": 0,
+        "yPos": 42
+      },
+      {
+        "widget": {
+          "title": "Composer DAG-processor errors",
+          "logsPanel": {
+            "filter": "resource.type=\"cloud_composer_environment\" AND severity>=ERROR",
+            "resourceNames": [
+              "projects/example-gcp-project"
+            ]
+          }
+        },
+        "width": 24,
+        "height": 8,
+        "xPos": 24,
+        "yPos": 42
+      }
+    ]
+  }
+}

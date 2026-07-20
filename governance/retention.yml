@@ -1,0 +1,61 @@
+# Atlas retention classes (Sprint 7, ADR-019).
+# Each asset declares a retention_class; this file defines the disposal policy
+# for that class. Live lifecycle/expiration changes require
+# ATLAS_APPROVE_RETENTION_MUTATION=true.
+
+version: 1
+
+classes:
+  canonical_warehouse:
+    description: Governed warehouse models (staging, intermediate, core, marts).
+    retention: indefinite
+    disposal: rebuilt deterministically from raw; never auto-expired
+    expiration_days: null
+    is_permanent_evidence: false
+
+  raw_landing:
+    description: Raw landed events (immutable source of truth for rebuilds).
+    retention: indefinite
+    disposal: retained; partition-level management only under approval
+    expiration_days: null
+    is_permanent_evidence: false
+
+  operational_audit:
+    description: >
+      Durable operational history (pipeline_runs, task_events, quality_results,
+      monitor_evaluations, deployments, schema_migrations, recovery_actions).
+    retention: indefinite
+    disposal: never auto-expired — this IS the operational evidence
+    expiration_days: null
+    is_permanent_evidence: true
+
+  observability_logs:
+    description: Cloud Logging bucket + linked dataset for structured telemetry.
+    retention: 30 days
+    disposal: bucket retention policy (Sprint 5)
+    expiration_days: 30
+    is_permanent_evidence: false
+
+  release_evidence:
+    description: Immutable release bundles in the deployment bucket.
+    retention: keep all validated releases
+    disposal: lifecycle review only; validated releases retained
+    expiration_days: null
+    is_permanent_evidence: true
+
+  temporary_integration:
+    description: CI/integration datasets and scratch datasets.
+    retention: short-lived
+    disposal: dataset default table expiration
+    expiration_days: 1
+    is_permanent_evidence: false
+
+  test_fixture:
+    description: Local generated artifacts and test fixtures.
+    retention: ephemeral
+    disposal: not persisted to cloud; safe to delete
+    expiration_days: 0
+    is_permanent_evidence: false
+
+# CI invariant: any class with is_permanent_evidence=true MUST have
+# expiration_days == null (permanent evidence can never carry an expiration).

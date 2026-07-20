@@ -1,0 +1,8 @@
+{
+  "_comment": "Atlas runtime log view (Sprint 5, Phase 5). Scopes reader access to Atlas runtime entries inside the atlas-observability bucket without granting bucket-wide access.",
+  "view_id": "atlas-runtime",
+  "bucket_id": "atlas-observability",
+  "location": "us-central1",
+  "filter": "SOURCE(\"projects/example-gcp-project\")",
+  "description": "Least-privilege view over the atlas-observability bucket. Grant roles/logging.viewAccessor on this view instead of bucket- or project-wide log access."
+}

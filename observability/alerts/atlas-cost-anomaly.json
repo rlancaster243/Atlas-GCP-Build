@@ -1,0 +1,42 @@
+{
+  "displayName": "Atlas: BigQuery cost anomaly",
+  "documentation": {
+    "mimeType": "text/markdown",
+    "content": "**Signal**: `custom.googleapis.com/atlas/monitor/check_status` for `check_name=cost_anomaly` (2 = FAIL, published by atlas_observability_monitor every 30 min).\n\n**Meaning**: Atlas-attributed BigQuery bytes billed in 24 h >= 10x the 7-day daily baseline (and above the 1 GiB floor).\n\n**Runbook**: docs/observability-runbook-sprint5.md#alert-atlas-cost-anomaly\n\n**Owner**: the primary operator (primary operator).\n\n**Test method**: `scripts/manage_atlas_alerts.sh test cost_anomaly` publishes a synthetic FAIL point (mode=drill). Known false-positive risks: legitimate backfills; verify against observability/queries/bigquery_cost.sql before acting.\n\n**Auto-close**: incident closes ~30 min after the check returns PASS (gauge stops satisfying the condition; autoClose 1800s after cessation)."
+  },
+  "userLabels": {
+    "application": "atlas",
+    "environment": "atlas-dev",
+    "severity": "warning",
+    "incident_key": "atlas-cost_anomaly",
+    "managed_by": "atlas-sprint5"
+  },
+  "combiner": "OR",
+  "conditions": [
+    {
+      "displayName": "cost_anomaly check_status is FAIL",
+      "conditionThreshold": {
+        "filter": "metric.type=\"custom.googleapis.com/atlas/monitor/check_status\" AND metric.label.check_name=\"cost_anomaly\" AND resource.type=\"global\"",
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 1.5,
+        "duration": "0s",
+        "trigger": {
+          "count": 1
+        },
+        "aggregations": [
+          {
+            "alignmentPeriod": "600s",
+            "perSeriesAligner": "ALIGN_MAX"
+          }
+        ]
+      }
+    }
+  ],
+  "alertStrategy": {
+    "autoClose": "1800s"
+  },
+  "notificationChannels": [
+    "${NOTIFICATION_CHANNEL}"
+  ],
+  "enabled": true
+}

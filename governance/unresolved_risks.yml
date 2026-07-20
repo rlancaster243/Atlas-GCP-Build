@@ -1,0 +1,218 @@
+# Atlas unresolved-risk register (machine-readable, Sprint 8 Phase 13).
+# Human-readable: docs/reference-architecture/unresolved-risks.md
+# Statuses: OPEN | ACCEPTED | MITIGATED | BLOCKED | DEFERRED | CLOSED
+version: 1
+last_verified_commit: "3f986aa"
+risks:
+  - risk_id: RISK-01
+    title: Sprint 7 live IAM reduction not executed
+    category: security
+    description: >-
+      atlas-github-integration holds project-level roles/bigquery.dataEditor,
+      broader than required. Scoped reduction planned but not applied.
+    evidence: docs/iam-review-sprint7.md
+    likelihood: low
+    impact: medium
+    severity: MEDIUM
+    current_control: gate_security_policy blocks prohibited roles/keys; WIF keyless
+    remaining_exposure: excess dataEditor scope on one integration SA
+    owner: platform-operator
+    next_action: apply scoped reduction and run positive/negative tests
+    approval_required: ATLAS_APPROVE_IAM
+    target_phase: sprint8-phase13-or-later
+    status: BLOCKED
+  - risk_id: RISK-02
+    title: Sprint 7 positive and negative IAM tests not executed
+    category: security
+    description: Live authorized-success and unauthorized-denied tests not run.
+    evidence: docs/iam-review-sprint7.md
+    likelihood: low
+    impact: medium
+    severity: MEDIUM
+    current_control: documented plan; static policy scanners
+    remaining_exposure: least-privilege not proven at permission level live
+    owner: platform-operator
+    next_action: run harmless denied op + authorized op, record both
+    approval_required: ATLAS_APPROVE_IAM
+    target_phase: sprint8-phase13-or-later
+    status: BLOCKED
+  - risk_id: RISK-03
+    title: Billed BigQuery performance suite not executed
+    category: performance
+    description: Only dry-run baseline captured; executed/billed suite not run.
+    evidence: docs/performance-review-sprint7.md
+    likelihood: low
+    impact: low
+    severity: LOW
+    current_control: dry-run baseline; per-query and suite byte ceilings
+    remaining_exposure: no billed slot/latency numbers
+    owner: platform-operator
+    next_action: execute once under byte ceiling; record billed bytes/slot/correctness
+    approval_required: ATLAS_APPROVE_PERFORMANCE_TESTS
+    target_phase: sprint8-phase13-or-later
+    status: BLOCKED
+  - risk_id: RISK-04
+    title: Live retention and expiration application not executed
+    category: cost
+    description: Disposal is a validated dry-run plan; TTLs not applied live.
+    evidence: docs/retention-policy-sprint7.md
+    likelihood: low
+    impact: low
+    severity: LOW
+    current_control: retention.validate_retention_config; permanent-evidence guard
+    remaining_exposure: temporary resources rely on manual/plan disposal
+    owner: platform-operator
+    next_action: apply TTL to temporary resources only; verify; protect permanent
+    approval_required: ATLAS_APPROVE_RETENTION_MUTATION
+    target_phase: sprint8-phase13-or-later
+    status: BLOCKED
+  - risk_id: RISK-05
+    title: Composer customer-project task-log limitation
+    category: observability
+    description: Composer task logs not always fully available in customer project.
+    evidence: docs/reference-architecture/observability-model.md
+    likelihood: medium
+    impact: low
+    severity: LOW
+    current_control: direct Cloud Logging export at environment create time
+    remaining_exposure: minor; mitigated
+    owner: platform-operator
+    next_action: none required
+    approval_required: none
+    target_phase: n/a
+    status: MITIGATED
+  - risk_id: RISK-06
+    title: Synthetic 50k-row scale
+    category: architecture
+    description: All performance/cost/reliability numbers are at synthetic scale.
+    evidence: docs/reference-architecture/cost-and-lifecycle-model.md
+    likelihood: high
+    impact: medium
+    severity: MEDIUM
+    current_control: honest limitation stated everywhere
+    remaining_exposure: production-scale behavior unproven
+    owner: data-architect
+    next_action: do not claim production scale
+    approval_required: none
+    target_phase: future
+    status: ACCEPTED
+  - risk_id: RISK-07
+    title: No multi-environment production promotion
+    category: delivery
+    description: Single dev-oriented environment; no prod promotion pipeline.
+    evidence: docs/reference-architecture/operating-model.md
+    likelihood: medium
+    impact: medium
+    severity: MEDIUM
+    current_control: documented boundary
+    remaining_exposure: promotion process unproven
+    owner: release-owner
+    next_action: future sprint
+    approval_required: none
+    target_phase: future
+    status: ACCEPTED
+  - risk_id: RISK-08
+    title: No streaming/event-driven/CDC ingestion
+    category: architecture
+    description: Batch only by design.
+    evidence: docs/reference-architecture/system-context.md
+    likelihood: low
+    impact: low
+    severity: LOW
+    current_control: documented boundary
+    remaining_exposure: none within scope
+    owner: data-architect
+    next_action: future capstone (prefer API/event)
+    approval_required: none
+    target_phase: post-atlas
+    status: ACCEPTED
+  - risk_id: RISK-09
+    title: External consumers not discoverable from repository
+    category: governance
+    description: Only internal consumers are registered in consumers.yml.
+    evidence: governance/consumers.yml
+    likelihood: medium
+    impact: medium
+    severity: MEDIUM
+    current_control: internal consumer registry + impact analysis
+    remaining_exposure: real external consumers unknown to repo
+    owner: governance-engineer
+    next_action: do not claim full consumer discovery
+    approval_required: none
+    target_phase: future
+    status: ACCEPTED
+  - risk_id: RISK-10
+    title: Public extraction not yet performed
+    category: security
+    description: Repository contains operator email and private project ids.
+    evidence: docs/reference-architecture/public-extraction-review.md
+    likelihood: medium
+    impact: medium
+    severity: MEDIUM
+    current_control: public-extraction manifest + validator; repo not published
+    remaining_exposure: private references present until extraction/redaction
+    owner: security-reviewer
+    next_action: run validate_public_extraction.py; extraction in Sprint 8+
+    approval_required: ATLAS_APPROVE_PUBLIC_EXTRACTION
+    target_phase: sprint8-or-later
+    status: OPEN
+  - risk_id: RISK-11
+    title: Reusable template not yet extracted
+    category: reference
+    description: Reference architecture only; no parameterized template.
+    evidence: docs/reference-architecture/template-extraction-plan.md
+    likelihood: high
+    impact: low
+    severity: MEDIUM
+    current_control: extraction plan documented
+    remaining_exposure: template status not claimable
+    owner: data-architect
+    next_action: extract after Sprint 8
+    approval_required: none
+    target_phase: post-atlas
+    status: DEFERRED
+  - risk_id: RISK-12
+    title: No second-project generation test
+    category: reference
+    description: Template not validated by generating a separate project.
+    evidence: docs/reference-architecture/template-extraction-plan.md
+    likelihood: high
+    impact: low
+    severity: MEDIUM
+    current_control: acceptance test defined in plan
+    remaining_exposure: reusability unproven
+    owner: data-architect
+    next_action: generate + validate separate project post-extraction
+    approval_required: none
+    target_phase: post-atlas
+    status: DEFERRED
+  - risk_id: RISK-13
+    title: Clean-clone platform limitations
+    category: reproducibility
+    description: Clean-clone may reveal platform-specific setup friction.
+    evidence: docs/evidence-sprint8/clean-clone-results.md
+    likelihood: low
+    impact: low
+    severity: LOW
+    current_control: fresh-directory reproduction test + fixes
+    remaining_exposure: see clean-clone results
+    owner: data-engineer
+    next_action: fix repository-controlled friction; rerun fresh
+    approval_required: none
+    target_phase: sprint8
+    status: OPEN
+  - risk_id: RISK-14
+    title: Independent handoff ambiguity
+    category: reproducibility
+    description: Independent tester may hit documentation ambiguity.
+    evidence: docs/evidence-sprint8/independent-handoff-results.md
+    likelihood: low
+    impact: low
+    severity: LOW
+    current_control: independent handoff test + scorecard + doc fixes
+    remaining_exposure: see handoff results
+    owner: documentation-owner
+    next_action: repair handoff defects; rerun affected portions
+    approval_required: none
+    target_phase: sprint8
+    status: OPEN

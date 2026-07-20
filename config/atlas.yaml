@@ -1,0 +1,29 @@
+# Project Atlas Sprint 1 configuration.
+# Override any value via environment variables prefixed with ATLAS_.
+gcp:
+  project_id: example-gcp-project
+  location: US
+  bucket_name: atlas-raw-events-example-gcp-project
+  bucket_logical_name: atlas-raw-events
+  dataset_id: atlas_raw
+  table_id: events
+
+generator:
+  event_count: 50000
+  random_seed: 42
+  output_dir: data
+
+ingestion:
+  gcs_prefix: raw
+
+loader:
+  staging_table_suffix: _staging
+
+validation:
+  expected_event_count: 50000
+  # Future-dated rows use event_date > generation date (not clock-time comparison).
+  future_date_field: event_date
+
+logging:
+  log_dir: logs
+  log_format: json

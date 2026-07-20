@@ -1,0 +1,54 @@
+# Seeded anomaly profile for Sprint 1 generator and validation acceptance.
+# Validation overall status is FAIL when anomalies are present; acceptance
+# tests verify each expected defect was detected.
+anomalies:
+  duplicate_event_ids:
+    count: 100
+    description: Reuse existing event_id values to create duplicates.
+  null_user_ids:
+    count: 500
+    description: Set user_id to null for a subset of events.
+  invalid_country_codes:
+    count: 200
+    description: Use non-ISO country codes such as XX and ZZ.
+  future_timestamps:
+    count: 150
+    description: Set event_date to a calendar date after the generation date.
+  late_arriving_events:
+    count: 300
+    description: Set event_date earlier than event_timestamp date by design.
+
+valid_country_codes:
+  - US
+  - CA
+  - GB
+  - AU
+  - DE
+  - FR
+  - BR
+  - MX
+  - IN
+  - JP
+
+event_names:
+  - app_open
+  - app_close
+  - page_view
+  - button_click
+  - signup_start
+  - signup_complete
+  - login
+  - logout
+  - share
+  - purchase
+
+platforms:
+  - ios
+  - android
+  - web
+
+app_versions:
+  - 1.0.0
+  - 1.1.0
+  - 1.2.0
+  - 2.0.0
