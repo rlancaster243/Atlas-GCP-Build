@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-c0b8-81fd-8f10-08033a0b2e81/raw?se=2026-07-20T04:42:04Z&sp=r&sv=2026-02-06&sr=b&scid=31fbd183-0bc0-50ab-9882-234b4ef7e05d&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T11:36:12Z&ske=2026-07-21T11:36:12Z&sks=b&skv=2026-02-06&sig=4zMQFK8IAgeZRvqZXHOEGK%2BbITBXyYDNtMmW935CC8w%3D'
+      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-b680-81fd-83d7-6692b33db527/raw?se=2026-07-20T04:43:11Z&sp=r&sv=2026-02-06&sr=b&scid=4cac1bc7-6ea5-59de-9842-318b6c707fe9&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T13:21:49Z&ske=2026-07-21T13:21:49Z&sks=b&skv=2026-02-06&sig=6oOtMyoQB3EPzVMQ4u9O93tyG62p5IEfxhaWHiCPhng%3D'
     steps:
       - name: Check out migration branch
         uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
           test -f "$RUNNER_TEMP/atlas-output/.github/workflows/atlas-ci.yml"
           test -f "$RUNNER_TEMP/atlas-output/scripts/validate_ci.sh"
 
-      - name: Validate exported repository before import
+      - name: Validate standalone output before import
         shell: bash
         run: |
           set -euo pipefail
@@ -85,9 +85,6 @@ jobs:
               yaml.safe_load(path.read_text(encoding='utf-8'))
           print(f'parsed {len(paths)} YAML files')
           PY
-          python -m pytest \
-            tests/acceptance/test_sprint2_dbt_environment.py \
-            tests/acceptance/test_sprint2_dbt_warehouse.py -q
           ! grep -RIlE \
             'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' .
 
@@ -103,6 +100,19 @@ jobs:
           test -f LICENSE
           test ! -e .template-import
           test ! -e .template-import-v2
+
+      - name: Validate imported branch state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pytest \
+            tests/acceptance/test_sprint2_dbt_environment.py \
+            tests/acceptance/test_sprint2_dbt_warehouse.py -q
+          ! grep -RIlE \
+            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
+            --exclude-dir=.git \
+            --exclude='import-atlas-template.yml' \
+            --exclude='import-atlas-template-v2.yml' .
           git diff --check
 
       - name: Commit and push non-workflow template contents
