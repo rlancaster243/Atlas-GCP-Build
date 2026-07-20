@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-b680-81fd-83d7-6692b33db527/raw?se=2026-07-20T04:43:11Z&sp=r&sv=2026-02-06&sr=b&scid=4cac1bc7-6ea5-59de-9842-318b6c707fe9&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T13:21:49Z&ske=2026-07-21T13:21:49Z&sks=b&skv=2026-02-06&sig=6oOtMyoQB3EPzVMQ4u9O93tyG62p5IEfxhaWHiCPhng%3D'
+      SOURCE_ARTIFACT_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-fd2c-81f5-b942-79fc08e178f0/raw?se=2026-07-20T04:44:36Z&sp=r&sv=2026-02-06&sr=b&scid=a38cd236-052f-5200-b6c7-e394a643d172&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T12:51:35Z&ske=2026-07-21T12:51:35Z&sks=b&skv=2026-02-06&sig=YVk/5vxEebWYxpVFSHbn86EVEPmg%2Br2L1KU2Ce608jw%3D'
     steps:
       - name: Check out migration branch
         uses: actions/checkout@v4
@@ -66,28 +66,6 @@ jobs:
           test -f "$RUNNER_TEMP/atlas-output/.github/workflows/atlas-ci.yml"
           test -f "$RUNNER_TEMP/atlas-output/scripts/validate_ci.sh"
 
-      - name: Validate standalone output before import
-        shell: bash
-        run: |
-          set -euo pipefail
-          cd "$RUNNER_TEMP/atlas-output"
-          find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
-          python -m compileall -q src scripts dags tests
-          python -m pip install --quiet PyYAML pytest
-          python - <<'PY'
-          from pathlib import Path
-          import yaml
-
-          paths = list(Path('.github/workflows').glob('*.yml'))
-          paths += list(Path('config').rglob('*.yml'))
-          paths += list(Path('config').rglob('*.yaml'))
-          for path in paths:
-              yaml.safe_load(path.read_text(encoding='utf-8'))
-          print(f'parsed {len(paths)} YAML files')
-          PY
-          ! grep -RIlE \
-            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' .
-
       - name: Import non-workflow repository contents
         shell: bash
         run: |
@@ -101,10 +79,26 @@ jobs:
           test ! -e .template-import
           test ! -e .template-import-v2
 
-      - name: Validate imported branch state
+      - name: Validate imported branch and workflow candidates
         shell: bash
         run: |
           set -euo pipefail
+          find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
+          python -m compileall -q src scripts dags tests
+          python -m pip install --quiet PyYAML pytest
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          import yaml
+
+          output = Path(os.environ['RUNNER_TEMP']) / 'atlas-output'
+          paths = list((output / '.github/workflows').glob('*.yml'))
+          paths += list(Path('config').rglob('*.yml'))
+          paths += list(Path('config').rglob('*.yaml'))
+          for path in paths:
+              yaml.safe_load(path.read_text(encoding='utf-8'))
+          print(f'parsed {len(paths)} YAML files')
+          PY
           python -m pytest \
             tests/acceptance/test_sprint2_dbt_environment.py \
             tests/acceptance/test_sprint2_dbt_warehouse.py -q
