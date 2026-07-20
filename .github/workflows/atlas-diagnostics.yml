@@ -1,0 +1,56 @@
+name: atlas-extraction-diagnostics
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/atlas-diagnostics.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-ci.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt -r requirements-ci.txt
+      - name: Capture Python test failures
+        shell: bash
+        run: |
+          set +e
+          mkdir -p diagnostics
+          PYTHONPATH=src:dags python -m pytest tests/unit tests/airflow -q \
+            > diagnostics/python-tests.log 2>&1
+          echo "$?" > diagnostics/python-tests.exit
+          tail -120 diagnostics/python-tests.log
+          exit 0
+      - name: Capture reference handoff failures
+        shell: bash
+        run: |
+          set +e
+          PYTHONPATH=src python -m atlas.reference.validate \
+            > diagnostics/reference-validate.log 2>&1
+          echo "$?" > diagnostics/reference-validate.exit
+          python - <<'PY' > diagnostics/reference-files.txt
+          from pathlib import Path
+          for path in sorted(Path('docs').rglob('*')):
+              if path.is_file() and ('reference' in str(path) or 'evidence' in str(path) or 'handoff' in str(path)):
+                  print(path)
+          PY
+          cat diagnostics/reference-validate.log
+          exit 0
+      - name: Upload diagnostics
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: atlas-extraction-diagnostics
+          path: diagnostics/
+          retention-days: 2
