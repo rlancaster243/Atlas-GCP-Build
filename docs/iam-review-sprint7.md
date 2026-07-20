@@ -14,7 +14,7 @@ performed (see the blocked gate at the end — `ATLAS_APPROVE_IAM` is not set).
 | `service-911…@cloudcomposer-accounts` | Google-managed | Composer service agent | `composer.serviceAgent`, `composer.ServiceAgentV2Ext` | Google-managed; do not modify |
 | `123456789012-compute@developer` | Google default SA | (unused by Atlas) | `roles/editor` | **Project hygiene finding:** default-SA Editor; not Atlas-created, out of Atlas scope to remove |
 | `service1-831@…` | SA | bootstrap | `roles/owner` | Pre-existing bootstrap owner; not Atlas-created |
-| `russell.lancaster243@gmail.com` | human | operator/owner | `roles/owner` | Human operator; expected |
+| `<operator-email>` | human | operator/owner | `roles/owner` | Human operator; expected |
 
 ### Keyless authentication (WIF)
 
