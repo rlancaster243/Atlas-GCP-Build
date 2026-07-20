@@ -1,0 +1,97 @@
+name: Import standalone Atlas template
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".template-import/**"
+      - ".github/workflows/import-atlas-template.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-826c-81fd-b607-d9170fb1d688/raw?se=2026-07-20T04:29:17Z&sp=r&sv=2026-02-06&sr=b&scid=abc1a840-db32-5fd0-9349-728ad3502a1d&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T11:36:43Z&ske=2026-07-21T11:36:43Z&sks=b&skv=2026-02-06&sig=MZB2inojXGYMB3Kpmr6s8/2PlptedQVuM6LI5MZsCKk%3D'
+    steps:
+      - name: Check out migration branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Download private source snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error \
+            "$SOURCE_ARTIFACT_URL" \
+            --output "$RUNNER_TEMP/atlas-source.zip"
+          unzip -q "$RUNNER_TEMP/atlas-source.zip" -d "$RUNNER_TEMP/atlas-source"
+          test -f "$RUNNER_TEMP/atlas-source/atlas-template/README.md"
+          test -f "$RUNNER_TEMP/atlas-source/atlas-template/START_HERE.md"
+
+      - name: Build reusable standalone repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .template-import/build_template.py \
+            "$RUNNER_TEMP/atlas-source/atlas-template" \
+            "$RUNNER_TEMP/atlas-output"
+          test -f "$RUNNER_TEMP/atlas-output/README.md"
+          test -f "$RUNNER_TEMP/atlas-output/.github/workflows/atlas-ci.yml"
+          test -f "$RUNNER_TEMP/atlas-output/scripts/validate_ci.sh"
+
+      - name: Replace migration branch contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='LICENSE' \
+            "$RUNNER_TEMP/atlas-output/" ./
+          test -f LICENSE
+          test ! -e .template-import
+          test ! -e .github/workflows/import-atlas-template.yml
+
+      - name: Validate exported repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
+          python -m compileall -q src scripts dags tests
+          python -m pip install --quiet PyYAML pytest
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          paths = list(Path('.github/workflows').glob('*.yml'))
+          paths += list(Path('config').rglob('*.yml'))
+          paths += list(Path('config').rglob('*.yaml'))
+          for path in paths:
+              yaml.safe_load(path.read_text(encoding='utf-8'))
+          print(f'parsed {len(paths)} YAML files')
+          PY
+          python -m pytest \
+            tests/acceptance/test_sprint2_dbt_environment.py \
+            tests/acceptance/test_sprint2_dbt_warehouse.py -q
+
+          ! grep -RIlE \
+            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
+            --exclude-dir=.git .
+          git diff --check
+
+      - name: Commit standalone template
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && { echo 'No import changes produced'; exit 1; }
+          git commit -m 'feat: import standalone Atlas production template'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
