@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 jobs:
   import:
@@ -17,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SOURCE_ARTIFACT_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-4b70-81f5-a0bd-eb5adda10309/raw?se=2026-07-20T04:39:18Z&sp=r&sv=2026-02-06&sr=b&scid=9e0175e0-e250-5f03-b4cd-e0cdac7dac98&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-20T00:18:15Z&ske=2026-07-22T00:18:15Z&sks=b&skv=2026-02-06&sig=HmJLttav0tGo49D7IFMsd/AOVr3Qfl3dY3JNmBK2niA%3D'
+      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-c0b8-81fd-8f10-08033a0b2e81/raw?se=2026-07-20T04:42:04Z&sp=r&sv=2026-02-06&sr=b&scid=31fbd183-0bc0-50ab-9882-234b4ef7e05d&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T11:36:12Z&ske=2026-07-21T11:36:12Z&sks=b&skv=2026-02-06&sig=4zMQFK8IAgeZRvqZXHOEGK%2BbITBXyYDNtMmW935CC8w%3D'
     steps:
       - name: Check out migration branch
         uses: actions/checkout@v4
@@ -67,22 +66,11 @@ jobs:
           test -f "$RUNNER_TEMP/atlas-output/.github/workflows/atlas-ci.yml"
           test -f "$RUNNER_TEMP/atlas-output/scripts/validate_ci.sh"
 
-      - name: Replace branch contents
+      - name: Validate exported repository before import
         shell: bash
         run: |
           set -euo pipefail
-          rsync -a --delete --exclude='.git/' --exclude='LICENSE' \
-            "$RUNNER_TEMP/atlas-output/" ./
-          test -f LICENSE
-          test ! -e .template-import
-          test ! -e .template-import-v2
-          test ! -e .github/workflows/import-atlas-template.yml
-          test ! -e .github/workflows/import-atlas-template-v2.yml
-
-      - name: Validate exported repository
-        shell: bash
-        run: |
-          set -euo pipefail
+          cd "$RUNNER_TEMP/atlas-output"
           find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
           python -m compileall -q src scripts dags tests
           python -m pip install --quiet PyYAML pytest
@@ -101,11 +89,23 @@ jobs:
             tests/acceptance/test_sprint2_dbt_environment.py \
             tests/acceptance/test_sprint2_dbt_warehouse.py -q
           ! grep -RIlE \
-            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
-            --exclude-dir=.git .
+            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' .
+
+      - name: Import non-workflow repository contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='LICENSE' \
+            --exclude='.github/workflows/' \
+            "$RUNNER_TEMP/atlas-output/" ./
+          test -f LICENSE
+          test ! -e .template-import
+          test ! -e .template-import-v2
           git diff --check
 
-      - name: Commit and push standalone template
+      - name: Commit and push non-workflow template contents
         shell: bash
         run: |
           set +e
