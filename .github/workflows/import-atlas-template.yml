@@ -16,13 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-826c-81fd-b607-d9170fb1d688/raw?se=2026-07-20T04:29:17Z&sp=r&sv=2026-02-06&sr=b&scid=abc1a840-db32-5fd0-9349-728ad3502a1d&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-19T11:36:43Z&ske=2026-07-21T11:36:43Z&sks=b&skv=2026-02-06&sig=MZB2inojXGYMB3Kpmr6s8/2PlptedQVuM6LI5MZsCKk%3D'
+      SOURCE_ARTIFACT_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-b17c-81f5-9345-aa0f1a20389f/raw?se=2026-07-20T04:32:53Z&sp=r&sv=2026-02-06&sr=b&scid=6c76e77e-1f22-5147-ac2f-8ba31599a776&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-20T02:56:54Z&ske=2026-07-22T02:56:54Z&sks=b&skv=2026-02-06&sig=N8QDny/8dRnux1GTDds5cHbuJhYgP32S4RLJBmfmySE%3D'
     steps:
       - name: Check out migration branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+          show-progress: false
 
       - name: Download private source snapshot
         shell: bash
@@ -35,13 +36,47 @@ jobs:
           test -f "$RUNNER_TEMP/atlas-source/atlas-template/README.md"
           test -f "$RUNNER_TEMP/atlas-source/atlas-template/START_HERE.md"
 
+      - name: Pre-sanitize source snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path.home() / 'work' / 'Atlas-GCP-Build' / 'Atlas-GCP-Build'
+          source = Path(__import__('os').environ['RUNNER_TEMP']) / 'atlas-source' / 'atlas-template'
+          replacements = {
+              'vital-scout-479118-n7': 'example-gcp-project',
+              '911571548652': '123456789012',
+              'rlancaster243/DE-project-1': 'YOUR_GITHUB_OWNER/YOUR_REPOSITORY',
+              'rlancaster243': 'YOUR_GITHUB_OWNER',
+              'DE-project-1': 'Atlas-GCP-Build',
+              'russell_lancaster243@gmail.com': '<operator-email>',
+          }
+          suffixes = {'.md', '.py', '.sh', '.yaml', '.yml', '.json', '.sql', '.txt', '.cfg', '.ini', '.toml'}
+          for path in source.rglob('*'):
+              if not path.is_file() or path.suffix.lower() not in suffixes:
+                  continue
+              text = path.read_text(encoding='utf-8', errors='ignore')
+              for old, new in replacements.items():
+                  text = text.replace(old, new)
+              path.write_text(text, encoding='utf-8')
+          print('source snapshot pre-sanitized')
+          PY
+
       - name: Build reusable standalone repository
         shell: bash
         run: |
           set -euo pipefail
-          python .template-import/build_template.py \
+          if ! python .template-import/build_template.py \
             "$RUNNER_TEMP/atlas-source/atlas-template" \
-            "$RUNNER_TEMP/atlas-output"
+            "$RUNNER_TEMP/atlas-output" \
+            >"$RUNNER_TEMP/build-template.log" 2>&1; then
+            echo 'Template build failed:'
+            tail -40 "$RUNNER_TEMP/build-template.log"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/build-template.log"
           test -f "$RUNNER_TEMP/atlas-output/README.md"
           test -f "$RUNNER_TEMP/atlas-output/.github/workflows/atlas-ci.yml"
           test -f "$RUNNER_TEMP/atlas-output/scripts/validate_ci.sh"
