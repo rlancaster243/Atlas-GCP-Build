@@ -48,6 +48,8 @@ Logging, metrics, alerts, governance, lineage, cost guards, runbooks
 6. Configure an isolated GCP project before any approved cloud mutation.
 
 ```bash
+git checkout main
+git pull --ff-only origin main
 cp .env.example .env
 python3 -m venv .venv
 source .venv/bin/activate
@@ -87,6 +89,8 @@ The original Atlas reference implementation was tested with synthetic workloads,
 clean-clone validation, CI, controlled cloud deployments, failure drills, and
 operator handoff. Those historical reports remain in `docs/` as engineering
 evidence. They do not prove that a new adoption has passed the same gates.
+
+The reference release lineage includes `atlas-sprint-3-complete` for the orchestrated platform milestone and later Sprint 8 handoff evidence.
 
 A new deployment is complete only after its own CI, isolated cloud validation,
 incident drill, recovery exercise, security review, cost review, and handoff.

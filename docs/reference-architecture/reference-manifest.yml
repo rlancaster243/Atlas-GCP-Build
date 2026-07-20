@@ -167,7 +167,7 @@ documents:
     owner: data-architect
   - document_id: public-extraction-review
     title: Public-Repository Extraction Review
-    purpose: Private-data review and dispositions (no publication)
+    purpose: Public-template extraction review and current dispositions
     audience: security-reviewer, release-owner
     status: CURRENT
     source_of_truth: docs/reference-architecture/public-extraction-review.md
@@ -176,10 +176,10 @@ documents:
     last_verified_commit: "3f986aa"
     owner: security-reviewer
   - document_id: template-extraction-plan
-    title: Template-Extraction Plan
-    purpose: Future template plan (not executed in Sprint 8)
+    title: Template Extraction Record
+    purpose: Record of the completed standalone-template extraction
     audience: data-architect, template-author
-    status: PLANNED
+    status: CURRENT
     source_of_truth: docs/reference-architecture/template-extraction-plan.md
     last_verified_commit: "3f986aa"
     owner: data-architect
