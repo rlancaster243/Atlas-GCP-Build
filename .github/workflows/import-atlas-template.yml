@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SOURCE_ARTIFACT_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-b17c-81f5-9345-aa0f1a20389f/raw?se=2026-07-20T04:32:53Z&sp=r&sv=2026-02-06&sr=b&scid=6c76e77e-1f22-5147-ac2f-8ba31599a776&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-20T02:56:54Z&ske=2026-07-22T02:56:54Z&sks=b&skv=2026-02-06&sig=N8QDny/8dRnux1GTDds5cHbuJhYgP32S4RLJBmfmySE%3D'
+      SOURCE_ARTIFACT_URL: 'https://sdmntprwestus3.oaiusercontent.com/files/00000000-4774-81fd-9b8b-289d09d5dec1/raw?se=2026-07-20T04:34:37Z&sp=r&sv=2026-02-06&sr=b&scid=1760b602-778d-5173-8939-b600081cd26a&skoid=2d2fbb03-9efb-4ad0-a91c-1db2f5a47997&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-20T00:28:56Z&ske=2026-07-22T00:28:56Z&sks=b&skv=2026-02-06&sig=ffbc/IAeH7ElAxwKlr7y%2BMytIuaIA23MBAc0b1RNbO4%3D'
     steps:
       - name: Check out migration branch
         uses: actions/checkout@v4
@@ -42,9 +42,9 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+          import os
 
-          root = Path.home() / 'work' / 'Atlas-GCP-Build' / 'Atlas-GCP-Build'
-          source = Path(__import__('os').environ['RUNNER_TEMP']) / 'atlas-source' / 'atlas-template'
+          source = Path(os.environ['RUNNER_TEMP']) / 'atlas-source' / 'atlas-template'
           replacements = {
               'vital-scout-479118-n7': 'example-gcp-project',
               '911571548652': '123456789012',
@@ -96,11 +96,13 @@ jobs:
       - name: Validate exported repository
         shell: bash
         run: |
-          set -euo pipefail
-          find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
-          python -m compileall -q src scripts dags tests
-          python -m pip install --quiet PyYAML pytest
-          python - <<'PY'
+          set +e
+          (
+            set -euo pipefail
+            find scripts -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n
+            python -m compileall -q src scripts dags tests
+            python -m pip install --quiet PyYAML pytest
+            python - <<'PY'
           from pathlib import Path
           import yaml
 
@@ -111,14 +113,28 @@ jobs:
               yaml.safe_load(path.read_text(encoding='utf-8'))
           print(f'parsed {len(paths)} YAML files')
           PY
-          python -m pytest \
-            tests/acceptance/test_sprint2_dbt_environment.py \
-            tests/acceptance/test_sprint2_dbt_warehouse.py -q
+            python -m pytest \
+              tests/acceptance/test_sprint2_dbt_environment.py \
+              tests/acceptance/test_sprint2_dbt_warehouse.py -q
+            ! grep -RIlE \
+              'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
+              --exclude-dir=.git .
+            git diff --check
+          ) >"$RUNNER_TEMP/template-validation.log" 2>&1
+          status=$?
+          tail -80 "$RUNNER_TEMP/template-validation.log"
+          exit "$status"
 
-          ! grep -RIlE \
-            'vital-scout-479118-n7|911571548652|rlancaster243|DE-project-1|russell_lancaster243@gmail.com' \
-            --exclude-dir=.git .
-          git diff --check
+      - name: Upload migration diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-template-migration-diagnostics
+          path: |
+            ${{ runner.temp }}/build-template.log
+            ${{ runner.temp }}/template-validation.log
+          if-no-files-found: warn
+          retention-days: 2
 
       - name: Commit standalone template
         shell: bash
